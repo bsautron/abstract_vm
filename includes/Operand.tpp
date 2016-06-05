@@ -1,9 +1,9 @@
 #include <IOperand.hpp>
 
+template<typename T>
 class Operand : public IOperand {
 	public:
-		Operand(void);
-		Operand(int value, eOperandType type); // template
+		Operand(int precision, eOperandType type, T value);
 		Operand(Operand const & rhs);
 
 		virtual int						getPrecision( void ) const;
@@ -23,8 +23,14 @@ class Operand : public IOperand {
 	protected:
 		int				_precision;
 		eOperandType	_type;
+		T 				_value;
+
+	private:
+		Operand(void);
 
 	static std::string type[5];
 };
 
-std::ostream	& operator<<( std::ostream & o, Operand const & rhs );
+
+template<typename T>
+std::ostream	& operator<<( std::ostream & o, Operand<T> const & rhs );

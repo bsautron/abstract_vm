@@ -1,10 +1,10 @@
 #include <Operand.tpp>
 
-Operand::Operand( void ) {
-	std::cout << "[Operand]: constructor DEFAULT" << std::endl;
-}
-
-Operand::Operand( int precision, eOperandType type ) : _precision(precision), _type(type) {
+template<typename T>
+Operand::Operand( int precision, eOperandType type, T value ) :
+	_precision(precision),
+	_type(type),
+	_value(value){
 	std::cout << "[Operand]: constructor type: " << Operand::type[this->_type] << " precision: " << precision <<  std::endl;
 }
 
