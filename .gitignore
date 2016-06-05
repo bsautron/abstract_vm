@@ -1,0 +1,8 @@
+abstract_vm
+.objects
+includes/._*
+sources/._*
+._*
+includes/.*.swp
+sources/.*.swp
+.*.swp
