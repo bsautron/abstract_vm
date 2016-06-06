@@ -3,8 +3,9 @@
 template<typename T>
 class Operand : public IOperand {
 	public:
+		Operand(void) {}
 		Operand(int precision, eOperandType type, T value);
-		Operand(Operand const & rhs);
+		Operand(Operand<T> const & rhs);
 
 		virtual int						getPrecision( void ) const;
 		virtual eOperandType			getType( void ) const;
@@ -25,12 +26,11 @@ class Operand : public IOperand {
 		eOperandType	_type;
 		T 				_value;
 
-	private:
-		Operand(void);
+	// private:
+	//
 
 	static std::string type[5];
 };
 
 
-template<typename T>
-std::ostream	& operator<<( std::ostream & o, Operand<T> const & rhs );
+std::ostream	& operator<<( std::ostream & o, IOperand const & rhs );
