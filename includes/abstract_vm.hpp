@@ -2,6 +2,6 @@
 # define ABSTRACT_VM_HPP
 
 # include <iostream>
-# include <Operand.tpp>
+# include <Operand.hpp>
 
 #endif

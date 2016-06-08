@@ -1,8 +1,8 @@
-CC = clang++
+CC = c++
 NAME = abstract_vm
 
 CFLAGS = -Wall -Wextra -Werror
-SOURCES = Operand.cpp
+SOURCES =
 
 SOURCES_FOLDER = sources
 
