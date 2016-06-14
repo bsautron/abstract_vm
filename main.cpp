@@ -14,8 +14,9 @@
 
 int main(void)
 {
-	Operand<char>	a(sizeof(char), ETYPE_INT8, 'd');
-	std::cout << a << std::endl;
+	OperandBuilder	op;
+	IOperand	const *a = op.createOperand(ETYPE_INT8, "5.3");
 
+	(void)a;
 	return (0);
 }

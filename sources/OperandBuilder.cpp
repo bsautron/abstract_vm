@@ -20,17 +20,16 @@ IOperand const * OperandBuilder::createDouble( std::string const & value ) const
 }
 
 IOperand const *	OperandBuilder::createOperand(eOperandType type, std::string const & value) const {
-	// IOperand const	* (OperandBuilder::*builder[5])(std::string const &) const = {
-	// 	&OperandBuilder::createInt8,
-	// 	&OperandBuilder::createInt16,
-	// 	&OperandBuilder::createInt32,
-	// 	&OperandBuilder::createFloat,
-	// 	&OperandBuilder::createDouble
-	// };
+	IOperand const	* (OperandBuilder::*builder[5])(std::string const &) const = {
+		&OperandBuilder::createInt8,
+		&OperandBuilder::createInt16,
+		&OperandBuilder::createInt32,
+		&OperandBuilder::createFloat,
+		&OperandBuilder::createDouble
+	};
 
-(void)type;
-	IOperand const	* (OperandBuilder::*builder)(std::string const &) const;
+	// IOperand const	* (OperandBuilder::*builder)(std::string const &) const;
 
-	builder = &OperandBuilder::createInt8;
-	return (this->*builder)(value);
+	// builder = &OperandBuilder::createInt8;
+	return (this->*builder[type])(value);
 }

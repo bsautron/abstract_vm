@@ -19,7 +19,11 @@ template<typename T>
 class Operand : public IOperand {
 	public:
 		Operand( void ) : _precision(0), _type(ETYPE_NONE), _value(0) {}
-		Operand(int precision, eOperandType type, T value) : _precision(precision), _type(type), _value(value) {}
+		Operand(int precision, eOperandType type, T value) : _precision(precision), _type(type), _value(value) {
+			std::string s = "Create operand (type: " + Operand<T>::type[this->_type] + " / precision: " + std::to_string(this->_precision) + ")";
+			std::cout << s << std::endl;
+			std::cout << value << std::endl;
+		}
 		Operand(Operand<T> const & rhs) { *this = rhs; }
 
 		virtual int						getPrecision( void ) const { return this->_precision; }
