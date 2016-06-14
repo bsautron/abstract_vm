@@ -10,12 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <abstract_vm.hpp>
+#include "abstract_vm.hpp"
 
 int main(void)
 {
-	Operand<int>	q;
-	Operand<char>	a(3, ETYPE_INT8, 'd');
+	Operand<char>	a(sizeof(char), ETYPE_INT8, 'd');
 	std::cout << a << std::endl;
 
 	return (0);

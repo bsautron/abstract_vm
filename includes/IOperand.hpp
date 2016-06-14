@@ -10,15 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef IOPERAND_HPP
+# define IOPERAND_HPP
+
 # include <iostream>
 
 typedef enum {
-	ETYPE_NONE,
 	ETYPE_INT8,
 	ETYPE_INT16,
 	ETYPE_INT32,
 	ETYPE_FLOAT,
 	ETYPE_DOUBLE,
+	ETYPE_NONE,
 } eOperandType;
 
 class IOperand {
@@ -36,3 +39,5 @@ class IOperand {
 
 		virtual							~IOperand( void ) {}
 };
+
+#endif

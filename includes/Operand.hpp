@@ -10,7 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <IOperand.hpp>
+#ifndef OPERAND_HPP
+# define OPERAND_HPP
+
+# include "IOperand.hpp"
 
 template<typename T>
 class Operand : public IOperand {
@@ -50,12 +53,7 @@ class Operand : public IOperand {
 	static std::string type[5];
 };
 
-std::ostream		& operator<<( std::ostream & o, IOperand const & rhs )
-{
-	o << rhs.toString();
-	return (o);
-}
-
+std::ostream		& operator<<( std::ostream & o, const IOperand & rhs );
 
 template<typename T>
 std::string	Operand<T>::type[5] = {
@@ -65,3 +63,4 @@ std::string	Operand<T>::type[5] = {
 	"Float",
 	"Double"
 };
+#endif

@@ -2,6 +2,9 @@
 # define ABSTRACT_VM_HPP
 
 # include <iostream>
-# include <Operand.hpp>
+// # include <AbstractVm.hpp>
+# include "Operand.hpp"
+// # include "OperandBuilder.hpp"
+
 
 #endif
