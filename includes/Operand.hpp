@@ -13,13 +13,16 @@
 #ifndef OPERAND_HPP
 # define OPERAND_HPP
 
-# include "IOperand.hpp"
+# include <IOperand.hpp>
+# include <NumberChecker.hpp>
+# include <regex>
 
 template<typename T>
 class Operand : public IOperand {
 	public:
-		Operand( void ) : _precision(0), _type(ETYPE_NONE), _value(0) {}
-		Operand(int precision, eOperandType type, T value) : _precision(precision), _type(type), _value(value) {
+		Operand(int precision, eOperandType type, std::string const & value) : _precision(precision), _type(type) {
+			this->checkValue(value);
+			this->_value = 0;
 			std::string s = "Create operand (type: " + Operand<T>::type[this->_type] + " / precision: " + std::to_string(this->_precision) + ")";
 			std::cout << s << std::endl;
 			std::cout << value << std::endl;
@@ -39,6 +42,13 @@ class Operand : public IOperand {
 //		virtual Operand<T>	const			* operator/( IOperand const & rhs ) const;
 //		virtual Operand<T>	const			* operator%( IOperand const & rhs ) const;
 
+		void checkValue(std::string const & value) {
+			std::regex	e("[\\d]+(.[\\d]+)?");
+
+			if (!std::regex_match(value, e))
+				throw std::string("Not a number");
+		}
+
 		virtual std::string const &		toString( void ) const {
 			std::string *s = new std::string("");
 
@@ -46,6 +56,7 @@ class Operand : public IOperand {
 			return (*s);
 		}
 
+		Operand(void);
 		virtual							~Operand( void ) {}
 
 
@@ -59,12 +70,5 @@ class Operand : public IOperand {
 
 std::ostream		& operator<<( std::ostream & o, const IOperand & rhs );
 
-template<typename T>
-std::string	Operand<T>::type[5] = {
-	"UInt8",
-	"UInt16",
-	"UInt32",
-	"Float",
-	"Double"
-};
+
 #endif

@@ -4,7 +4,8 @@ NAME = abstract_vm
 CFLAGS = -Wall -Wextra -Werror
 SOURCES = AbstractVm.cpp \
 			Operand.cpp \
-			OperandBuilder.cpp
+			OperandBuilder.cpp \
+			NumberChecker.cpp
 
 SOURCES_FOLDER = sources
 
@@ -17,7 +18,8 @@ INCLUDES = $(NAME).hpp \
 			AbstractVm.hpp \
 			IOperand.hpp \
 			Operand.hpp \
-			OperandBuilder.hpp
+			OperandBuilder.hpp \
+			NumberChecker.hpp
 
 SOURCES_DEPENDENCIES = $(foreach dep, $(DEPENDENCIES), libraries/$(dep)/$(dep).a)
 INCLUDES_LIBRARIES = $(foreach dep,$(DEPENDENCIES),-I libraries/$(dep)/includes)
