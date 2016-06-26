@@ -1,43 +1,22 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   IOperand.hpp                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: bsautron <bsautron@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/06/04 19:01:34 by bsautron          #+#    #+#             */
-/*   Updated: 2016/06/08 17:36:00 by bsautron         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef IOPERAND_HPP
 # define IOPERAND_HPP
 
-# include <iostream>
-
-typedef enum {
-	ETYPE_INT8,
-	ETYPE_INT16,
-	ETYPE_INT32,
-	ETYPE_FLOAT,
-	ETYPE_DOUBLE,
-	ETYPE_NONE,
-} eOperandType;
+enum eOperandType { INT8, INT16, INT32, FLOAT, DOUBLE, UNKNOW};
 
 class IOperand {
-	public:
-		virtual int						getPrecision( void ) const = 0;
-		virtual eOperandType			getType( void ) const = 0;
+public:
+	virtual int getPrecision( void ) const = 0; // Precision of the type of the instance
+	virtual eOperandType getType( void ) const = 0; // Type of the instance
 
-		virtual IOperand const			* operator+( IOperand const & rhs ) const = 0;
-//		virtual IOperand const			* operator-( IOperand const & rhs ) const = 0;
-//		virtual IOperand const			* operator*( IOperand const & rhs ) const = 0;
-//		virtual IOperand const			* operator/( IOperand const & rhs ) const = 0;
-//		virtual IOperand const			* operator%( IOperand const & rhs ) const = 0;
+	// virtual IOperand const * operator+( IOperand const & rhs ) const = 0; // Sum
+	// virtual IOperand const * operator-( IOperand const & rhs ) const = 0; // Difference
+	// virtual IOperand const * operator*( IOperand const & rhs ) const = 0; // Product
+	// virtual IOperand const * operator/( IOperand const & rhs ) const = 0; // Quotient
+	// virtual IOperand const * operator%( IOperand const & rhs ) const = 0; // Modulo
 
-		virtual std::string const &		toString( void ) const = 0;
+	// virtual std::string const & toString( void ) const = 0; // String representation of the instance
 
-		virtual							~IOperand( void ) {}
+	virtual ~IOperand( void ) {}
 };
 
 #endif

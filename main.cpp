@@ -14,9 +14,6 @@
 
 int main(void)
 {
-	OperandBuilder	op;
-	IOperand	const *a = op.createOperand(ETYPE_INT8, "5.3");
-
-	(void)a;
+	Operand<int>	a("asdf", INT32);
 	return (0);
 }
