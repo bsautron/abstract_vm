@@ -14,6 +14,10 @@
 
 int main(void)
 {
-	Operand<int>	a("asdf", INT32);
+	try {
+		Operand<char>	a("23.34", INT8);
+	} catch (std::string const & e) {
+		std::cout << e << std::endl;
+	}
 	return (0);
 }
