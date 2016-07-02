@@ -3,5 +3,6 @@
 
 # include <iostream>
 # include <Operand.hpp>
+# include <MyException.hpp>
 
 #endif

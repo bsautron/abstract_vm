@@ -1,10 +1,11 @@
 #ifndef OPERAND_HPP
 # define OPERAND_HPP
 
+# include <MyException.hpp>
 # include <IOperand.hpp>
 # include <iostream>
-# include <climits>
-# include <cfloat>
+// # include <climits>
+// # include <cfloat>
 # include <regex>
 
 typedef struct	s_numberChecker
@@ -23,15 +24,17 @@ private:
 	eOperandType	_type;
 
 	Operand(void);
-	bool _CheckOverflow(std::string const & value, t_numberChecker cc) {
-		if (!std::regex_match(value, cc.reg))
-			throw std::string("regex_match failed");
-		if (this->_number > cc.max)
-			throw std::string("overflow");
-		if (this->_number < cc.min)
-			throw std::string("underflow");
-		return true;
-	}
+	// bool _CheckOverflow(std::string const & value, t_numberChecker cc) {
+	// 	// TODO: Find an expection for regec failed
+	// 	// if (!std::regex_match(value, cc.reg))
+	// 	// 	throw std::string("regex_match failed");
+	// 	(void)value;
+	// 	if (this->_number > cc.max)
+	// 		throw MyException(EXC_OVERFLOW);
+	// 	if (this->_number < cc.min)
+	// 		throw MyException(EXC_UNDERFLOW);
+	// 	return true;
+	// }
 
 	bool _IsNumber(std::string const & value)	{ return std::regex_match(value, std::regex("-?\\d+(\\.\\d+)?")); }
 	bool _IsInteger(void)						{ return (this->_type < FLOAT); }
@@ -44,7 +47,7 @@ public:
 
 	~Operand(void) {}
 
-	static t_numberChecker const cheker[5];
+	// static t_numberChecker const cheker[5];
 };
 
 #endif /* end of include guard: OPERAND_HPP */

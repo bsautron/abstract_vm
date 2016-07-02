@@ -15,9 +15,9 @@
 int main(void)
 {
 	try {
-		Operand<char>	a("23.34", INT8);
-	} catch (std::string const & e) {
-		std::cout << e << std::endl;
+		Operand<char>	a("-129", INT8);
+	} catch (std::exception const & e) {
+		std::cout << e.what() << std::endl;
 	}
 	return (0);
 }

@@ -3,6 +3,7 @@ NAME = abstract_vm
 
 CFLAGS = -Wall -Wextra -Werror
 SOURCES = Operand.cpp \
+						MyException.cpp \
 
 SOURCES_FOLDER = sources
 
@@ -14,6 +15,7 @@ MAIN_OBJECT = $(OBJECTS_FOLDER)/$(MAIN:.cpp=.o)
 INCLUDES = $(NAME).hpp \
 			IOperand.hpp \
 			Operand.hpp \
+			MyException.hpp \
 
 SOURCES_DEPENDENCIES = $(foreach dep, $(DEPENDENCIES), libraries/$(dep)/$(dep).a)
 INCLUDES_LIBRARIES = $(foreach dep,$(DEPENDENCIES),-I libraries/$(dep)/includes)
@@ -32,6 +34,11 @@ makelib:
 
 rebuildlib:
 	$(REBUILD_LIBRARIES)
+
+test: re test.cpp $(addprefix $(OBJECTS_FOLDER)/$(SOURCES_FOLDER)/, $(OBJECTS))
+	$(CC) $(CFLAGS) -I $(INCLUDES_FOLDER) -o $(OBJECTS_FOLDER)/test.o -c test.cpp $(INCLUDES_LIBRARIES)
+	$(CC) $(CFLAGS) -o out_test $(OBJECTS_FOLDER)/test.o $(addprefix $(OBJECTS_FOLDER)/$(SOURCES_FOLDER)/, $(OBJECTS)) $(SOURCES_DEPENDENCIES)
+	@./out_test
 
 init:
 	mkdir -p $(OBJECTS_FOLDER)/$(SOURCES_FOLDER)
