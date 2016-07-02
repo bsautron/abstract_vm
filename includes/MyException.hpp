@@ -3,11 +3,14 @@
 
 #include <iostream>
 
+# define NB_EXC		5
+
 enum eExceptionCode {
 	EXC_UNKNOW,
 	EXC_UNDERFLOW,
 	EXC_OVERFLOW,
-	EXC_NAN
+	EXC_NAN,
+	EXC_NOT_VALID_SYNTAX_NUMBER
 };
 
 class MyException : public std::exception {
@@ -22,7 +25,7 @@ class MyException : public std::exception {
 
 		virtual const char *	what(void) const throw();
 
-		static std::string	exceptionString[4];
+		static std::string	exceptionString[NB_EXC];
 };
 
 #endif

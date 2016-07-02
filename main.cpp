@@ -14,10 +14,6 @@
 
 int main(void)
 {
-	try {
-		Operand<char>	a("-129", INT8);
-	} catch (std::exception const & e) {
-		std::cout << e.what() << std::endl;
-	}
+	Operand<float>	a("0.23", FLOAT);
 	return (0);
 }

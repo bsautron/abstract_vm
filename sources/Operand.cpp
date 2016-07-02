@@ -2,78 +2,27 @@
 
 template<>
 Operand<char>::Operand(std::string const & value, eOperandType type) : _type(type) {
-	int		tmp;
-
-	if (!this->_IsNumber(value))
-		throw MyException(EXC_NAN);
-
-	try {
-		tmp = std::stoi(value);
-	} catch(const std::out_of_range &) {
-		throw MyException((value[0] == '-') ? EXC_UNDERFLOW : EXC_OVERFLOW);
-	}
-	this->_number = tmp;
-	if (static_cast<int>(this->_number) != tmp)
-		throw MyException((value[0] == '-') ? EXC_UNDERFLOW : EXC_OVERFLOW);
-
-	this->_precision = sizeof(char);
+	this->_Checker(value, "-?\\d+");
 }
 
 template<>
 Operand<short>::Operand(std::string const & value, eOperandType type) : _type(type) {
-	int		tmp;
-
-	if (!this->_IsNumber(value))
-		throw MyException(EXC_NAN);
-
-	try {
-		tmp = std::stoi(value);
-	} catch(const std::out_of_range &) {
-		throw MyException((value[0] == '-') ? EXC_UNDERFLOW : EXC_OVERFLOW);
-	}
-	this->_number = tmp;
-	if (static_cast<int>(this->_number) != tmp)
-		throw MyException((value[0] == '-') ? EXC_UNDERFLOW : EXC_OVERFLOW);
-
-	this->_precision = sizeof(short);
+	this->_Checker(value, "-?\\d+");
 }
 
 template<>
 Operand<int>::Operand(std::string const & value, eOperandType type) : _type(type) {
-	int		tmp;
-
-	if (!this->_IsNumber(value))
-		throw MyException(EXC_NAN);
-
-	try {
-		tmp = std::stoi(value);
-	} catch(const std::out_of_range &) {
-		throw MyException((value[0] == '-') ? EXC_UNDERFLOW : EXC_OVERFLOW);
-	}
-	this->_number = tmp;
-	if (static_cast<int>(this->_number) != tmp)
-		throw MyException((value[0] == '-') ? EXC_UNDERFLOW : EXC_OVERFLOW);
-
-	this->_precision = sizeof(int);
+	this->_Checker(value, "-?\\d+");
 }
 
 template<>
 Operand<float>::Operand(std::string const & value, eOperandType type) : _type(type) {
-	if (!this->_IsNumber(value))
-		throw std::string("Not a number");
-
-	// this->_CheckOverflow(value, Operand<float>::cheker[type]);
-	this->_precision = sizeof(float);
-	this->_number = std::stof(value);
+	this->_Checker(value, "-?\\d+\\.\\d{2}");
 }
+
 template<>
 Operand<double>::Operand(std::string const & value, eOperandType type) : _type(type) {
-	if (!this->_IsNumber(value))
-		throw std::string("Not a number");
-
-	// this->_CheckOverflow(value, Operand<double>::cheker[type]);
-	this->_precision = sizeof(double);
-	this->_number = std::stod(value);
+	this->_Checker(value, "-?\\d+\\.\\d{2}");
 }
 //
 // template<typename T>

@@ -4,9 +4,8 @@
 # include <MyException.hpp>
 # include <IOperand.hpp>
 # include <iostream>
-// # include <climits>
-// # include <cfloat>
 # include <regex>
+#include <stdio.h>
 
 typedef struct	s_numberChecker
 {
@@ -24,17 +23,45 @@ private:
 	eOperandType	_type;
 
 	Operand(void);
-	// bool _CheckOverflow(std::string const & value, t_numberChecker cc) {
-	// 	// TODO: Find an expection for regec failed
-	// 	// if (!std::regex_match(value, cc.reg))
-	// 	// 	throw std::string("regex_match failed");
-	// 	(void)value;
-	// 	if (this->_number > cc.max)
-	// 		throw MyException(EXC_OVERFLOW);
-	// 	if (this->_number < cc.min)
-	// 		throw MyException(EXC_UNDERFLOW);
-	// 	return true;
-	// }
+	void 	_Checker(std::string const & value, std::string const & format) {
+		T		tmp;
+
+		// Check if it's a good format string
+		if (!this->_IsNumber(value))
+			throw MyException(EXC_NAN);
+
+		// Check if it's a integer or floating point number
+		if (!std::regex_match(value, std::regex(format)))
+			throw MyException(EXC_NOT_VALID_SYNTAX_NUMBER);
+
+		// Try to convert
+		try {
+			if (this->_type < FLOAT)
+				tmp = std::stoi(value);
+			else if (this->_type == FLOAT)
+				tmp = std::stof(value);
+			else
+				tmp = std::stod(value);
+		} catch(const std::out_of_range &) {
+			throw MyException((value[0] == '-') ? EXC_UNDERFLOW : EXC_OVERFLOW);
+		}
+
+		// Check Bound
+		this->_number = tmp;
+		if (this->_type < FLOAT) {
+			if (std::to_string(this->_number) != value && std::to_string(this->_number) != value.substr(1)) {
+				throw MyException((value[0] == '-') ? EXC_UNDERFLOW : EXC_OVERFLOW);
+			}
+		}
+		else {
+			std::string numberString = std::to_string(this->_number);
+			if (numberString.substr(0, numberString.length() - 4) != value.substr(0) && numberString.substr(0, numberString.length() - 4) != value.substr(1)) {
+				throw MyException((value[0] == '-') ? EXC_UNDERFLOW : EXC_OVERFLOW);
+			}
+		}
+
+		this->_precision = sizeof(T);
+	}
 
 	bool _IsNumber(std::string const & value)	{ return std::regex_match(value, std::regex("-?\\d+(\\.\\d+)?")); }
 	bool _IsInteger(void)						{ return (this->_type < FLOAT); }
