@@ -1,7 +1,7 @@
 #ifndef MYEXCEPTION
 # define MYEXCEPTION
 
-#include <iostream>
+# include <iostream>
 
 # define NB_EXC		5
 
