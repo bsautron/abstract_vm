@@ -4,6 +4,7 @@ NAME = abstract_vm
 CFLAGS = -Wall -Wextra -Werror
 SOURCES = Operand.cpp \
 						MyException.cpp \
+						Lexer.cpp \
 
 SOURCES_FOLDER = sources
 
@@ -16,6 +17,7 @@ INCLUDES = $(NAME).hpp \
 			IOperand.hpp \
 			Operand.hpp \
 			MyException.hpp \
+			Lexer.hpp \
 
 SOURCES_DEPENDENCIES = $(foreach dep, $(DEPENDENCIES), libraries/$(dep)/$(dep).a)
 INCLUDES_LIBRARIES = $(foreach dep,$(DEPENDENCIES),-I libraries/$(dep)/includes)

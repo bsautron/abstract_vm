@@ -6,7 +6,7 @@
 /*   By: bsautron <bsautron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/08 14:35:07 by bsautron          #+#    #+#             */
-/*   Updated: 2016/06/08 16:28:51 by bsautron         ###   ########.fr       */
+/*   Updated: 2016/07/08 12:39:57 by bsautron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 
 int main(void)
 {
-	Operand<float>	a("0.23", FLOAT);
+	// Operand<float>	a("0.23", FLOAT);
+	Lexer		a;
+	std::string	b = "Hello";
+
+	a.getToken(b);
 	return (0);
 }
