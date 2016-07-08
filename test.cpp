@@ -13,12 +13,16 @@
 #include "abstract_vm.hpp"
 #include <cstring>
 
-# define TEST_GOOD_THINGS
-# define TEST_OVERFLOW
-# define TEST_LEXICAL_NUMBER
+// # define TEST_GOOD_THINGS
+// # define TEST_OVERFLOW
+// # define TEST_LEXICAL_NUMBER
+# define TEST_LEXER
 
 void test_success(const char * str) { std::cout << "\033[32m" << str << "\033[0m"; }
 void test_fail(const char * str) { std::cout << "\033[30;41;1m" << str << "\033[0m"; }
+
+void test_success(std::string const str) { std::cout << "\033[32m" << str << "\033[0m"; }
+void test_fail(std::string const str) { std::cout << "\033[30;41;1m" << str << "\033[0m"; }
 
 
 int main(void)
@@ -307,5 +311,120 @@ int main(void)
 	} std::cout << std::endl;
 #endif
 
+#ifdef TEST_LEXER
+	std::cout << "== TEST LEXER ==" << std::endl;
+	std::string						tokenStr[5] = {
+		"TK_NONE",
+		"TK_SEPARATOR",
+		"TK_ARGV",
+		"TK_BRACKET_OPEN",
+		"TK_BRACKET_CLOSE"
+	};
+	std::vector<t_token>		tokens;
+	int											i;
+
+	{
+		Lexer	lex;
+		i = 0;
+		value = "push int3(23.2)";
+		bool	fail = false;
+		std::cout << "Get token [" << value << "]: ";
+		eTokenType types[] = {
+			TK_ARGV,
+			TK_SEPARATOR,
+			TK_ARGV,
+			TK_BRACKET_OPEN,
+			TK_ARGV,
+			TK_BRACKET_CLOSE
+		};
+
+		tokens = lex.getTokens(value);
+		for (std::vector<t_token>::iterator it = tokens.begin() ; it != tokens.end(); ++it) {
+			if ((*it).type != types[i]) {
+				fail = true;
+				std::cout << std::endl << "\t";
+				test_fail("\"" + (*it).value + "\" ['" + tokenStr[(*it).type] + "'] must be '" + tokenStr[types[i]] + "'");
+			}
+			i++;
+		}
+		if (!fail) {
+			test_success("Good");
+		}
+		std::cout << std::endl;
+	}
+
+	{
+		Lexer lex;
+		i = 0;
+		value = "dump floate(casoos)";
+		bool	fail = false;
+		std::cout << "Get token [" << value << "]: ";
+		eTokenType types[] = {
+			TK_ARGV,
+			TK_SEPARATOR,
+			TK_ARGV,
+			TK_BRACKET_OPEN,
+			TK_ARGV,
+			TK_BRACKET_CLOSE
+		};
+
+		tokens = lex.getTokens(value);
+		for (std::vector<t_token>::iterator it = tokens.begin() ; it != tokens.end(); ++it) {
+			if ((*it).type != types[i]) {
+				fail = true;
+				std::cout << std::endl << "\t";
+				test_fail("\"" + (*it).value + "\" ['" + tokenStr[(*it).type] + "'] must be '" + tokenStr[types[i]] + "'");
+			}
+			i++;
+		}
+		if (!fail) {
+			test_success("Good");
+		}
+		std::cout << std::endl;
+	}
+
+	{
+		Lexer lex;
+		i = 0;
+		value = "498f.234 in)t 3(23 ((2)(";
+		bool	fail = false;
+		std::cout << "Get token [" << value << "]: ";
+		eTokenType types[] = {
+			TK_ARGV,
+			TK_SEPARATOR,
+			TK_ARGV,
+			TK_BRACKET_CLOSE,
+			TK_ARGV,
+			TK_SEPARATOR,
+			TK_ARGV,
+			TK_BRACKET_OPEN,
+			TK_ARGV,
+			TK_SEPARATOR,
+			TK_BRACKET_OPEN,
+			TK_BRACKET_OPEN,
+			TK_ARGV,
+			TK_BRACKET_CLOSE,
+			TK_BRACKET_OPEN
+		};
+
+		tokens = lex.getTokens(value);
+		for (std::vector<t_token>::iterator it = tokens.begin() ; it != tokens.end(); ++it) {
+			if ((*it).type != types[i]) {
+				fail = true;
+				std::cout << std::endl;
+				std::cout << "[";
+				std::cout << i;
+				std::cout << "]\t";
+				test_fail("\"" + (*it).value + "\" ['" + tokenStr[(*it).type] + "'] must be '" + tokenStr[types[i]] + "'");
+			}
+			i++;
+		}
+		if (!fail) {
+			test_success("Good");
+		}
+		std::cout << std::endl;
+	}
+
+#endif
 	return (0);
 }

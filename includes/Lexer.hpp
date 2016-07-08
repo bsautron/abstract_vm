@@ -3,36 +3,24 @@
 
 # include <iostream>
 # include <vector>
-
-enum eLexerType {
-	LEX_NONE,
-	LEX_INSTRUCTOR,
-	LEX_SEPARATOR,
-	LEX_ARGV,
-	LEX_BRACKET,
-	LEX_END_LINE
-};
-
-typedef struct	s_token
-{
-	std::string		value;
-	eLexerType		type;
-}				t_token;
+# include <token.hpp>
 
 class Lexer {
 	private:
-		std::vector<t_token>	_token;
+		std::vector<t_token>		_tokens;
 
-		void _init(void);
+		eTokenType	_getTokenType(const char c) const;
+		void				_createNewToken(const char c, eTokenType type);
+		void 				_fillToken(const char c);
 
 	public:
-		void none(const char c) const;
 		Lexer (void);
 		~Lexer (void);
+		void none(const char c) const;
 
-		std::vector<t_token>	getToken(std::string const & line);
+		std::vector<t_token>	getTokens(std::string const & line);
 };
 
-typedef void 	(Lexer::*theFn)(const char);
+typedef void 	(Lexer::*fnLexer)(const char) const;
 
 #endif

@@ -15,9 +15,9 @@
 int main(void)
 {
 	// Operand<float>	a("0.23", FLOAT);
-	Lexer		a;
-	std::string	b = "Hello";
+	Lexer				a;
+	std::string	b = "push  int4(234.3)";
 
-	a.getToken(b);
+	a.getTokens(b);
 	return (0);
 }
