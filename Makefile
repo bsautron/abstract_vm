@@ -5,6 +5,7 @@ CFLAGS = -Wall -Wextra -Werror
 SOURCES = Operand.cpp \
 						MyException.cpp \
 						Lexer.cpp \
+						Parser.cpp \
 
 SOURCES_FOLDER = sources
 
@@ -18,6 +19,7 @@ INCLUDES = $(NAME).hpp \
 			Operand.hpp \
 			MyException.hpp \
 			Lexer.hpp \
+			Parser.hpp \
 
 SOURCES_DEPENDENCIES = $(foreach dep, $(DEPENDENCIES), libraries/$(dep)/$(dep).a)
 INCLUDES_LIBRARIES = $(foreach dep,$(DEPENDENCIES),-I libraries/$(dep)/includes)
@@ -42,8 +44,11 @@ test: re test.cpp $(addprefix $(OBJECTS_FOLDER)/$(SOURCES_FOLDER)/, $(OBJECTS))
 	$(CC) $(CFLAGS) -o out_test $(OBJECTS_FOLDER)/test.o $(addprefix $(OBJECTS_FOLDER)/$(SOURCES_FOLDER)/, $(OBJECTS)) $(SOURCES_DEPENDENCIES)
 	@./out_test
 
+start: all
+	@./$(NAME)
+
 init:
-	mkdir -p $(OBJECTS_FOLDER)/$(SOURCES_FOLDER)
+	@mkdir -p $(OBJECTS_FOLDER)/$(SOURCES_FOLDER)
 
 $(NAME): $(MAIN_OBJECT) $(addprefix $(OBJECTS_FOLDER)/$(SOURCES_FOLDER)/, $(OBJECTS))
 	$(CC) $(CFLAGS) -o $@ $(MAIN_OBJECT) $(addprefix $(OBJECTS_FOLDER)/$(SOURCES_FOLDER)/, $(OBJECTS)) $(SOURCES_DEPENDENCIES)

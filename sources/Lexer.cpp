@@ -1,7 +1,11 @@
 #include <Lexer.hpp>
 
-Lexer::Lexer(void) {}
+Lexer::Lexer(std::string const & str) : _str(str) {}
 Lexer::~Lexer(void) {}
+
+std::string	Lexer::getStr(void) const {
+	return (this->_str);
+}
 
 eTokenType Lexer::_getTokenType(const char c) const {
 	if (std::isalnum(c) || c == '.')
@@ -28,16 +32,16 @@ void 			Lexer::_fillToken(const char c) {
 	this->_tokens.back().value.push_back(c);
 }
 
-std::vector<t_token>	Lexer::getTokens(std::string const & line) {
+std::vector<t_token>	Lexer::getTokens(void) {
 	char									c;
 	eTokenType						type;
 
-	for (std::string::const_iterator it = line.begin(); it!=line.end(); ++it) {
+	for (std::string::const_iterator it = this->_str.begin(); it!= this->_str.end(); ++it) {
 		c = *it;
 		type = this->_getTokenType(c);
-		if (!this->_tokens.size())
-			this->_createNewToken(c, type);
-		else if (type != this->_tokens.back().type)
+		if (!this->_tokens.size()
+			|| type != this->_tokens.back().type
+			|| type == TK_BRACKET_OPEN || type == TK_BRACKET_CLOSE)
 			this->_createNewToken(c, type);
 		else
 			this->_fillToken(c);

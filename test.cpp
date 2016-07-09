@@ -324,9 +324,9 @@ int main(void)
 	int											i;
 
 	{
-		Lexer	lex;
-		i = 0;
 		value = "push int3(23.2)";
+		Lexer	lex(value);
+		i = 0;
 		bool	fail = false;
 		std::cout << "Get token [" << value << "]: ";
 		eTokenType types[] = {
@@ -338,7 +338,7 @@ int main(void)
 			TK_BRACKET_CLOSE
 		};
 
-		tokens = lex.getTokens(value);
+		tokens = lex.getTokens();
 		for (std::vector<t_token>::iterator it = tokens.begin() ; it != tokens.end(); ++it) {
 			if ((*it).type != types[i]) {
 				fail = true;
@@ -354,9 +354,9 @@ int main(void)
 	}
 
 	{
-		Lexer lex;
-		i = 0;
 		value = "dump floate(casoos)";
+		Lexer lex(value);
+		i = 0;
 		bool	fail = false;
 		std::cout << "Get token [" << value << "]: ";
 		eTokenType types[] = {
@@ -368,7 +368,7 @@ int main(void)
 			TK_BRACKET_CLOSE
 		};
 
-		tokens = lex.getTokens(value);
+		tokens = lex.getTokens();
 		for (std::vector<t_token>::iterator it = tokens.begin() ; it != tokens.end(); ++it) {
 			if ((*it).type != types[i]) {
 				fail = true;
@@ -384,9 +384,9 @@ int main(void)
 	}
 
 	{
-		Lexer lex;
-		i = 0;
 		value = "498f.234 in)t 3(23 ((2)(";
+		Lexer lex(value);
+		i = 0;
 		bool	fail = false;
 		std::cout << "Get token [" << value << "]: ";
 		eTokenType types[] = {
@@ -407,7 +407,7 @@ int main(void)
 			TK_BRACKET_OPEN
 		};
 
-		tokens = lex.getTokens(value);
+		tokens = lex.getTokens();
 		for (std::vector<t_token>::iterator it = tokens.begin() ; it != tokens.end(); ++it) {
 			if ((*it).type != types[i]) {
 				fail = true;

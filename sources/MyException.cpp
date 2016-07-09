@@ -7,10 +7,12 @@ const char *		MyException::what(void) const throw() {
 	return MyException::exceptionString[this->_code].c_str();
 }
 
-std::string	MyException::exceptionString[NB_EXC] = {
+std::string	MyException::exceptionString[] = {
 	"UnKnow",
 	"Underflow",
 	"Overflow",
 	"Not a Number",
-	"Not valid syntax number"
+	"Not valid syntax number",
+	"Argv empty",
+	"Must treat each case"
 };
