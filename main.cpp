@@ -14,11 +14,22 @@
 
 int main(void)
 {
-	// Operand<float>	a("0.23", FLOAT);
-	std::string	v = "push  int4(234.3)";
-	Lexer				l(v);
+	Vm		vm;
 
-	Parser			p(l.getTokens());
-	p.Verify();
+	try {
+		OperandBuilder	bob;
+
+		IOperand const * op1 = bob.createOperand(INT8, "1");
+		(void)op1;
+		// IOperand const * op2 = bob.createOperand(FLOAT, "2.44");
+		// IOperand const * op3 = bob.createOperand(INT8, "4");
+		// vm.Push(op1);
+		// vm.Push(op2);
+		// vm.Push(op3);
+		// vm.Add();
+		// vm.Dump();
+	} catch (std::exception const & e) {
+		std::cout << "ERROR: " << e.what() << std::endl;
+	};
 	return (0);
 }

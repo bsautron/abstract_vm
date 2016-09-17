@@ -3,8 +3,6 @@
 
 # include <iostream>
 
-// # define NB_EXC		5
-
 enum eExceptionCode {
 	EXC_UNKNOW,
 	EXC_UNDERFLOW,

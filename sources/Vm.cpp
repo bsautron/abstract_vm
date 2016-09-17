@@ -1,21 +1,26 @@
 #include <Vm.hpp>
 
-Vm::Vm(void) : _fd(0) {
-	this->_welcome();
-}
-
-Vm::Vm(std::string const & fileName) : _fileName(fileName) {
-	this->_welcome();
-}
-
+Vm::Vm(void) : _fd(0) {}
 Vm::~Vm(void) {}
 
-void 		Vm::_Welcome(void) {
-	std::cout << "Welcome to ABSTRACT_VM :)" << std::endl;
-	std::cout << "\tFROM: ";
-	if (this->_fileName)
-		std::cout << this->_fileName;
-	else
-		std::cout << "stdin";
-	std::cout << std::endl;
+void 			Vm::Push(IOperand const * op) {
+	this->push_front(op);
+}
+void 			Vm::Pop(void) {
+	this->pop_front();
+}
+void 			Vm::Add(void) {
+
+	if (this->size() >= 2) {
+		// IOperand 		* op1 = this[0];
+		// IOperand 		* op2 = this[1];
+		std::cout << (*this)[0]->toString() << std::endl;
+		std::cout << (*this)[0]->toString() << std::endl;
+		std::cout << (*this)[0]->toString() << std::endl;
+		std::cout << (*this)[0]->toString() << std::endl;
+	}
+}
+void 			Vm::Dump(void) {
+	for (auto & op : *this)
+			std::cout << op->toString() << std::endl;
 }

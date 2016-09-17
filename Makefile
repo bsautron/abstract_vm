@@ -1,11 +1,13 @@
 CC = c++
 NAME = abstract_vm
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -std=c++11
 SOURCES = Operand.cpp \
 						MyException.cpp \
 						Lexer.cpp \
 						Parser.cpp \
+						Vm.cpp \
+						OperandBuilder.cpp \
 
 SOURCES_FOLDER = sources
 
@@ -20,6 +22,8 @@ INCLUDES = $(NAME).hpp \
 			MyException.hpp \
 			Lexer.hpp \
 			Parser.hpp \
+			Vm.hpp \
+			OperandBuilder.hpp \
 
 SOURCES_DEPENDENCIES = $(foreach dep, $(DEPENDENCIES), libraries/$(dep)/$(dep).a)
 INCLUDES_LIBRARIES = $(foreach dep,$(DEPENDENCIES),-I libraries/$(dep)/includes)

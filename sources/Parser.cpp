@@ -23,4 +23,6 @@ void 			Parser::Verify(void) {
 			throw MyException(EXC_PARSER_IDK);
 		i++;
 	}
+	if (this->_tokens.size() != 1 && this->_tokens.size() != 6)
+		throw MyException(EXC_UNKNOW);
 }

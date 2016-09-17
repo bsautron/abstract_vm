@@ -13,10 +13,12 @@
 #include "abstract_vm.hpp"
 #include <cstring>
 
-// # define TEST_GOOD_THINGS
-// # define TEST_OVERFLOW
-// # define TEST_LEXICAL_NUMBER
+# define TEST_GOOD_THINGS
+# define TEST_OVERFLOW
+# define TEST_LEXICAL_NUMBER
 # define TEST_LEXER
+
+// TODO: test the Parser
 
 void test_success(const char * str) { std::cout << "\033[32m" << str << "\033[0m"; }
 void test_fail(const char * str) { std::cout << "\033[30;41;1m" << str << "\033[0m"; }

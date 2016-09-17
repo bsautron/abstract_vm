@@ -6,5 +6,7 @@
 # include <MyException.hpp>
 # include <Lexer.hpp>
 # include <Parser.hpp>
+# include <Vm.hpp>
+# include <OperandBuilder.hpp>
 
 #endif
