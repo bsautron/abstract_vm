@@ -14,22 +14,22 @@
 
 int main(void)
 {
-	Vm		vm;
+	// Vm		vm;
 
-	try {
-		OperandBuilder	bob;
-
-		IOperand const * op1 = bob.createOperand(INT8, "1");
-		(void)op1;
-		// IOperand const * op2 = bob.createOperand(FLOAT, "2.44");
-		// IOperand const * op3 = bob.createOperand(INT8, "4");
-		// vm.Push(op1);
-		// vm.Push(op2);
-		// vm.Push(op3);
-		// vm.Add();
-		// vm.Dump();
-	} catch (std::exception const & e) {
-		std::cout << "ERROR: " << e.what() << std::endl;
-	};
+	// try {
+	// 	OperandBuilder	bob;
+	//
+	// 	IOperand const * op1 = bob.createOperand(INT8, "1");
+	// 	(void)op1;
+	// 	// IOperand const * op2 = bob.createOperand(FLOAT, "2.44");
+	// 	// IOperand const * op3 = bob.createOperand(INT8, "4");
+	// 	// vm.Push(op1);
+	// 	// vm.Push(op2);
+	// 	// vm.Push(op3);
+	// 	// vm.Add();
+	// 	// vm.Dump();
+	// } catch (std::exception const & e) {
+	// 	std::cout << "ERROR: " << e.what() << std::endl;
+	// };
 	return (0);
 }
