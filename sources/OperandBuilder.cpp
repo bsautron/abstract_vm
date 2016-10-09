@@ -4,19 +4,19 @@ OperandBuilder::OperandBuilder(void) {}
 OperandBuilder::~OperandBuilder(void) {}
 
 IOperand const * OperandBuilder::createInt8( std::string const & value ) const {
-	return (new Operand<char>(value, INT8));
+	return (new Operand<char>(value));
 }
 IOperand const * OperandBuilder::createInt16( std::string const & value ) const {
-	return (new Operand<short>(value, INT16));
+	return (new Operand<short>(value));
 }
 IOperand const * OperandBuilder::createInt32( std::string const & value ) const {
-	return (new Operand<int>(value, INT32));
+	return (new Operand<int>(value));
 }
 IOperand const * OperandBuilder::createFloat( std::string const & value ) const {
-	return (new Operand<float>(value, FLOAT));
+	return (new Operand<float>(value));
 }
 IOperand const * OperandBuilder::createDouble( std::string const & value ) const {
-	return (new Operand<double>(value, DOUBLE));
+	return (new Operand<double>(value));
 }
 
 IOperand const *	OperandBuilder::createOperand(eOperandType type, std::string const & value) const {

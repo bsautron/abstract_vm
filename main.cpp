@@ -14,6 +14,15 @@
 
 int main(void)
 {
+
+	try {
+		Operand<float>	a("34.2349857");
+		Operand<int>	b("12");
+		Operand<char>	c("-1000");
+		std::cout << "/* message */" << std::endl;
+	} catch (std::exception const & e) {
+		std::cout << e.what() << std::endl;
+	}
 	// Vm		vm;
 
 	// try {

@@ -27,32 +27,74 @@ template <typename T>
 class Operand : public IOperand
 {
 	private:
-		int				_precision;
 		std::string		_value;
 		eOperandType	_type;
+		int				_precision;
 
 		Operand(void);
 
-		// void 	_Checker(std::string const & value, std::string const & format) {
-		// 	T		tmp;
-		// }
+		void _Checker(void) {
+			this->_CheckIsNumber();
+			this->_CheckIsBounded();
+		}
 
-		bool _IsNumber(std::string const & value)	{ return std::regex_match(value, std::regex("-?\\d+(\\.\\d+)?")); }
-		bool _IsInteger(void)						{ return (this->_type < FLOAT); }
+		void _CheckIsNumber(void)	{
+			std::smatch	arrayMatch;
+			std::regex	numberPattern("-?\\d+(\\.\\d+)?");
+
+			if (!std::regex_match(this->_value, arrayMatch, numberPattern))
+				throw MyException(EXC_NAN);
+			this->_precision = arrayMatch[1].length() ? arrayMatch[1].length() - 1 : 0;
+		}
+
+		void _CheckIsBounded(void) {
+			if (this->_value[0] == '-')
+				this->_CheckIsUpperMin();
+			else
+				this->_CheckIsUnderMax();
+		}
+
+		void _CheckIsUpperMin(void) {
+			try {
+				if ( !((this->_IsInteger() ? std::stoi(this->_value) : std::stod(this->_value)) >= std::numeric_limits<T>::min() ))
+					throw MyException(EXC_UNDERFLOW);
+			} catch (const std::out_of_range & e) {
+				throw MyException(EXC_UNDERFLOW);
+			} catch (const MyException & e) {
+				throw e;
+			}
+		}
+
+		void _CheckIsUnderMax(void) {
+			try {
+				if ( ! ((this->_IsInteger() ? std::stoi(this->_value) : std::stod(this->_value)) <= std::numeric_limits<T>::max() ))
+					throw MyException(EXC_OVERFLOW);
+			} catch (const std::out_of_range & e) {
+				throw MyException(EXC_OVERFLOW);
+			} catch (const MyException & e) {
+				throw e;
+			}
+		}
+
+		bool _IsInteger(void) {
+			return (this->_type < FLOAT);
+		}
 
 	public:
 
-		Operand(std::string const & value, eOperandType type) : _value(value), _type(type) {
+		Operand(std::string const & value);
+
+
 			// Check if it's a good format string
-			if (!this->_IsNumber(value))
-				throw MyException(EXC_NAN);
+			// if (!this->_IsNumber(value))
+			// 	throw MyException(EXC_NAN);
 
 			// Check if it's a integer or floating point number
 			// if (!std::regex_match(value, std::regex(format)))
 				// throw MyException(EXC_NOT_VALID_SYNTAX_NUMBER);
 
 			// throw MyException((value[0] == '-') ? EXC_UNDERFLOW : EXC_OVERFLOW);
-		}
+		// }
 
 
 		~Operand(void) {}
@@ -65,8 +107,6 @@ class Operand : public IOperand
 
 		int						getPrecision( void ) 	const { return this->_precision; }
 		eOperandType			getType( void ) 		const { return this->_type; }
-		T						getNumber( void ) 		const { return this->_number; }
-		std::string const		getStrValue( void ) 	const { return this->_strValue; }
 
 		virtual std::string const & toString() const {
 			std::string *s = new std::string("[" + Operand<T>::type[this->_type] + "]: " + this->_value);
