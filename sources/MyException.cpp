@@ -15,5 +15,8 @@ std::string	MyException::exceptionString[] = {
 	"Not valid syntax number",
 	"Argv empty",
 	"Must treat each case",
-	"Abstract limitation precision"
+	"Abstract limitation precision",
+	"Divide by zero",
+	"Modulo by zero",
+	"Modulo by none integer numbers"
 };

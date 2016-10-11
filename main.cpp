@@ -18,14 +18,13 @@ int main(void)
 	try {
 		// Operand<double>::assumePrecision = true;
 		Operand<char>	a("100");
-		Operand<char>	aa("-100");
+		Operand<char>	aa("0");
 		Operand<short>	b("12");
 		Operand<int>	c("-1000");
-		Operand<float>	d("345.257");
+		Operand<float>	d("0.000");
 		Operand<double>	e("3049582093.123");
 
-		// std::cout << "e: " << e << std::endl;
-		IOperand const * op = a + aa;
+		IOperand const * op = d % b;
 		std::cout << "op: " << *op << std::endl;
 
 	} catch (std::exception const & e) {

@@ -87,6 +87,17 @@ class Operand : public IOperand
 			return stream;
 		}
 
+		IOperand const *	_BuilderOperand( IOperand const & rhs, long double value) const {
+			return this->_builder.createOperand(
+				this->_GetBiggerType( rhs.getType(), this->_type ),
+				this->_GetStream( this->_GetBiggerPrecision(rhs.getPrecision(), this->_precision), value ).str()
+			);
+		}
+
+		bool _IsZero(std::string const value) const {
+			return std::regex_match(value, std::regex("-?0*(\\.0+)?"));
+		}
+
 	public:
 
 		Operand(std::string const & value);
@@ -94,13 +105,30 @@ class Operand : public IOperand
 		~Operand(void) {}
 
 		IOperand const * operator+( IOperand const & rhs ) const {
-			eOperandType newType = this->_GetBiggerType(rhs.getType(), this->_type);
-			int newPrecision = this->_GetBiggerPrecision(rhs.getPrecision(), this->_precision);
-			std::stringstream stringstream = this->_GetStream(newPrecision, std::stold(rhs.toString()) + std::stold(this->_stringstream.str()));
-
-			return this->_builder.createOperand(newType, stringstream.str());
+			return this->_BuilderOperand(rhs, std::stold(this->_stringstream.str()) + std::stold(rhs.toString()));
 		}
 
+		IOperand const * operator-( IOperand const & rhs ) const {
+			return this->_BuilderOperand(rhs, std::stold(this->_stringstream.str()) - std::stold(rhs.toString()));
+		}
+
+		IOperand const * operator*( IOperand const & rhs ) const {
+			return this->_BuilderOperand(rhs, std::stold(this->_stringstream.str()) * std::stold(rhs.toString()));
+		}
+
+		IOperand const * operator/( IOperand const & rhs ) const {
+			if (this->_IsZero(rhs.toString()))
+				throw MyException(EXC_DEVIDE_BZERO);
+			return this->_BuilderOperand(rhs, std::stold(this->_stringstream.str()) / std::stold(rhs.toString()));
+		}
+
+		IOperand const * operator%( IOperand const & rhs ) const {
+			if (rhs.getType() >= FLOAT || this->_type >= FLOAT)
+				throw MyException(EXC_MODULO_BFLOAT);
+			if (this->_IsZero(rhs.toString()))
+				throw MyException(EXC_MODULO_BZERO);
+			return this->_BuilderOperand(rhs, std::stoi(this->_stringstream.str()) % std::stoi(rhs.toString()));
+		}
 
 		int						getPrecision( void ) 	const { return this->_precision; }
 		eOperandType			getType( void ) 		const { return this->_type; }
