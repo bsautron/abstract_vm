@@ -1,7 +1,14 @@
+
 CC = c++
 NAME = abstract_vm
 
-CFLAGS = -Wall -Wextra -Werror -std=c++11
+DEFAULT_CFLAGS = -std=c++11
+ifeq ($(MAKE_CFLAGS),)
+	MAKE_CFLAGS := -Wall -Wextra -Werror
+endif
+
+CFLAGS := $(MAKE_CFLAGS) $(DEFAULT_CFLAGS)
+
 SOURCES = Operand.cpp \
 						MyException.cpp \
 						Lexer.cpp \

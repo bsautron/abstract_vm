@@ -1,8 +1,7 @@
 #ifndef OPERANDBUILDER_HPP
 # define OPERANDBUILDER_HPP
 
-# include <Operand.hpp>
-# include <string>
+# include <IOperand.hpp>
 
 class OperandBuilder {
 	private:

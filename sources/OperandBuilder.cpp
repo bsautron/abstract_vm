@@ -1,4 +1,5 @@
 #include <OperandBuilder.hpp>
+#include <Operand.hpp>
 
 OperandBuilder::OperandBuilder(void) {}
 OperandBuilder::~OperandBuilder(void) {}

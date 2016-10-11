@@ -11,15 +11,24 @@
 /* ************************************************************************** */
 
 #include "abstract_vm.hpp"
+#include <sstream>
 
 int main(void)
 {
-
 	try {
-		Operand<float>	a("34.2349857");
-		Operand<int>	b("12");
-		Operand<char>	c("-1000");
-		std::cout << "/* message */" << std::endl;
+		// Operand<char>	a("44");
+		// Operand<short>	b("12");
+		// Operand<int>	c("-1000");
+		// Operand<float>	d("345.257");
+		// Operand<double>	e("3049582093.123");
+		//
+		// IOperand const * op = a + b;
+		// std::cout << "op: " << *op << std::endl;
+
+		Operand<float>	f("123.19384759371938475937193847593719384759371938475937193847593719384759371938475937193847593719384759371938475937193847593719384759371938475937193847593719384759371938475937193847593719384759371938475937");
+
+		std::cout << f << std::endl;
+
 	} catch (std::exception const & e) {
 		std::cout << e.what() << std::endl;
 	}
