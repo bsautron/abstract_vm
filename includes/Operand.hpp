@@ -32,9 +32,10 @@ class Operand : public IOperand
 			if (!std::regex_match(value, arrayMatch, numberPattern))
 				throw MyException(EXC_NAN);
 			this->_precision = arrayMatch[1].length() ? arrayMatch[1].length() - 1 : 0;
-			this->_stringstream.precision(this->_precision);
-			this->_stringstream << std::fixed;
-			this->_stringstream << std::stold(value);
+			this->_stringstream = this->_GetStream(this->_precision, std::stold(value));
+
+			if (!Operand<T>::assumePrecision && value.compare(this->_stringstream.str()))
+				throw MyException(EXC_LIMITATION_PRECISION);
 		}
 
 		void _CheckIsBounded(std::string const & value) {
@@ -70,6 +71,22 @@ class Operand : public IOperand
 			return (this->_type < FLOAT);
 		}
 
+		eOperandType _GetBiggerType(eOperandType a, eOperandType b) const {
+			return a > b ? a : b;
+		}
+
+		int _GetBiggerPrecision(int a, int b) const {
+			return a > b ? a : b;
+		}
+
+		std::stringstream _GetStream(int precision, long double number) const {
+			std::stringstream stream;
+			stream << std::fixed;
+			stream.precision(precision);
+			stream << number;
+			return stream;
+		}
+
 	public:
 
 		Operand(std::string const & value);
@@ -77,19 +94,9 @@ class Operand : public IOperand
 		~Operand(void) {}
 
 		IOperand const * operator+( IOperand const & rhs ) const {
-			eOperandType rhsType = rhs.getType();
-			eOperandType newType = (rhsType > this->_type) ? rhsType : this->_type;
-			int rshPrecision = rhs.getPrecision();
-			int newPrecision = (rshPrecision > this->_precision) ? rshPrecision : this->_precision;
-
-			std::stringstream stringstream;
-			stringstream << std::fixed;
-			stringstream.precision(newPrecision);
-
-			if (newType < FLOAT)
-				stringstream << (std::stoi(rhs.toString()) + std::stoi(this->_stringstream.str()));
-			else
-				stringstream << (std::stold(rhs.toString()) + std::stold(this->_stringstream.str()));
+			eOperandType newType = this->_GetBiggerType(rhs.getType(), this->_type);
+			int newPrecision = this->_GetBiggerPrecision(rhs.getPrecision(), this->_precision);
+			std::stringstream stringstream = this->_GetStream(newPrecision, std::stold(rhs.toString()) + std::stold(this->_stringstream.str()));
 
 			return this->_builder.createOperand(newType, stringstream.str());
 		}
@@ -103,6 +110,7 @@ class Operand : public IOperand
 			return (*s);
 		}
 
+		static bool					assumePrecision;
 		static std::string			stringType[5];
 };
 

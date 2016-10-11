@@ -14,5 +14,6 @@ std::string	MyException::exceptionString[] = {
 	"Not a Number",
 	"Not valid syntax number",
 	"Argv empty",
-	"Must treat each case"
+	"Must treat each case",
+	"Abstract limitation precision"
 };

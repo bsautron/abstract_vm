@@ -10,7 +10,8 @@ enum eExceptionCode {
 	EXC_NAN,
 	EXC_NOT_VALID_SYNTAX_NUMBER,
 	EXC_PARSER_EMPTY,
-	EXC_PARSER_IDK
+	EXC_PARSER_IDK,
+	EXC_LIMITATION_PRECISION
 };
 
 class MyException : public std::exception {
