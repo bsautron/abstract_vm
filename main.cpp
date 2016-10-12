@@ -10,26 +10,23 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "abstract_vm.hpp"
-#include <sstream>
+#include <abstract_vm.hpp>
 
 int main(void)
 {
 	try {
+		// TODO: Add static variable to enable multi error - Can't you parse en command to set this?
+		Vm	vm;
 		// Operand<double>::assumePrecision = true;
-		Operand<char>	a("100");
-		Operand<char>	aa("0");
-		Operand<short>	b("12");
-		Operand<int>	c("-1000");
-		Operand<float>	d("1.0");
-		Operand<double>	e("3049582093.123");
+		vm.Push(new Operand<char>{"100"});
+		vm.Push(new Operand<short>{"99"});
+		vm.Push(new Operand<int>{"-23985"});
+		vm.Push(new Operand<double>{"100.000000011"});
 
-		std::cout << a << std::endl;
-		IOperand const * op = d + a;
-		std::cout << "op: " << *op << std::endl;
+		vm.Dump();
 
 	} catch (std::exception const & e) {
-		std::cout << e.what() << std::endl;
+		std::cout << "Main: " << e.what() << std::endl;
 	}
 	// Vm		vm;
 

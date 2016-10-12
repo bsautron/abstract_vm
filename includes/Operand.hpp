@@ -57,7 +57,7 @@ class Operand : public IOperand
 
 		void _CheckIsUpperMin(std::string const & value) {
 			try {
-				if ( !((this->_IsInteger() ? std::stoi(value) : std::stod(value)) >= std::numeric_limits<T>::min() ))
+				if ( !( (this->_IsInteger() ? std::stoi(value) : std::stod(value)) >= std::numeric_limits<T>::lowest() ))
 					throw MyException(EXC_UNDERFLOW);
 			} catch (const std::out_of_range & e) {
 				throw MyException(EXC_UNDERFLOW);

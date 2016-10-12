@@ -4,6 +4,7 @@
 # include <iostream>
 
 enum eExceptionCode {
+	EXV_TMP,
 	EXC_UNKNOW,
 	EXC_UNDERFLOW,
 	EXC_OVERFLOW,

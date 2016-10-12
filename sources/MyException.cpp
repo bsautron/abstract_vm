@@ -8,6 +8,7 @@ const char *		MyException::what(void) const throw() {
 }
 
 std::string	MyException::exceptionString[] = {
+	"TMP EXCPETION",
 	"UnKnow",
 	"Underflow",
 	"Overflow",

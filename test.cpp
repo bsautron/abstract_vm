@@ -17,6 +17,8 @@
 # define TEST_OVERFLOW
 # define TEST_LEXICAL_NUMBER
 # define TEST_LEXER
+# define TEST_BOUND
+# define TEST_OTHER
 
 // TODO: test the Parser
 
@@ -36,7 +38,7 @@ int main(void)
 	try {
 		value = "0";
 		std::cout << "Constructor Operand: [char] " << value << ": ";
-		Operand<char>	a(value, INT8);
+		Operand<char>	a(value);
 		test_success("Good");
 	} catch (std::exception const & e) {
 		test_fail(e.what());
@@ -44,7 +46,7 @@ int main(void)
 	try {
 		value = "-0";
 		std::cout << "Constructor Operand: [char] " << value << ": ";
-		Operand<char>	a(value, INT8);
+		Operand<char>	a(value);
 		test_success("Good");
 	} catch (std::exception const & e) {
 		std::cout << e.what();
@@ -52,7 +54,7 @@ int main(void)
 	try {
 		value = "0";
 		std::cout << "Constructor Operand: [short] " << value << ": ";
-		Operand<short>	a(value, INT16);
+		Operand<short>	a(value);
 		test_success("Good");
 	} catch (std::exception const & e) {
 		test_fail(e.what());
@@ -60,7 +62,7 @@ int main(void)
 	try {
 		value = "-0";
 		std::cout << "Constructor Operand: [short] " << value << ": ";
-		Operand<short>	a(value, INT16);
+		Operand<short>	a(value);
 		test_success("Good");
 	} catch (std::exception const & e) {
 		test_fail(e.what());
@@ -68,7 +70,7 @@ int main(void)
 	try {
 		value = "0";
 		std::cout << "Constructor Operand: [int] " << value << ": ";
-		Operand<int>	a(value, INT32);
+		Operand<int>	a(value);
 		test_success("Good");
 	} catch (std::exception const & e) {
 		test_fail(e.what());
@@ -76,7 +78,7 @@ int main(void)
 	try {
 		value = "-0";
 		std::cout << "Constructor Operand: [int] " << value << ": ";
-		Operand<int>	a(value, INT32);
+		Operand<int>	a(value);
 		test_success("Good");
 	} catch (std::exception const & e) {
 		test_fail(e.what());
@@ -84,7 +86,7 @@ int main(void)
 	try {
 		value = "0.00";
 		std::cout << "Constructor Operand: [float] " << value << ": ";
-		Operand<float>	a(value, FLOAT);
+		Operand<float>	a(value);
 		test_success("Good");
 	} catch (std::exception const & e) {
 		test_fail(e.what());
@@ -92,7 +94,7 @@ int main(void)
 	try {
 		value = "-0.00";
 		std::cout << "Constructor Operand: [float] " << value << ": ";
-		Operand<float>	a(value, FLOAT);
+		Operand<float>	a(value);
 		test_success("Good");
 	} catch (std::exception const & e) {
 		test_fail(e.what());
@@ -100,7 +102,7 @@ int main(void)
 	try {
 		value = "0.00";
 		std::cout << "Constructor Operand: [double] " << value << ": ";
-		Operand<double>	a(value, DOUBLE);
+		Operand<double>	a(value);
 		test_success("Good");
 	} catch (std::exception const & e) {
 		test_fail(e.what());
@@ -108,17 +110,19 @@ int main(void)
 	try {
 		value = "-0.00";
 		std::cout << "Constructor Operand: [double] " << value << ": ";
-		Operand<double>	a(value, DOUBLE);
+		Operand<double>	a(value);
 		test_success("Good");
 	} catch (std::exception const & e) {
 		test_fail(e.what());
 	} std::cout << std::endl;
+#endif
 
+#ifdef TEST_BOUND
 	std::cout << "== TEST BOUND ==" << std::endl;
 	try {
 		value = "-128";
 		std::cout << "Constructor Operand: [char] " << value << ": ";
-		Operand<char>	a(value, INT8);
+		Operand<char>	a(value);
 		test_success("Good");
 	} catch (std::exception const & e) {
 		test_fail(e.what());
@@ -126,7 +130,7 @@ int main(void)
 	try {
 		value = "127";
 		std::cout << "Constructor Operand: [char] " << value << ": ";
-		Operand<char>	a(value, INT8);
+		Operand<char>	a(value);
 		test_success("Good");
 	} catch (std::exception const & e) {
 		std::cout << e.what();
@@ -134,7 +138,7 @@ int main(void)
 	try {
 		value = "-32768";
 		std::cout << "Constructor Operand: [short] " << value << ": ";
-		Operand<short>	a(value, INT16);
+		Operand<short>	a(value);
 		test_success("Good");
 	} catch (std::exception const & e) {
 		test_fail(e.what());
@@ -142,7 +146,7 @@ int main(void)
 	try {
 		value = "32767";
 		std::cout << "Constructor Operand: [short] " << value << ": ";
-		Operand<short>	a(value, INT16);
+		Operand<short>	a(value);
 		test_success("Good");
 	} catch (std::exception const & e) {
 		test_fail(e.what());
@@ -150,7 +154,7 @@ int main(void)
 	try {
 		value = "-2147483648";
 		std::cout << "Constructor Operand: [int] " << value << ": ";
-		Operand<int>	a(value, INT32);
+		Operand<int>	a(value);
 		test_success("Good");
 	} catch (std::exception const & e) {
 		test_fail(e.what());
@@ -158,17 +162,19 @@ int main(void)
 	try {
 		value = "2147483647";
 		std::cout << "Constructor Operand: [int] " << value << ": ";
-		Operand<int>	a(value, INT32);
+		Operand<int>	a(value);
 		test_success("Good");
 	} catch (std::exception const & e) {
 		test_fail(e.what());
 	} std::cout << std::endl;
+#endif
 
+#ifdef OTHER_TEST
 	std::cout << "== OTHER TEST ==" << std::endl;
 	try {
 		value = "2.44";
 		std::cout << "Constructor Operand: [float] " << value << ": ";
-		Operand<float>	a(value, FLOAT);
+		Operand<float>	a(value);
 		test_success("Good");
 	} catch (std::exception const & e) {
 		test_fail(e.what());
@@ -176,7 +182,7 @@ int main(void)
 	try {
 		value = "11198470.12";
 		std::cout << "Constructor Operand: [double] " << value << ": ";
-		Operand<double>	a(value, DOUBLE);
+		Operand<double>	a(value);
 		test_success("Good");
 	} catch (std::exception const & e) {
 		test_fail(e.what());
@@ -188,7 +194,7 @@ int main(void)
 	try {
 		value = "-129";
 		std::cout << "Constructor Operand: [char] " << value << ": ";
-		Operand<char>	a(value, INT8);
+		Operand<char>	a(value);
 		test_fail("TEST FAILED");
 	} catch (std::exception const & e) {
 		test_success(e.what());
@@ -196,7 +202,7 @@ int main(void)
 	try {
 		value = "128";
 		std::cout << "Constructor Operand: [char] " << value << ": ";
-		Operand<char>	a(value, INT8);
+		Operand<char>	a(value);
 		test_fail("TEST FAILED");
 	} catch (std::exception const & e) {
 		test_success(e.what());
@@ -205,7 +211,7 @@ int main(void)
 	try {
 		value = "-32769";
 		std::cout << "Constructor Operand: [short] " << value << ": ";
-		Operand<short>	a(value, INT16);
+		Operand<short>	a(value);
 		test_fail("TEST FAILED");
 	} catch (std::exception const & e) {
 		test_success(e.what());
@@ -213,7 +219,7 @@ int main(void)
 	try {
 		value = "32768";
 		std::cout << "Constructor Operand: [short] " << value << ": ";
-		Operand<short>	a(value, INT16);
+		Operand<short>	a(value);
 		test_fail("TEST FAILED");
 	} catch (std::exception const & e) {
 		test_success(e.what());
@@ -221,7 +227,7 @@ int main(void)
 	try {
 		value = "-2147483649";
 		std::cout << "Constructor Operand: [int] " << value << ": ";
-		Operand<int>	a(value, INT32);
+		Operand<int>	a(value);
 		test_fail("TEST FAILED");
 	} catch (std::exception const & e) {
 		test_success(e.what());
@@ -229,24 +235,24 @@ int main(void)
 	try {
 		value = "2147483648";
 		std::cout << "Constructor Operand: [int] " << value << ": ";
-		Operand<int>	a(value, INT32);
+		Operand<int>	a(value);
 		test_fail("TEST FAILED");
 	} catch (std::exception const & e) {
 		test_success(e.what());
 	} std::cout << std::endl;
 
 	try {
-		value = "11198470.12";
+		value = "13249719764023984.0234285900993805923905209385";
 		std::cout << "Constructor Operand: [float] " << value << ": ";
-		Operand<float>	a(value, FLOAT);
+		Operand<float>	a(value);
 		test_fail("TEST FAILED");
 	} catch (std::exception const & e) {
 		test_success(e.what());
 	} std::cout << std::endl;
 	try {
-		value = "-111191890760884780.00";
+		value = "-111191890234985209348572093845729304857230498579028347590827760884780.013495871098470938457209384759028374590823759082340134958710984709384572093847590283745908237590823401349587109847093845720938475902837459082375908234";
 		std::cout << "Constructor Operand: [double] " << value << ": ";
-		Operand<double>	a(value, DOUBLE);
+		Operand<double>	a(value);
 		test_fail("TEST FAILED");
 	} catch (std::exception const & e) {
 		test_success(e.what());
@@ -258,7 +264,7 @@ int main(void)
 	try {
 		value = "23.45";
 		std::cout << "Constructor Operand: [char] " << value << ": ";
-		Operand<char>	a(value, INT8);
+		Operand<char>	a(value);
 		test_fail("TEST FAILED");
 	} catch (std::exception const & e) {
 		test_success(e.what());
@@ -266,7 +272,7 @@ int main(void)
 	try {
 		value = "23.45";
 		std::cout << "Constructor Operand: [short] " << value << ": ";
-		Operand<short>	a(value, INT16);
+		Operand<short>	a(value);
 		test_fail("TEST FAILED");
 	} catch (std::exception const & e) {
 		test_success(e.what());
@@ -274,7 +280,7 @@ int main(void)
 	try {
 		value = "23.45";
 		std::cout << "Constructor Operand: [int] " << value << ": ";
-		Operand<int>	a(value, INT32);
+		Operand<int>	a(value);
 		test_fail("TEST FAILED");
 	} catch (std::exception const & e) {
 		test_success(e.what());
@@ -282,7 +288,7 @@ int main(void)
 	try {
 		value = "2345";
 		std::cout << "Constructor Operand: [float] " << value << ": ";
-		Operand<float>	a(value, FLOAT);
+		Operand<float>	a(value);
 		test_fail("TEST FAILED");
 	} catch (std::exception const & e) {
 		test_success(e.what());
@@ -290,23 +296,15 @@ int main(void)
 	try {
 		value = "-12";
 		std::cout << "Constructor Operand: [double] " << value << ": ";
-		Operand<double>	a(value, DOUBLE);
+		Operand<double>	a(value);
 		test_fail("TEST FAILED");
 	} catch (std::exception const & e) {
 		test_success(e.what());
 	} std::cout << std::endl;
 	try {
-		value = "-1.1";
+		value = "94";
 		std::cout << "Constructor Operand: [double] " << value << ": ";
-		Operand<double>	a(value, DOUBLE);
-		test_fail("TEST FAILED");
-	} catch (std::exception const & e) {
-		test_success(e.what());
-	} std::cout << std::endl;
-	try {
-		value = "94.190";
-		std::cout << "Constructor Operand: [double] " << value << ": ";
-		Operand<double>	a(value, DOUBLE);
+		Operand<double>	a(value);
 		test_fail("TEST FAILED");
 	} catch (std::exception const & e) {
 		test_success(e.what());
