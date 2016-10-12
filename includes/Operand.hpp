@@ -31,7 +31,17 @@ class Operand : public IOperand
 
 			if (!std::regex_match(value, arrayMatch, numberPattern))
 				throw MyException(EXC_NAN);
-			this->_precision = arrayMatch[1].length() ? arrayMatch[1].length() - 1 : 0;
+			if (this->_type < FLOAT) {
+				this->_precision = 0;
+				if (arrayMatch[1].length())
+					throw MyException(EXC_NOT_VALID_SYNTAX_NUMBER);
+			}
+			else {
+				this->_precision = arrayMatch[1].length() ? arrayMatch[1].length() - 1 : 0;
+				if (!arrayMatch[1].length())
+					throw MyException(EXC_NOT_VALID_SYNTAX_NUMBER);
+
+			}
 			this->_stringstream = this->_GetStream(this->_precision, std::stold(value));
 
 			if (!Operand<T>::assumePrecision && value.compare(this->_stringstream.str()))

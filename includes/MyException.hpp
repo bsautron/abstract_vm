@@ -14,7 +14,7 @@ enum eExceptionCode {
 	EXC_LIMITATION_PRECISION,
 	EXC_DEVIDE_BZERO,
 	EXC_MODULO_BZERO,
-	EXC_MODULO_BFLOAT
+	EXC_MODULO_BFLOAT,
 };
 
 class MyException : public std::exception {

@@ -21,10 +21,11 @@ int main(void)
 		Operand<char>	aa("0");
 		Operand<short>	b("12");
 		Operand<int>	c("-1000");
-		Operand<float>	d("0.000");
+		Operand<float>	d("1.0");
 		Operand<double>	e("3049582093.123");
 
-		IOperand const * op = d % b;
+		std::cout << a << std::endl;
+		IOperand const * op = d + a;
 		std::cout << "op: " << *op << std::endl;
 
 	} catch (std::exception const & e) {
