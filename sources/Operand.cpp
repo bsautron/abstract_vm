@@ -25,6 +25,41 @@ Operand<double>::Operand(std::string const & value) : _type(DOUBLE) {
 	this->_Checker(value);
 }
 
+// template<>
+// Operand<char>::Operand(IOperand const & src) : _type(INT8) {
+// 	// this->_Checker(src.toString());
+// 	std::cout << "/* message */" << std::endl;
+// 	std::cout << src << std::endl;
+// }
+//
+// template<>
+// Operand<short>::Operand(IOperand const & src) : _type(INT16) {
+// 	// this->_Checker(src.toString());
+// 	std::cout << "/* message */" << std::endl;
+// 	std::cout << src << std::endl;
+// }
+//
+// template<>
+// Operand<int>::Operand(IOperand const & src) : _type(INT32) {
+// 	// this->_Checker(src.toString());
+// 	std::cout << "/* message */" << std::endl;
+// 	std::cout << src << std::endl;
+// }
+//
+// template<>
+// Operand<float>::Operand(IOperand const & src) : _type(FLOAT) {
+// 	// this->_Checker(src.toString());
+// 	std::cout << "/* message */" << std::endl;
+// 	std::cout << src << std::endl;
+// }
+//
+// template<>
+// Operand<double>::Operand(IOperand const & src) : _type(DOUBLE) {
+// 	// this->_Checker(src.toString());
+// 	std::cout << "/* message */" << std::endl;
+// 	std::cout << src << std::endl;
+// }
+
 template<typename T>
 std::string	Operand<T>::stringType[5] = {
 	"Int8",

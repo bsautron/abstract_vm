@@ -1,17 +1,19 @@
 #ifndef VM_HPP
 # define VM_HPP
 
-# include <iostream>
+# include <istream>
+# include <ostream>
 # include <string>
 # include <deque>
 # include <MyException.hpp>
 # include <IOperand.hpp>
 
+# define DELETE_CPTR(X)		{delete X; X = nullptr;}
+
 class Vm : public std::deque<IOperand const *> {
 	private:
-		int		_fd;
-
 		void 	_Start(void);
+		void 	_DeleteOperand(IOperand const * operand);
 
 	public:
 		Vm (void);
@@ -20,16 +22,13 @@ class Vm : public std::deque<IOperand const *> {
 		void 	Push(IOperand const * op);
 		void 	Pop(void);
 		void 	Dump(void) const;
-		// void 	Assert(IOperand const * op);
-		// void 	Add(void);
-
-	static void 	DeleteOperand(IOperand const * operand) {
-		if (operand)
-			delete operand;
-		else
-			throw MyException(EXV_TMP);
-	}
-
+		void 	Assert(IOperand const & value) const;
+		void 	Add(void);
+		void 	Sub(void);
+		void 	Div(void);
+		void 	Mod(void);
+		void 	Mul(void);
+		void 	Print(void) const;
 };
 
 #endif

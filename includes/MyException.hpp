@@ -4,7 +4,7 @@
 # include <iostream>
 
 enum eExceptionCode {
-	EXV_TMP,
+	EXC_TMP,
 	EXC_UNKNOW,
 	EXC_UNDERFLOW,
 	EXC_OVERFLOW,
@@ -16,6 +16,10 @@ enum eExceptionCode {
 	EXC_DEVIDE_BZERO,
 	EXC_MODULO_BZERO,
 	EXC_MODULO_BFLOAT,
+
+	EXC_STACK_EMPTY,
+	EXC_ASSERT_FAILED,
+	EXC_TO_SHORT
 };
 
 class MyException : public std::exception {

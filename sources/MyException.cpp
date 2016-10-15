@@ -19,5 +19,9 @@ std::string	MyException::exceptionString[] = {
 	"Abstract limitation precision",
 	"Divide by zero",
 	"Modulo by zero",
-	"Modulo by none integer numbers"
+	"Modulo by none integer numbers",
+	"The stack is empty",
+	"Assert failed",
+	"The stack is too short"
+
 };

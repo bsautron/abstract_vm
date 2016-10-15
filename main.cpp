@@ -14,19 +14,21 @@
 
 int main(void)
 {
+	Vm	vm;
 	try {
 		// TODO: Add static variable to enable multi error - Can't you parse en command to set this?
-		Vm	vm;
-		// Operand<double>::assumePrecision = true;
+		Operand<double>::assumePrecision = true;
+		vm.Push(new Operand<char>{"112"});
+		vm.Print();
 		vm.Push(new Operand<char>{"100"});
-		vm.Push(new Operand<short>{"99"});
-		vm.Push(new Operand<int>{"-23985"});
-		vm.Push(new Operand<double>{"100.000000011"});
+		vm.Print();
+
+	} catch (std::exception const & e) {
+		std::cout << "VM error: " << e.what() << std::endl;
+		std::cout << "Stack trace:" << std::endl;
 
 		vm.Dump();
 
-	} catch (std::exception const & e) {
-		std::cout << "Main: " << e.what() << std::endl;
 	}
 	// Vm		vm;
 
