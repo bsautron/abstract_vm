@@ -60,8 +60,8 @@ Operand<double>::Operand(std::string const & value) : _type(DOUBLE) {
 // 	std::cout << src << std::endl;
 // }
 
-template<typename T>
-std::string	Operand<T>::stringType[5] = {
+template<>
+std::string	Operand<void>::stringType[5] = {
 	"Int8",
 	"Int16",
 	"Int32",

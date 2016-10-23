@@ -426,5 +426,48 @@ int main(void)
 	}
 
 #endif
+
+#ifdef TEST_OTHER
+	std::cout << "== OTHER TEST ==" << std::endl;
+	try {
+		value = "19";
+		std::cout << "Constructor Operand: [int] " << value << ": ";
+		Operand<int>	a(value);
+		value = "1";
+		std::cout << "Constructor Operand: [char] " << value << ": ";
+		Operand<char>	b(value);
+		IOperand const *op = a + b;
+		std::cout << "op " << Operand<void>::stringType[op->getType()] << " -> ";
+		test_success(op->toString());
+	} catch (std::exception const & e) {
+		test_fail(e.what());
+	} std::cout << std::endl;
+	try {
+		value = "1.9";
+		std::cout << "Constructor Operand: [double] " << value << ": ";
+		Operand<double>	a(value);
+		value = "1.234";
+		std::cout << "Constructor Operand: [float] " << value << ": ";
+		Operand<float>	b(value);
+		IOperand const *op = a + b;
+		std::cout << "op " << Operand<void>::stringType[op->getType()] << " -> ";
+		test_success(op->toString());
+	} catch (std::exception const & e) {
+		test_fail(e.what());
+	} std::cout << std::endl;
+	try {
+		value = "1";
+		std::cout << "Constructor Operand: [int] " << value << ": ";
+		Operand<int>	a(value);
+		value = "1.234";
+		std::cout << "Constructor Operand: [float] " << value << ": ";
+		Operand<float>	b(value);
+		IOperand const *op = a + b;
+		std::cout << "op " << Operand<void>::stringType[op->getType()] << " -> ";
+		test_success(op->toString());
+	} catch (std::exception const & e) {
+		test_fail(e.what());
+	} std::cout << std::endl;
+#endif
 	return (0);
 }

@@ -99,6 +99,10 @@ class Operand : public IOperand
 			return a > b ? a : b;
 		}
 
+		IOperand const * _GetBiggerOperandPrecision(IOperand const * a, IOperand const * b) const {
+			return (a->getPrecision() > b->getPrecision()) ? a : b;
+		}
+
 		std::stringstream _GetStream(int precision, long double number) const {
 			std::stringstream stream;
 			stream << std::fixed;
@@ -108,9 +112,10 @@ class Operand : public IOperand
 		}
 
 		IOperand const *	_BuilderOperand( IOperand const & rhs, long double value) const {
+			IOperand const * opSelected = this->_GetBiggerOperandPrecision(&rhs, this);
 			return this->_builder->createOperand(
-				this->_GetBiggerType( rhs.getType(), this->_type ),
-				this->_GetStream( this->_GetBiggerPrecision(rhs.getPrecision(), this->_precision), value ).str()
+				(opSelected->getType() >= FLOAT) ? opSelected->getType() : this->_GetBiggerType( rhs.getType(), this->_type ),
+				this->_GetStream( opSelected->getPrecision(), value ).str()
 			);
 		}
 
@@ -171,9 +176,9 @@ class Operand : public IOperand
 			return *s;
 		}
 
-
 		static bool					assumePrecision;
 		static std::string			stringType[5];
+		static int 					nb;
 };
 
 std::ostream & operator<<(std::ostream & os, IOperand const & rhs);
