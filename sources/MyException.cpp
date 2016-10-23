@@ -21,7 +21,6 @@ std::string	MyException::exceptionString[] = {
 	"Modulo by zero",
 	"Modulo by none integer numbers",
 	"The stack is empty",
-	"Assert failed",
+	"An assert instruction is not true",
 	"The stack is too short"
-
 };

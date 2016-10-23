@@ -20,7 +20,7 @@ int main(void)
 		Operand<double>::assumePrecision = true;
 		vm.Push(new Operand<char>{"112"});
 		vm.Print();
-		vm.Push(new Operand<char>{"100"});
+		vm.Push(new Operand<int>{"100"});
 		vm.Print();
 
 	} catch (std::exception const & e) {

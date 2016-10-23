@@ -89,16 +89,13 @@ void Vm::Mod(void) {
 }
 
 void Vm::Print(void) const {
-	try {
-		Operand<char> operand{this->front()->toString()};
-		if (!operand.IsPositive())
-			throw MyException(EXC_UNKNOW);
-		if (operand.getType() != INT8)
-			throw MyException(EXC_UNKNOW);
-	} catch (const MyException & e) {
+	if (this->empty())
+		throw MyException(EXC_STACK_EMPTY);
+
+	IOperand const * operand = this->front();
+	if (operand->getType() != INT8)
 		throw MyException(EXC_ASSERT_FAILED);
-	}
-	std::cout << static_cast<char>(std::stoi(this->front()->toString()));
+	std::cout << static_cast<char>(std::stoi(operand->toString()));
 }
 void Vm::Dump(void) const {
 	std::cout << "----- DUMP -----" << std::endl;
