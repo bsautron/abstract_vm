@@ -1,14 +1,14 @@
 #include <iostream>
-
-struct s_sst {
-	int a;
-	double b;
-};
+#include <istream>
+#include <ostream>
 
 int main(void)
 {
-	struct s_sst a = {2, 9.3};
+	char	buf[100];
 
-	std::cout << a.b << std::endl;
-	return 0;
+	std::cout << "Enter n: "; // no flush needed
+	while (std::cin.getline(buf, 100)) {
+		std::cout << "Enter n: "; // no flush needed
+	}
+	return (0);
 }

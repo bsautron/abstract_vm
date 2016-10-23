@@ -2,8 +2,12 @@
 #include <Operand.hpp>
 #include <iostream>
 
-Vm::Vm(void) {}
+Vm::Vm(std::ostream & os, std::istream & is) : _outstream(os), _instream(is) {}
 Vm::~Vm(void) {}
+
+Vm::start(void) {
+	while (this->)
+}
 
 void Vm::Push(IOperand const * op) {
 	this->push_front(op);
@@ -95,16 +99,16 @@ void Vm::Print(void) const {
 	IOperand const * operand = this->front();
 	if (operand->getType() != INT8)
 		throw MyException(EXC_ASSERT_FAILED);
-	std::cout << static_cast<char>(std::stoi(operand->toString()));
+	this->_outstream << static_cast<char>(std::stoi(operand->toString()));
 }
 void Vm::Dump(void) const {
-	std::cout << "----- DUMP -----" << std::endl;
+	this->_outstream << "----- DUMP -----" << std::endl;
 	std::deque<IOperand const *>::const_iterator operand = this->begin();
 
 	while (operand != this->end()) {
-		std::cout << (*operand++)->toString() << std::endl;
+		this->_outstream << (*operand++)->toString() << std::endl;
 	}
-	std::cout << "--- End DUMP ---" << std::endl;
+	this->_outstream << "--- End DUMP ---" << std::endl;
 }
 
 void Vm::_DeleteOperand(IOperand const * operand) {

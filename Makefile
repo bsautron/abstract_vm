@@ -1,5 +1,5 @@
 
-CC = c++
+CC = g++
 NAME = abstract_vm
 
 DEFAULT_CFLAGS = -std=c++11

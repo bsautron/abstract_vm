@@ -12,40 +12,15 @@
 
 #include <abstract_vm.hpp>
 
+// TODO: Lowercase first letter of members function
+// TODO: Add static variable to enable multi error - Can't you parse en command to set this?
 int main(void)
 {
-	Vm	vm;
-	try {
-		// TODO: Add static variable to enable multi error - Can't you parse en command to set this?
-		Operand<double>::assumePrecision = true;
-		vm.Push(new Operand<char>{"112"});
-		vm.Print();
-		vm.Push(new Operand<int>{"100"});
-		vm.Print();
+	std::istream & i = std::cin;
+	std::ostream & o = std::cout;
 
-	} catch (std::exception const & e) {
-		std::cout << "VM error: " << e.what() << std::endl;
-		std::cout << "Stack trace:" << std::endl;
+	Vm	vm(i, o);
+	Vm.start();
 
-		vm.Dump();
-
-	}
-	// Vm		vm;
-
-	// try {
-	// 	OperandBuilder	bob;
-	//
-	// 	IOperand const * op1 = bob.createOperand(INT8, "1");
-	// 	(void)op1;
-	// 	// IOperand const * op2 = bob.createOperand(FLOAT, "2.44");
-	// 	// IOperand const * op3 = bob.createOperand(INT8, "4");
-	// 	// vm.Push(op1);
-	// 	// vm.Push(op2);
-	// 	// vm.Push(op3);
-	// 	// vm.Add();
-	// 	// vm.Dump();
-	// } catch (std::exception const & e) {
-	// 	std::cout << "ERROR: " << e.what() << std::endl;
-	// };
 	return (0);
 }

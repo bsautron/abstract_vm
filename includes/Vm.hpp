@@ -1,8 +1,8 @@
 #ifndef VM_HPP
 # define VM_HPP
 
-# include <istream>
 # include <ostream>
+# include <istream>
 # include <string>
 # include <deque>
 # include <MyException.hpp>
@@ -12,12 +12,18 @@
 
 class Vm : public std::deque<IOperand const *> {
 	private:
-		void 	_Start(void);
+		std::ostream &	_outstream;
+		std::istream &	_instream;
+		Lexer			_lexer;
+		Parser			_parser;
+
 		void 	_DeleteOperand(IOperand const * operand);
 
 	public:
-		Vm (void);
-		~Vm (void);
+		Vm(std::ostream & os);
+		~Vm(void);
+
+		void 	start(void);
 
 		void 	Push(IOperand const * op);
 		void 	Pop(void);

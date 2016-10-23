@@ -1,6 +1,6 @@
 #include <Lexer.hpp>
 
-Lexer::Lexer(std::string const & str) : _str(str) {}
+Lexer::Lexer(void) {}
 Lexer::~Lexer(void) {}
 
 std::string	Lexer::getStr(void) const {
@@ -32,8 +32,8 @@ void 			Lexer::_fillToken(const char c) {
 	this->_tokens.back().value.push_back(c);
 }
 
-std::vector<t_token>	Lexer::getTokens(void) {
-	char									c;
+std::vector<t_token>	Lexer::getTokens(void) const {
+	char							c;
 	eTokenType						type;
 
 	for (std::string::const_iterator it = this->_str.begin(); it!= this->_str.end(); ++it) {
