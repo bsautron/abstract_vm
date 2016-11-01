@@ -22,5 +22,7 @@ std::string	MyException::exceptionString[] = {
 	"Modulo by none integer numbers",
 	"The stack is empty",
 	"An assert instruction is not true",
-	"The stack is too short"
+	"The stack is too short",
+	"There are still character beyond",
+	"Syntax error"
 };

@@ -16,11 +16,33 @@
 // TODO: Add static variable to enable multi error - Can't you parse en command to set this?
 int main(void)
 {
-	std::istream & i = std::cin;
-	std::ostream & o = std::cout;
+	// std::istream & i = std::cin;
+	// std::ostream & o = std::cout;
 
-	Vm	vm(i, o);
-	Vm.start();
+	// Vm	vm(i, o);
+	// Vm.start();
 
+	Lexer	l;
+	std::vector<t_token *> tk;
+
+	std::string tkName[6] = {
+		"TK_NONE",
+		"TK_COMMAND",
+		"TK_OPERAND",
+		"TK_ARGS",
+		"TK_COMMENT",
+		"TK_EXIT"
+	};
+
+	try {
+		tk = l.getTokens("()");
+		for (std::vector<t_token *>::iterator it = tk.begin() ; it != tk.end(); ++it) {
+			std::cout << tkName[(*it)->type] << ": " << (*it)->value << std::endl;
+		}
+
+	} catch (const char *e) {
+		std::cout << e << std::endl;
+		return (1);
+	}
 	return (0);
 }

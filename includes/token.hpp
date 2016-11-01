@@ -5,10 +5,11 @@
 
 enum eTokenType {
 	TK_NONE,
-	TK_SEPARATOR,
-	TK_ARGV,
-	TK_BRACKET_OPEN,
-	TK_BRACKET_CLOSE
+	TK_COMMAND,
+	TK_OPERAND,
+	TK_ARGS,
+	TK_COMMENT,
+	TK_EXIT
 };
 
 typedef struct	s_token

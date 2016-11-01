@@ -14,6 +14,7 @@ SOURCES = Operand.cpp \
 						Lexer.cpp \
 						Parser.cpp \
 						Vm.cpp \
+						Debug.cpp \
 						OperandBuilder.cpp \
 
 SOURCES_FOLDER = sources
@@ -29,6 +30,7 @@ INCLUDES = $(NAME).hpp \
 			MyException.hpp \
 			Lexer.hpp \
 			Parser.hpp \
+			Debug.hpp \
 			Vm.hpp \
 			OperandBuilder.hpp \
 

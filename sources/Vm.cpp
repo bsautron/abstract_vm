@@ -5,9 +5,9 @@
 Vm::Vm(std::ostream & os, std::istream & is) : _outstream(os), _instream(is) {}
 Vm::~Vm(void) {}
 
-Vm::start(void) {
-	while (this->)
-}
+// Vm::start(void) {
+// 	while (this->)
+// }
 
 void Vm::Push(IOperand const * op) {
 	this->push_front(op);
@@ -18,7 +18,8 @@ void Vm::Pop(void) {
 	this->pop_front();
 }
 void Vm::Assert(IOperand const & value) const {
-	if ( value.toString().compare(this->front()->toString()) || value.getType() != this->front()->getType())
+	IOperand const * operand = this->front();
+	if ( value.toString().compare(operand->toString()) || value.getType() != operand->getType())
 		throw MyException(EXC_ASSERT_FAILED);
 }
 void Vm::Add(void) {

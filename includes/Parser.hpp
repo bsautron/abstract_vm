@@ -9,7 +9,7 @@ class Parser {
 		std::vector<t_token> _tokens;
 
 	public:
-		Parser (std::vector<t_token> tokens);
+		Parser (void);
 		~Parser (void);
 
 		void 		Verify(void);

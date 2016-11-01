@@ -13,12 +13,12 @@
 #include "abstract_vm.hpp"
 #include <cstring>
 
-# define TEST_GOOD_THINGS
-# define TEST_OVERFLOW
-# define TEST_LEXICAL_NUMBER
+// # define TEST_GOOD_THINGS
+// # define TEST_OVERFLOW
+// # define TEST_LEXICAL_NUMBER
 # define TEST_LEXER
-# define TEST_BOUND
-# define TEST_OTHER
+// # define TEST_BOUND
+// # define TEST_OTHER
 
 // TODO: test the Parser
 
@@ -313,117 +313,337 @@ int main(void)
 
 #ifdef TEST_LEXER
 	std::cout << "== TEST LEXER ==" << std::endl;
-	std::string						tokenStr[5] = {
+	std::string tkName[6] = {
 		"TK_NONE",
-		"TK_SEPARATOR",
-		"TK_ARGV",
-		"TK_BRACKET_OPEN",
-		"TK_BRACKET_CLOSE"
+		"TK_COMMAND",
+		"TK_OPERAND",
+		"TK_ARGS",
+		"TK_COMMENT",
+		"TK_EXIT"
 	};
-	std::vector<t_token>		tokens;
-	int											i;
+
+	Lexer	lex;
+	std::vector<t_token *>		tokens;
+	int							i;
 
 	{
 		value = "push int3(23.2)";
-		Lexer	lex(value);
 		i = 0;
 		bool	fail = false;
 		std::cout << "Get token [" << value << "]: ";
 		eTokenType types[] = {
-			TK_ARGV,
-			TK_SEPARATOR,
-			TK_ARGV,
-			TK_BRACKET_OPEN,
-			TK_ARGV,
-			TK_BRACKET_CLOSE
+			TK_COMMAND,
+			TK_OPERAND,
+			TK_ARGS
 		};
 
-		tokens = lex.getTokens();
-		for (std::vector<t_token>::iterator it = tokens.begin() ; it != tokens.end(); ++it) {
-			if ((*it).type != types[i]) {
+		try {
+			tokens = lex.getTokens(value);
+			for (std::vector<t_token *>::iterator it = tokens.begin() ; it != tokens.end(); ++it) {
+				if ((*it)->type != types[i]) {
+					fail = true;
+					std::cout << std::endl << "\t";
+					test_fail("\"" + (*it)->value + "\" ['" + tkName[(*it)->type] + "'] must be '" + tkName[types[i]] + "'");
+				}
+				i++;
+			}
+			if (tokens.size() != 3) {
 				fail = true;
 				std::cout << std::endl << "\t";
-				test_fail("\"" + (*it).value + "\" ['" + tokenStr[(*it).type] + "'] must be '" + tokenStr[types[i]] + "'");
+				test_fail("no");
 			}
-			i++;
-		}
-		if (!fail) {
-			test_success("Good");
+			if (!fail) {
+				test_success("Good");
+			}
+		} catch (std::exception const & e) {
+			test_fail(e.what());
 		}
 		std::cout << std::endl;
 	}
 
 	{
-		value = "dump floate(casoos)";
-		Lexer lex(value);
+		value = "; auwfrw aiuwefpauwef aiwuf aiwuef a";
 		i = 0;
 		bool	fail = false;
 		std::cout << "Get token [" << value << "]: ";
 		eTokenType types[] = {
-			TK_ARGV,
-			TK_SEPARATOR,
-			TK_ARGV,
-			TK_BRACKET_OPEN,
-			TK_ARGV,
-			TK_BRACKET_CLOSE
+			TK_COMMENT
 		};
 
-		tokens = lex.getTokens();
-		for (std::vector<t_token>::iterator it = tokens.begin() ; it != tokens.end(); ++it) {
-			if ((*it).type != types[i]) {
+		try {
+			tokens = lex.getTokens(value);
+			for (std::vector<t_token *>::iterator it = tokens.begin() ; it != tokens.end(); ++it) {
+				if ((*it)->type != types[i]) {
+					fail = true;
+					std::cout << std::endl << "\t";
+					test_fail("\"" + (*it)->value + "\" ['" + tkName[(*it)->type] + "'] must be '" + tkName[types[i]] + "'");
+				}
+				i++;
+			}
+			if (tokens.size() != 1) {
 				fail = true;
 				std::cout << std::endl << "\t";
-				test_fail("\"" + (*it).value + "\" ['" + tokenStr[(*it).type] + "'] must be '" + tokenStr[types[i]] + "'");
+				test_fail("no");
 			}
-			i++;
+			if (!fail) {
+				test_success("Good");
+			}
+		} catch (std::exception const & e) {
+			test_fail(e.what());
 		}
-		if (!fail) {
-			test_success("Good");
+
+		std::cout << std::endl;
+	}
+
+	{
+		value = ";;";
+		i = 0;
+		bool	fail = false;
+		std::cout << "Get token [" << value << "]: ";
+		eTokenType types[] = {
+			TK_EXIT
+		};
+
+		try {
+			tokens = lex.getTokens(value);
+			for (std::vector<t_token *>::iterator it = tokens.begin() ; it != tokens.end(); ++it) {
+				if ((*it)->type != types[i]) {
+					fail = true;
+					std::cout << std::endl << "\t";
+					test_fail("\"" + (*it)->value + "\" ['" + tkName[(*it)->type] + "'] must be '" + tkName[types[i]] + "'");
+				}
+				i++;
+			}
+			if (tokens.size() != 1) {
+				fail = true;
+				std::cout << std::endl << "\t";
+				test_fail("no");
+			}
+			if (!fail) {
+				test_success("Good");
+			}
+		} catch (std::exception const & e) {
+			test_fail(e.what());
 		}
 		std::cout << std::endl;
 	}
 
 	{
-		value = "498f.234 in)t 3(23 ((2)(";
-		Lexer lex(value);
+		value = "aopgho";
 		i = 0;
 		bool	fail = false;
 		std::cout << "Get token [" << value << "]: ";
 		eTokenType types[] = {
-			TK_ARGV,
-			TK_SEPARATOR,
-			TK_ARGV,
-			TK_BRACKET_CLOSE,
-			TK_ARGV,
-			TK_SEPARATOR,
-			TK_ARGV,
-			TK_BRACKET_OPEN,
-			TK_ARGV,
-			TK_SEPARATOR,
-			TK_BRACKET_OPEN,
-			TK_BRACKET_OPEN,
-			TK_ARGV,
-			TK_BRACKET_CLOSE,
-			TK_BRACKET_OPEN
+			TK_COMMAND
 		};
 
-		tokens = lex.getTokens();
-		for (std::vector<t_token>::iterator it = tokens.begin() ; it != tokens.end(); ++it) {
-			if ((*it).type != types[i]) {
-				fail = true;
-				std::cout << std::endl;
-				std::cout << "[";
-				std::cout << i;
-				std::cout << "]\t";
-				test_fail("\"" + (*it).value + "\" ['" + tokenStr[(*it).type] + "'] must be '" + tokenStr[types[i]] + "'");
+		try {
+			tokens = lex.getTokens(value);
+			for (std::vector<t_token *>::iterator it = tokens.begin() ; it != tokens.end(); ++it) {
+				if ((*it)->type != types[i]) {
+					fail = true;
+					std::cout << std::endl << "\t";
+					test_fail("\"" + (*it)->value + "\" ['" + tkName[(*it)->type] + "'] must be '" + tkName[types[i]] + "'");
+				}
+				i++;
 			}
-			i++;
-		}
-		if (!fail) {
-			test_success("Good");
+			if (tokens.size() != 1) {
+				fail = true;
+				std::cout << std::endl << "\t";
+				test_fail("no");
+			}
+			if (!fail) {
+				test_success("Good");
+			}
+		} catch (std::exception const & e) {
+			test_fail(e.what());
 		}
 		std::cout << std::endl;
 	}
+
+	{
+		value = "aopgho aiuwehf";
+		i = 0;
+		bool	fail = false;
+		std::cout << "Get token [" << value << "]: ";
+		eTokenType types[] = {
+			TK_COMMAND,
+			TK_OPERAND
+		};
+
+		try {
+			tokens = lex.getTokens(value);
+			for (std::vector<t_token *>::iterator it = tokens.begin() ; it != tokens.end(); ++it) {
+				if ((*it)->type != types[i]) {
+					fail = true;
+					std::cout << std::endl << "\t";
+					test_fail("\"" + (*it)->value + "\" ['" + tkName[(*it)->type] + "'] must be '" + tkName[types[i]] + "'");
+				}
+				i++;
+			}
+			if (tokens.size() != 2) {
+				fail = true;
+				std::cout << std::endl << "\t";
+				test_fail("no");
+			}
+			if (!fail) {
+				test_success("Good");
+			}
+		} catch (std::exception const & e) {
+			test_fail(e.what());
+		}
+		std::cout << std::endl;
+	}
+
+	{
+		value = "aopgho awuihf awefu";
+		i = 0;
+		std::cout << "Get token [" << value << "]: ";
+
+		try {
+			tokens = lex.getTokens(value);
+			test_fail("Must be syntax error");
+		} catch (std::exception const & e) {
+			test_success(e.what());
+		}
+		std::cout << std::endl;
+	}
+
+	{
+		value = "aopgho aiuwehf()";
+		i = 0;
+		bool	fail = false;
+		std::cout << "Get token [" << value << "]: ";
+		eTokenType types[] = {
+			TK_COMMAND,
+			TK_OPERAND,
+			TK_ARGS
+		};
+
+		try {
+			tokens = lex.getTokens(value);
+			for (std::vector<t_token *>::iterator it = tokens.begin() ; it != tokens.end(); ++it) {
+				if ((*it)->type != types[i]) {
+					fail = true;
+					std::cout << std::endl << "\t";
+					test_fail("\"" + (*it)->value + "\" ['" + tkName[(*it)->type] + "'] must be '" + tkName[types[i]] + "'");
+				}
+				i++;
+			}
+			if (tokens.size() != 3) {
+				fail = true;
+				std::cout << std::endl << "\t";
+				test_fail("no");
+			}
+			if (!fail) {
+				test_success("Good");
+			}
+		} catch (std::exception const & e) {
+			test_fail(e.what());
+		}
+		std::cout << std::endl;
+	}
+
+	{
+		value = "aopgho ()";
+		i = 0;
+		bool	fail = false;
+		std::cout << "Get token [" << value << "]: ";
+		eTokenType types[] = {
+			TK_COMMAND,
+			TK_OPERAND,
+			TK_ARGS
+		};
+
+		try {
+			tokens = lex.getTokens(value);
+			for (std::vector<t_token *>::iterator it = tokens.begin() ; it != tokens.end(); ++it) {
+				if ((*it)->type != types[i]) {
+					fail = true;
+					std::cout << std::endl << "\t";
+					test_fail("\"" + (*it)->value + "\" ['" + tkName[(*it)->type] + "'] must be '" + tkName[types[i]] + "'");
+				}
+				i++;
+			}
+			if (tokens.size() != 3) {
+				fail = true;
+				std::cout << std::endl << "\t";
+				test_fail("no");
+			}
+			if (!fail) {
+				test_success("Good");
+			}
+		} catch (std::exception const & e) {
+			test_fail(e.what());
+		}
+		std::cout << std::endl;
+	}
+
+	{
+		value = "()";
+		i = 0;
+		bool	fail = false;
+		std::cout << "Get token [" << value << "]: ";
+		eTokenType types[] = {
+			TK_COMMAND
+		};
+
+		try {
+			tokens = lex.getTokens(value);
+			for (std::vector<t_token *>::iterator it = tokens.begin() ; it != tokens.end(); ++it) {
+				if ((*it)->type != types[i]) {
+					fail = true;
+					std::cout << std::endl << "\t";
+					test_fail("\"" + (*it)->value + "\" ['" + tkName[(*it)->type] + "'] must be '" + tkName[types[i]] + "'");
+				}
+				i++;
+			}
+			if (tokens.size() != 1) {
+				fail = true;
+				std::cout << std::endl << "\t";
+				test_fail("no");
+			}
+			if (!fail) {
+				test_success("Good");
+			}
+		} catch (std::exception const & e) {
+			test_fail(e.what());
+		}
+		std::cout << std::endl;
+	}
+
+	{
+		value = "    awuihf awefu";
+		i = 0;
+		std::cout << "Get token [" << value << "]: ";
+
+		try {
+			tokens = lex.getTokens(value);
+			test_fail("Must be syntax error");
+		} catch (std::exception const & e) {
+			test_success(e.what());
+		}
+		std::cout << std::endl;
+	}
+
+
+	{
+		value = "";
+		i = 0;
+		std::cout << "Get token [" << value << "]: ";
+
+		try {
+			tokens = lex.getTokens(value);
+			if (tokens.size() != 0)
+				test_fail("Must be have 0 tokens");
+			else
+				test_success("Good");
+		} catch (std::exception const & e) {
+			test_fail(e.what());
+		}
+		std::cout << std::endl;
+	}
+
 
 #endif
 

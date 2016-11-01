@@ -14,13 +14,13 @@ class Vm : public std::deque<IOperand const *> {
 	private:
 		std::ostream &	_outstream;
 		std::istream &	_instream;
-		Lexer			_lexer;
-		Parser			_parser;
+		// Lexer			_lexer;
+		// Parser			_parser;
 
 		void 	_DeleteOperand(IOperand const * operand);
 
 	public:
-		Vm(std::ostream & os);
+		Vm(std::ostream & os, std::istream & is);
 		~Vm(void);
 
 		void 	start(void);

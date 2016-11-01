@@ -19,7 +19,10 @@ enum eExceptionCode {
 
 	EXC_STACK_EMPTY,
 	EXC_ASSERT_FAILED,
-	EXC_TO_SHORT
+	EXC_TO_SHORT,
+
+	EXC_CHAR_BEYOND,
+	EXC_LEXICAL
 };
 
 class MyException : public std::exception {

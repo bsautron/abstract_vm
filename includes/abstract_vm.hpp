@@ -7,6 +7,7 @@
 # include <Lexer.hpp>
 # include <Parser.hpp>
 # include <Vm.hpp>
+# include <Debug.hpp>
 # include <OperandBuilder.hpp>
 
 #endif

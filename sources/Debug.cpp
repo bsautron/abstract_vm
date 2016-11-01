@@ -24,7 +24,7 @@ void Debug::Error(std::string const message) {
 
 
 
-t_debug_level Debug::debugLevel[4] = {
+tDebugLevel Debug::debugLevel[4] = {
 	{"log", 37, std::cout},
 	{"info", 34, std::cout},
 	{"warning", 33, std::cout},
