@@ -24,5 +24,7 @@ std::string	MyException::exceptionString[] = {
 	"An assert instruction is not true",
 	"The stack is too short",
 	"There are still character beyond",
-	"Syntax error"
+	"Syntax error",
+	"Command not found",
+	"Operand not found"
 };

@@ -1,14 +1,14 @@
 #include <iostream>
 #include <istream>
 #include <ostream>
+#include <vector>
 
 int main(void)
 {
-	char	buf[100];
+	std::vector<char> v;
 
-	std::cout << "Enter n: "; // no flush needed
-	while (std::cin.getline(buf, 100)) {
-		std::cout << "Enter n: "; // no flush needed
-	}
+	v.push_back('s');
+
+	std::cout << v[10] << std::endl;
 	return (0);
 }

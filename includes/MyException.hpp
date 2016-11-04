@@ -1,5 +1,5 @@
-#ifndef MYEXCEPTION
-# define MYEXCEPTION
+#ifndef MYEXCEPTION_HPP
+# define MYEXCEPTION_HPP
 
 # include <iostream>
 
@@ -22,7 +22,9 @@ enum eExceptionCode {
 	EXC_TO_SHORT,
 
 	EXC_CHAR_BEYOND,
-	EXC_LEXICAL
+	EXC_LEXICAL,
+	EXC_COMMAND_NOT_FOUND,
+	EXC_OPERAND_NOT_FOUND
 };
 
 class MyException : public std::exception {

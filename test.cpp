@@ -626,6 +626,20 @@ int main(void)
 		std::cout << std::endl;
 	}
 
+	{
+		value = "push int8(dff_";
+		i = 0;
+		std::cout << "Get token [" << value << "]: ";
+
+		try {
+			tokens = lex.getTokens(value);
+			test_fail("Must be syntax error");
+		} catch (std::exception const & e) {
+			test_success(e.what());
+		}
+		std::cout << std::endl;
+	}
+
 
 	{
 		value = "";

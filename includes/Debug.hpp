@@ -1,4 +1,7 @@
-#include <iostream>
+#ifndef DEBUG_HPP
+# define DEBUG_HPP
+
+# include <iostream>
 
 enum eDebugLevel {
 	DLV_LOG,
@@ -26,3 +29,5 @@ public:
 
 	static tDebugLevel debugLevel[4];
 };
+
+#endif /* end of include guard: DEBUG_HPP */

@@ -12,8 +12,9 @@ CFLAGS := $(MAKE_CFLAGS) $(DEFAULT_CFLAGS)
 SOURCES = Operand.cpp \
 						MyException.cpp \
 						Lexer.cpp \
-						Parser.cpp \
+						Abstract.cpp \
 						Vm.cpp \
+						Parser.cpp \
 						Debug.cpp \
 						OperandBuilder.cpp \
 
@@ -31,6 +32,7 @@ INCLUDES = $(NAME).hpp \
 			Lexer.hpp \
 			Parser.hpp \
 			Debug.hpp \
+			Abstract.hpp \
 			Vm.hpp \
 			OperandBuilder.hpp \
 

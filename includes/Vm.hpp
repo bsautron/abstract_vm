@@ -1,40 +1,29 @@
 #ifndef VM_HPP
 # define VM_HPP
 
-# include <ostream>
-# include <istream>
-# include <string>
-# include <deque>
-# include <MyException.hpp>
-# include <IOperand.hpp>
+# include <Lexer.hpp>
+# include <Parser.hpp>
+# include <Abstract.hpp>
+# include <OperandBuilder.hpp>
 
-# define DELETE_CPTR(X)		{delete X; X = nullptr;}
-
-class Vm : public std::deque<IOperand const *> {
+class Vm {
 	private:
-		std::ostream &	_outstream;
-		std::istream &	_instream;
-		// Lexer			_lexer;
-		// Parser			_parser;
+		std::istream &	_inStream;
+		std::ostream &	_outStream;
+		Abstract		_abstract;
+		Lexer			_lexer;
+		Parser			_parser;
 
-		void 	_DeleteOperand(IOperand const * operand);
+		// std::vector<t_token>	_tokens;
+		OperandBuilder			_builder;
 
 	public:
-		Vm(std::ostream & os, std::istream & is);
-		~Vm(void);
+		Vm (std::istream & is, std::ostream & os);
+		~Vm (void);
 
-		void 	start(void);
+		void start(void);
 
-		void 	Push(IOperand const * op);
-		void 	Pop(void);
-		void 	Dump(void) const;
-		void 	Assert(IOperand const & value) const;
-		void 	Add(void);
-		void 	Sub(void);
-		void 	Div(void);
-		void 	Mod(void);
-		void 	Mul(void);
-		void 	Print(void) const;
+		static int commandLenghtMax;
 };
 
 #endif
