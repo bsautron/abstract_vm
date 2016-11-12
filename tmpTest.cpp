@@ -1,14 +1,16 @@
 #include <iostream>
+#include <sstream>
 #include <istream>
 #include <ostream>
 #include <vector>
 
 int main(void)
 {
-	std::vector<char> v;
+	std::stringstream	s;
 
-	v.push_back('s');
 
-	std::cout << v[10] << std::endl;
+	s << static_cast<char>(90);
+
+	std::cout << s.str();
 	return (0);
 }

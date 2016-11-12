@@ -6,16 +6,18 @@ Lexer::Lexer(void) {}
 Lexer::~Lexer(void) {}
 
 eTokenType Lexer::_enterScope(eScopeType scopeType) {
-	// std::string scopeName[LXS_TOTAL_SCOPE] = {
+	// std::string scopeName[] = {
 	// 	"Default",
 	// 	"ExitOrComment",
 	// 	"Command",
 	// 	"Args",
 	// 	"Operand"
 	// };
-	eTokenType (Lexer::*scope[LXS_TOTAL_SCOPE])(void) = {
+	eTokenType (Lexer::*scope[])(void) = {
 		&Lexer::Default,
 		&Lexer::ExitOrComment,
+		&Lexer::Exit,
+		&Lexer::Comment,
 		&Lexer::Command,
 		&Lexer::Args,
 		&Lexer::Operand
@@ -23,6 +25,12 @@ eTokenType Lexer::_enterScope(eScopeType scopeType) {
 
 	// Debug::Log("Lexer: Enter to " + scopeName[scopeType] + " scope");
 	// std::cout << "Cursor at " << *this->_currentIt << std::endl;
+	this->_skipAllSpace();
+	if (scopeType == LXS_DEFAULT && *this->_currentIt == ';')
+		return (this->*scope[LXS_EXITORCOMMENT])();
+	else if (scopeType != LXS_COMMENT && *this->_currentIt == ';')
+		return (this->*scope[LXS_COMMENT])();
+
 	return (this->*scope[scopeType])();
 }
 
@@ -42,22 +50,26 @@ eTokenType Lexer::ExitOrComment(void) {
 
 	if (c == ';') {
 		this->_currentIt++;
-		this->_createNewToken(TK_EXIT);
+		return this->_enterScope(LXS_EXIT);
 	}
-	else {
-		this->_currentIt = this->_str.end();
-		this->_createNewToken(TK_COMMENT);
-	}
+	return this->_enterScope(LXS_COMMENT);
+}
+
+eTokenType Lexer::Exit(void) {
+	this->_createNewToken(TK_EXIT);
+	return TK_NONE;
+}
+eTokenType Lexer::Comment(void) {
+	this->_currentIt = this->_str.end();
+	this->_createNewToken(TK_COMMENT);
 	return TK_NONE;
 }
 
 eTokenType Lexer::Command(void) {
 	t_token * newToken = this->_createNewToken(TK_COMMAND);
 	while (this->_currentIt != this->_str.end()) {
-		if (*this->_currentIt == ' ') {
-			this->_currentIt++;
+		if (*this->_currentIt == ' ')
 			return this->_enterScope(LXS_OPERAND);
-		}
 		newToken->value.push_back(*this->_currentIt);
 		this->_currentIt++;
 	}
@@ -65,7 +77,10 @@ eTokenType Lexer::Command(void) {
 }
 
 eTokenType Lexer::Operand(void) {
-	t_token * newToken = this->_createNewToken(TK_OPERAND);
+	t_token * newToken;
+	if (this->_currentIt != this->_str.end())
+		 newToken = this->_createNewToken(TK_OPERAND);
+
 	while (this->_currentIt != this->_str.end()) {
 		if (*this->_currentIt == ' ')
 			throw MyException(EXC_LEXICAL);
@@ -80,7 +95,10 @@ eTokenType Lexer::Operand(void) {
 }
 
 eTokenType Lexer::Args(void) {
-	t_token * newToken = this->_createNewToken(TK_ARGS);
+	t_token * newToken;
+	if (this->_currentIt != this->_str.end())
+		 newToken = this->_createNewToken(TK_ARGS);
+
 	while (this->_currentIt != this->_str.end()) {
 		if (*this->_currentIt == ' ')
 			throw MyException(EXC_LEXICAL);
@@ -102,7 +120,12 @@ t_token *	Lexer::_createNewToken(eTokenType type) {
 	return newToken;
 }
 
-std::vector<t_token *>	Lexer::getTokens(char const * str) {
+void 	Lexer::_skipAllSpace(void) {
+	while (this->_currentIt != this->_str.end() && *this->_currentIt == ' ')
+		this->_currentIt++;
+}
+
+t_tokens	Lexer::getTokens(char const * str) {
 	this->_tokens.clear();
 
 	// Debug::Info("Lexer: Start get Token to a line");
@@ -110,9 +133,10 @@ std::vector<t_token *>	Lexer::getTokens(char const * str) {
 	this->_str = std::string(str);
  	this->_currentIt = this->_str.begin();
 
-	if (*this->_currentIt == ' ')
-		throw MyException(EXC_LEXICAL);
 	this->_enterScope(LXS_DEFAULT);
+	this->_skipAllSpace();
+	if (*this->_currentIt == ';')
+		this->_enterScope(LXS_COMMENT);
 	if (this->_currentIt != this->_str.end())
 		throw MyException(EXC_CHAR_BEYOND);
 	return this->_tokens;

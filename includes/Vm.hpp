@@ -5,6 +5,7 @@
 # include <Parser.hpp>
 # include <Abstract.hpp>
 # include <OperandBuilder.hpp>
+# include <MyException.hpp>
 
 class Vm {
 	private:
@@ -13,6 +14,7 @@ class Vm {
 		Abstract		_abstract;
 		Lexer			_lexer;
 		Parser			_parser;
+		t_listError		_listError;
 
 		// std::vector<t_token>	_tokens;
 		OperandBuilder			_builder;
@@ -21,7 +23,7 @@ class Vm {
 		Vm (std::istream & is, std::ostream & os);
 		~Vm (void);
 
-		void start(void);
+		int start(void);
 
 		static int commandLenghtMax;
 };

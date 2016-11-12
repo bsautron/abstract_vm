@@ -2,7 +2,7 @@
 #include <Operand.hpp>
 #include <iostream>
 
-Abstract::Abstract(std::ostream & os) : _outStream(os) {}
+Abstract::Abstract(void) {}
 Abstract::~Abstract(void) {}
 
 void Abstract::Push(IOperand const * op) {
@@ -96,16 +96,15 @@ void Abstract::Print(void) const {
 	IOperand const * operand = this->front();
 	if (operand->getType() != INT8)
 		throw MyException(EXC_ASSERT_FAILED);
-	this->_outStream << static_cast<char>(std::stoi(operand->toString()));
+	char const c = static_cast<char const>(std::stoi(operand->toString()));
+	this->_stringStream = this->_ConcatStream(c);
 }
 void Abstract::Dump(void) const {
-	this->_outStream << "----- DUMP -----" << std::endl;
 	std::deque<IOperand const *>::const_iterator operand = this->begin();
 
 	while (operand != this->end()) {
-		this->_outStream << (*operand++)->toString() << std::endl;
+		this->_stringStream = this->_ConcatStream((*operand++)->toString() + '\n');
 	}
-	this->_outStream << "--- End DUMP ---" << std::endl;
 }
 
 void Abstract::Exit(void) const {
@@ -119,4 +118,22 @@ void Abstract::_DeleteOperand(IOperand const * operand) {
 	}
 	else
 		throw MyException(EXC_TMP);
+}
+
+std::stringstream	Abstract::_ConcatStream(char const c) const {
+	std::stringstream newStringString;
+
+	newStringString << this->_stringStream << c;
+	return newStringString;
+}
+std::stringstream	Abstract::_ConcatStream(std::string const str) const {
+	std::stringstream newStringString;
+
+	newStringString << this->_stringStream << str;
+	return newStringString;
+}
+
+
+std::stringstream & Abstract::GetStringStream(void) {
+	return this->_stringStream;
 }

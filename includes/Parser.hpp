@@ -3,11 +3,15 @@
 
 # include <IOperand.hpp>
 # include <Abstract.hpp>
+# include <Lexer.hpp>
+# include <list>
 # include <OperandBuilder.hpp>
 
 class Parser {
 	private:
-		OperandBuilder	_builder;
+		std::list<t_tokens>		_listCommand;
+		OperandBuilder			_builder;
+
 		int 			_strToCommandType(std::string const str) const;
 		eOperandType	_strToOperandType(std::string const str) const;
 
@@ -15,7 +19,8 @@ class Parser {
 		Parser (void);
 		~Parser (void);
 
-		void Exec(Abstract & abstract, std::vector<t_token *> tk);
+		void 	exec(Abstract & abstract);
+		void 	feed(t_tokens tk);
 
 		void 	push(Abstract & abstract, IOperand const * op);
 		void 	pop(Abstract & abstract, IOperand const * op);
@@ -28,6 +33,7 @@ class Parser {
 		void 	mul(Abstract & abstract, IOperand const * op);
 		void 	print(Abstract & abstract, IOperand const * op);
 		void 	exit(Abstract & abstract, IOperand const * op);
+		void 	comment(Abstract & abstract, IOperand const * op);
 };
 
 #endif

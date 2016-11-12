@@ -323,7 +323,7 @@ int main(void)
 	};
 
 	Lexer	lex;
-	std::vector<t_token *>		tokens;
+	t_tokens		tokens;
 	int							i;
 
 	{
@@ -339,7 +339,7 @@ int main(void)
 
 		try {
 			tokens = lex.getTokens(value);
-			for (std::vector<t_token *>::iterator it = tokens.begin() ; it != tokens.end(); ++it) {
+			for (t_tokens::iterator it = tokens.begin() ; it != tokens.end(); ++it) {
 				if ((*it)->type != types[i]) {
 					fail = true;
 					std::cout << std::endl << "\t";
@@ -372,7 +372,7 @@ int main(void)
 
 		try {
 			tokens = lex.getTokens(value);
-			for (std::vector<t_token *>::iterator it = tokens.begin() ; it != tokens.end(); ++it) {
+			for (t_tokens::iterator it = tokens.begin() ; it != tokens.end(); ++it) {
 				if ((*it)->type != types[i]) {
 					fail = true;
 					std::cout << std::endl << "\t";
@@ -406,7 +406,7 @@ int main(void)
 
 		try {
 			tokens = lex.getTokens(value);
-			for (std::vector<t_token *>::iterator it = tokens.begin() ; it != tokens.end(); ++it) {
+			for (t_tokens::iterator it = tokens.begin() ; it != tokens.end(); ++it) {
 				if ((*it)->type != types[i]) {
 					fail = true;
 					std::cout << std::endl << "\t";
@@ -439,7 +439,7 @@ int main(void)
 
 		try {
 			tokens = lex.getTokens(value);
-			for (std::vector<t_token *>::iterator it = tokens.begin() ; it != tokens.end(); ++it) {
+			for (t_tokens::iterator it = tokens.begin() ; it != tokens.end(); ++it) {
 				if ((*it)->type != types[i]) {
 					fail = true;
 					std::cout << std::endl << "\t";
@@ -473,7 +473,7 @@ int main(void)
 
 		try {
 			tokens = lex.getTokens(value);
-			for (std::vector<t_token *>::iterator it = tokens.begin() ; it != tokens.end(); ++it) {
+			for (t_tokens::iterator it = tokens.begin() ; it != tokens.end(); ++it) {
 				if ((*it)->type != types[i]) {
 					fail = true;
 					std::cout << std::endl << "\t";
@@ -522,7 +522,7 @@ int main(void)
 
 		try {
 			tokens = lex.getTokens(value);
-			for (std::vector<t_token *>::iterator it = tokens.begin() ; it != tokens.end(); ++it) {
+			for (t_tokens::iterator it = tokens.begin() ; it != tokens.end(); ++it) {
 				if ((*it)->type != types[i]) {
 					fail = true;
 					std::cout << std::endl << "\t";
@@ -557,7 +557,7 @@ int main(void)
 
 		try {
 			tokens = lex.getTokens(value);
-			for (std::vector<t_token *>::iterator it = tokens.begin() ; it != tokens.end(); ++it) {
+			for (t_tokens::iterator it = tokens.begin() ; it != tokens.end(); ++it) {
 				if ((*it)->type != types[i]) {
 					fail = true;
 					std::cout << std::endl << "\t";
@@ -590,7 +590,7 @@ int main(void)
 
 		try {
 			tokens = lex.getTokens(value);
-			for (std::vector<t_token *>::iterator it = tokens.begin() ; it != tokens.end(); ++it) {
+			for (t_tokens::iterator it = tokens.begin() ; it != tokens.end(); ++it) {
 				if ((*it)->type != types[i]) {
 					fail = true;
 					std::cout << std::endl << "\t";

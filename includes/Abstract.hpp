@@ -1,7 +1,7 @@
 #ifndef ABSTRACT_HPP
 # define ABSTRACT_HPP
 
-# include <ostream>
+# include <sstream>
 # include <string>
 # include <deque>
 # include <MyException.hpp>
@@ -16,12 +16,14 @@
 
 class Abstract : public std::deque<IOperand const *> {
 	private:
-		std::ostream &	_outStream;
+		std::stringstream	_stringStream;
 
 		void 	_DeleteOperand(IOperand const * operand);
+		std::stringstream	_ConcatStream(char const c) const;
+		std::stringstream	_ConcatStream(std::string const str) const;
 
 	public:
-		Abstract(std::ostream & os);
+		Abstract(void);
 		~Abstract(void);
 
 		void 	Push(IOperand const * op);
@@ -35,6 +37,9 @@ class Abstract : public std::deque<IOperand const *> {
 		void 	Mul(void);
 		void 	Print(void) const;
 		void 	Exit(void) const;
+
+		std::stringstream & GetStringStream(void);
+
 
 };
 

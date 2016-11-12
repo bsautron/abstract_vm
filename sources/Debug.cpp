@@ -22,8 +22,6 @@ void Debug::Error(std::string const message) {
 	Debug::Logger(DLV_ERROR, message);
 }
 
-
-
 tDebugLevel Debug::debugLevel[4] = {
 	{"log", 37, std::cout},
 	{"info", 34, std::cout},

@@ -11,18 +11,21 @@
 /* ************************************************************************** */
 
 #include <abstract_vm.hpp>
+#include <fstream>
 
 // TODO: Lowercase first letter of members function
 // TODO: Add static variable to enable multi error - Can't you parse en command to set this?
-int main(void)
+int main(int ac, char **av)
 {
-	try {
-		Vm	vm{std::cin, std::cout};
+	std::ifstream	ifs (av[1]);
+	std::istream	& inStream = (ac > 1 && ifs.good()) ? ifs : std::cin;
+	std::ostream	& outStream = std::cout;
+	int				ret;
 
-		vm.start();
-	} catch (MyException const e) {
-		std::cout << e.what() << std::endl;
-		return (1);
-	}
-	return (0);
+	Vm	vm{inStream, outStream};
+
+	ret = vm.start();
+	if (ifs.good())
+		ifs.close();
+	return (ret);
 }

@@ -2,6 +2,7 @@
 # define MYEXCEPTION_HPP
 
 # include <iostream>
+# include <list>
 
 enum eExceptionCode {
 	EXC_TMP,
@@ -41,5 +42,12 @@ class MyException : public std::exception {
 
 		static std::string	exceptionString[];
 };
+
+typedef struct	s_error {
+	int 		line;
+	MyException	exception;
+}				t_error;
+
+typedef	std::list<t_error>	t_listError;
 
 #endif

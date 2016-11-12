@@ -15,20 +15,14 @@ class Operand : public IOperand
 	private:
 		eOperandType		_type;
 		int					_precision;
-		OperandBuilder *	_builder;
-		std::stringstream *	_stringstream;
+		OperandBuilder		_builder;
+		std::stringstream	_stringStream;
 
 		Operand(void);
 
 		void _Checker(std::string const & value) {
-			this->_Init();
 			this->_CheckIsNumber(value);
 			this->_CheckIsBounded(value);
-		}
-
-		void _Init(void) {
-			this->_builder = new OperandBuilder();
-			this->_stringstream = new std::stringstream();
 		}
 
 		void _CheckIsNumber(std::string const & value)	{
@@ -48,7 +42,7 @@ class Operand : public IOperand
 					throw MyException(EXC_NOT_VALID_SYNTAX_NUMBER);
 
 			}
-			*this->_stringstream = this->_GetStream(this->_precision, std::stold(value));
+			this->_stringStream = this->_GetStream(this->_precision, std::stold(value));
 
 			if (!Operand<T>::assumePrecision && !this->_IsEqual(value))
 				throw MyException(EXC_LIMITATION_PRECISION);
@@ -88,7 +82,7 @@ class Operand : public IOperand
 		}
 
 		bool _IsEqual( std::string const & value ) const {
-			return this->_stringstream->str().compare(value) == 0;
+			return this->_stringStream.str().compare(value) == 0;
 		}
 
 		eOperandType _GetBiggerType(eOperandType a, eOperandType b) const {
@@ -113,7 +107,7 @@ class Operand : public IOperand
 
 		IOperand const *	_BuilderOperand( IOperand const & rhs, long double value) const {
 			IOperand const * opSelected = this->_GetBiggerOperandPrecision(&rhs, this);
-			return this->_builder->createOperand(
+			return this->_builder.createOperand(
 				(opSelected->getType() >= FLOAT) ? opSelected->getType() : this->_GetBiggerType( rhs.getType(), this->_type ),
 				this->_GetStream( opSelected->getPrecision(), value ).str()
 			);
@@ -128,27 +122,24 @@ class Operand : public IOperand
 		Operand(std::string const & value);
 		// Operand(IOperand const & op);
 
-		virtual ~Operand(void) {
-			delete this->_builder;
-			delete this->_stringstream;
-		}
+		virtual ~Operand(void) {}
 
 		IOperand const * operator+( IOperand const & rhs ) const {
-			return this->_BuilderOperand(rhs, std::stold(this->_stringstream->str()) + std::stold(rhs.toString()));
+			return this->_BuilderOperand(rhs, std::stold(this->_stringStream.str()) + std::stold(rhs.toString()));
 		}
 
 		IOperand const * operator-( IOperand const & rhs ) const {
-			return this->_BuilderOperand(rhs, std::stold(this->_stringstream->str()) - std::stold(rhs.toString()));
+			return this->_BuilderOperand(rhs, std::stold(this->_stringStream.str()) - std::stold(rhs.toString()));
 		}
 
 		IOperand const * operator*( IOperand const & rhs ) const {
-			return this->_BuilderOperand(rhs, std::stold(this->_stringstream->str()) * std::stold(rhs.toString()));
+			return this->_BuilderOperand(rhs, std::stold(this->_stringStream.str()) * std::stold(rhs.toString()));
 		}
 
 		IOperand const * operator/( IOperand const & rhs ) const {
 			if (this->_IsZero(rhs.toString()))
 				throw MyException(EXC_DEVIDE_BZERO);
-			return this->_BuilderOperand(rhs, std::stold(this->_stringstream->str()) / std::stold(rhs.toString()));
+			return this->_BuilderOperand(rhs, std::stold(this->_stringStream.str()) / std::stold(rhs.toString()));
 		}
 
 		IOperand const * operator%( IOperand const & rhs ) const {
@@ -156,7 +147,7 @@ class Operand : public IOperand
 				throw MyException(EXC_MODULO_BFLOAT);
 			if (this->_IsZero(rhs.toString()))
 				throw MyException(EXC_MODULO_BZERO);
-			return this->_BuilderOperand(rhs, std::stoi(this->_stringstream->str()) % std::stoi(rhs.toString()));
+			return this->_BuilderOperand(rhs, std::stoi(this->_stringStream.str()) % std::stoi(rhs.toString()));
 		}
 		//
 		// IOperand const & operator=( IOperand const & rhs ) {
@@ -168,11 +159,11 @@ class Operand : public IOperand
 		eOperandType			getType( void ) 		const { return this->_type; }
 
 		bool 	IsPositive(void) const {
-			return this->_stringstream->str()[0] != '-';
+			return this->_stringStream.str()[0] != '-';
 		}
 
 		virtual std::string const & toString() const {
-			std::string *s = new std::string(this->_stringstream->str());
+			std::string *s = new std::string(this->_stringStream.str());
 			return *s;
 		}
 

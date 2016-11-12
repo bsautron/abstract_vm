@@ -5,91 +5,127 @@ Parser::Parser(void) {}
 Parser::~Parser(void) {}
 
 void 	Parser::push(Abstract & abstract, IOperand const * op) {
-	std::cout << "push" << std::endl;
+	// std::cout << "push" << std::endl;
 	abstract.Push(op);
 }
 void 	Parser::pop(Abstract & abstract, IOperand const * op) {
-	std::cout << "pop" << std::endl;
+	// std::cout << "pop" << std::endl;
 	abstract.Pop();
 	(void)op;
 }
 void 	Parser::dump(Abstract & abstract, IOperand const * op) {
-	std::cout << "dump" << std::endl;
+	// std::cout << "dump" << std::endl;
 	abstract.Dump();
 	(void)op;
 }
 void 	Parser::assert(Abstract & abstract, IOperand const * op) {
-	std::cout << "assert" << std::endl;
+	// std::cout << "assert" << std::endl;
 	abstract.Assert(*op);
 }
 void 	Parser::add(Abstract & abstract, IOperand const * op) {
-	std::cout << "add" << std::endl;
+	// std::cout << "add" << std::endl;
 	abstract.Add();
 	(void)op;
 }
 void 	Parser::sub(Abstract & abstract, IOperand const * op) {
-	std::cout << "sub" << std::endl;
+	// std::cout << "sub" << std::endl;
 	abstract.Sub();
 	(void)op;
 }
 void 	Parser::div(Abstract & abstract, IOperand const * op) {
-	std::cout << "div" << std::endl;
+	// std::cout << "div" << std::endl;
 	abstract.Div();
 	(void)op;
 }
 void 	Parser::mod(Abstract & abstract, IOperand const * op) {
-	std::cout << "mod" << std::endl;
+	// std::cout << "mod" << std::endl;
 	abstract.Mod();
 	(void)op;
 }
 void 	Parser::mul(Abstract & abstract, IOperand const * op) {
-	std::cout << "mul" << std::endl;
+	// std::cout << "mul" << std::endl;
 	abstract.Mul();
 	(void)op;
 }
 void 	Parser::print(Abstract & abstract, IOperand const * op) {
-	std::cout << "print" << std::endl;
+	// std::cout << "print" << std::endl;
 	abstract.Print();
 	(void)op;
 }
 void 	Parser::exit(Abstract & abstract, IOperand const * op) {
-	std::cout << "exit" << std::endl;
+	// std::cout << "exit" << std::endl;
 	abstract.Exit();
+	(void)op;
+}
+void 	Parser::comment(Abstract & abstract, IOperand const * op) {
+	// std::cout << "comment" << std::endl;
+	(void)abstract;
 	(void)op;
 }
 
 
-void Parser::Exec(Abstract & abstract, std::vector<t_token *> tk) {
-	t_token * tkCommand = nullptr;
-	t_token * tkOperand = nullptr;
-	t_token * tkArgs = nullptr;
+void Parser::exec(Abstract & abstract) {
+	this->_listCommand.reverse();
 
-	void (Parser::*command[])(Abstract &, IOperand const *) = {
-		&Parser::push,
-		&Parser::pop,
-		&Parser::dump,
-		&Parser::assert,
-		&Parser::add,
-		&Parser::sub,
-		&Parser::div,
-		&Parser::mod,
-		&Parser::mul,
-		&Parser::print,
-		&Parser::exit
-	};
+	for (std::list<t_tokens>::const_iterator it = this->_listCommand.begin(); it != this->_listCommand.end(); ++it) {
+		t_token * tkCommand = nullptr;
+		t_token * tkOperand = nullptr;
+		t_token * tkArgs = nullptr;
 
-	Debug::Log("Command: " + tk[0]->value);
-	tkCommand = tk[0];
-	if (tk.size() > 1) {
-		Debug::Log("Operand: " + tk[1]->value);
-		tkOperand = tk[1];
+		void (Parser::*command[])(Abstract &, IOperand const *) = {
+			&Parser::push,
+			&Parser::pop,
+			&Parser::dump,
+			&Parser::assert,
+			&Parser::add,
+			&Parser::sub,
+			&Parser::div,
+			&Parser::mod,
+			&Parser::mul,
+			&Parser::print,
+			&Parser::exit,
+			&Parser::comment
+		};
+
+		// std::string tkName[] = {
+		// 	"TK_NONE",
+		// 	"TK_COMMAND",
+		// 	"TK_OPERAND",
+		// 	"TK_ARGS",
+		// 	"TK_COMMENT",
+		// 	"TK_EXIT",
+		// };
+
+		// Debug::Info("Exec");
+		if (it->size() > 0) {
+			// Debug::Log(tkName[it[0]->type] + ": " + it[0]->value);
+			tkCommand = (*it)[0];
+		}
+		if (it->size() > 1) {
+			// Debug::Log("Operand: " + it[1]->value);
+			tkOperand = (*it)[1];
+		}
+		if (it->size() > 2) {
+			// Debug::Log("Args: " + it[2]->value);
+			tkArgs = (*it)[2];
+		}
+		if (it->size() && (*it->begin())->type == TK_EXIT)
+			(this->*command[this->_strToCommandType("exit")])(abstract, nullptr);
+		else if (it->size() && (*it->begin())->type == TK_COMMENT)
+			(this->*command[this->_strToCommandType("comment")])(abstract, nullptr);
+		else if (it->size()) {
+			IOperand const * op = (tkArgs) ? this->_builder.createOperand(this->_strToOperandType(tkOperand->value), tkArgs->value) : nullptr;
+			int index = this->_strToCommandType(tkCommand->value);
+			if (index == -1)
+				throw MyException(EXC_COMMAND_NOT_FOUND);
+			(this->*command[index])(abstract, op);
+		}
+
 	}
-	if (tk.size() > 2) {
-		Debug::Log("Args: " + tk[2]->value);
-		tkArgs = tk[2];
-	}
-	IOperand const * op = (tkArgs) ? this->_builder.createOperand(this->_strToOperandType(tkOperand->value), tkArgs->value) : nullptr;
-	(this->*command[this->_strToCommandType(tkCommand->value)])(abstract, op);
+}
+
+void 	Parser::feed(t_tokens tk) {
+	this->_listCommand.push_front(tk);
 }
 
 int 		Parser::_strToCommandType(std::string const str) const {
@@ -107,10 +143,12 @@ int 		Parser::_strToCommandType(std::string const str) const {
 	commandName.push_back("mul");
 	commandName.push_back("print");
 	commandName.push_back("exit");
+	commandName.push_back("comment");
 
 	for (std::vector<std::string const>::const_iterator it = commandName.begin(); it != commandName.end(); ++it) {
-		if (!str.compare(*it))
+		if (!str.compare(*it)) {
 			return i;
+		}
 		i++;
 	}
 	return -1;
