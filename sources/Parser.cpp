@@ -1,70 +1,96 @@
 #include <Parser.hpp>
 #include <Debug.hpp>
 
-Parser::Parser(void) {}
+Parser::Parser(void) : _end(false) {}
 Parser::~Parser(void) {}
 
 void 	Parser::push(Abstract & abstract, IOperand const * op) {
-	// std::cout << "push" << std::endl;
 	abstract.Push(op);
 }
 void 	Parser::pop(Abstract & abstract, IOperand const * op) {
-	// std::cout << "pop" << std::endl;
+	if (op) {
+		throw MyException(EXC_CHAR_BEYOND);
+	}
 	abstract.Pop();
-	(void)op;
+
 }
 void 	Parser::dump(Abstract & abstract, IOperand const * op) {
-	// std::cout << "dump" << std::endl;
+	if (op) {
+		throw MyException(EXC_CHAR_BEYOND);
+	}
 	abstract.Dump();
-	(void)op;
 }
 void 	Parser::assert(Abstract & abstract, IOperand const * op) {
-	// std::cout << "assert" << std::endl;
 	abstract.Assert(*op);
 }
 void 	Parser::add(Abstract & abstract, IOperand const * op) {
-	// std::cout << "add" << std::endl;
+	if (op) {
+		throw MyException(EXC_CHAR_BEYOND);
+	}
 	abstract.Add();
-	(void)op;
+
 }
 void 	Parser::sub(Abstract & abstract, IOperand const * op) {
-	// std::cout << "sub" << std::endl;
+	if (op) {
+		throw MyException(EXC_CHAR_BEYOND);
+	}
 	abstract.Sub();
-	(void)op;
+
 }
 void 	Parser::div(Abstract & abstract, IOperand const * op) {
-	// std::cout << "div" << std::endl;
+	if (op) {
+		throw MyException(EXC_CHAR_BEYOND);
+	}
 	abstract.Div();
-	(void)op;
+
 }
 void 	Parser::mod(Abstract & abstract, IOperand const * op) {
-	// std::cout << "mod" << std::endl;
+	if (op) {
+		throw MyException(EXC_CHAR_BEYOND);
+	}
 	abstract.Mod();
-	(void)op;
+
 }
 void 	Parser::mul(Abstract & abstract, IOperand const * op) {
-	// std::cout << "mul" << std::endl;
+	if (op) {
+		throw MyException(EXC_CHAR_BEYOND);
+	}
 	abstract.Mul();
-	(void)op;
+
 }
 void 	Parser::print(Abstract & abstract, IOperand const * op) {
-	// std::cout << "print" << std::endl;
+	if (op) {
+		throw MyException(EXC_CHAR_BEYOND);
+	}
 	abstract.Print();
-	(void)op;
+
 }
 void 	Parser::exit(Abstract & abstract, IOperand const * op) {
-	// std::cout << "exit" << std::endl;
-	abstract.Exit();
-	(void)op;
+	(void)abstract;
+	if (op) {
+		throw MyException(EXC_CHAR_BEYOND);
+	}
+	this->_end = true;
 }
 void 	Parser::comment(Abstract & abstract, IOperand const * op) {
-	// std::cout << "comment" << std::endl;
 	(void)abstract;
 	(void)op;
 }
 
+std::string Parser::_tokensToStr(t_tokens tk) const {
+	std::stringstream s;
 
-void Parser::exec(Abstract & abstract) {
+	s << tk[0]->value;
+	for (t_tokens::const_iterator it = tk.begin(); it != tk.end(); ++it) {
+		if (it == tk.begin())
+			continue;
+		s << " " << (*it)->value;
+	}
+	return s.str();
+}
+
+int Parser::exec(Abstract & abstract, std::ostream & outStream) {
+	int ret = 0;
 	this->_listCommand.reverse();
 
 	for (std::list<t_tokens>::const_iterator it = this->_listCommand.begin(); it != this->_listCommand.end(); ++it) {
@@ -87,15 +113,6 @@ void Parser::exec(Abstract & abstract) {
 			&Parser::comment
 		};
 
-		// std::string tkName[] = {
-		// 	"TK_NONE",
-		// 	"TK_COMMAND",
-		// 	"TK_OPERAND",
-		// 	"TK_ARGS",
-		// 	"TK_COMMENT",
-		// 	"TK_EXIT",
-		// };
-
 		// Debug::Info("Exec");
 		if (it->size() > 0) {
 			// Debug::Log(tkName[it[0]->type] + ": " + it[0]->value);
@@ -109,19 +126,31 @@ void Parser::exec(Abstract & abstract) {
 			// Debug::Log("Args: " + it[2]->value);
 			tkArgs = (*it)[2];
 		}
-		if (it->size() && (*it->begin())->type == TK_EXIT)
-			(this->*command[this->_strToCommandType("exit")])(abstract, nullptr);
-		else if (it->size() && (*it->begin())->type == TK_COMMENT)
-			(this->*command[this->_strToCommandType("comment")])(abstract, nullptr);
-		else if (it->size()) {
-			IOperand const * op = (tkArgs) ? this->_builder.createOperand(this->_strToOperandType(tkOperand->value), tkArgs->value) : nullptr;
-			int index = this->_strToCommandType(tkCommand->value);
-			if (index == -1)
-				throw MyException(EXC_COMMAND_NOT_FOUND);
-			(this->*command[index])(abstract, op);
-		}
 
+		try {
+			if (it->size() && (*it->begin())->type == TK_EXIT)
+				(this->*command[this->_strToCommandType("exit")])(abstract, nullptr);
+			else if (it->size() && (*it->begin())->type == TK_COMMENT)
+				(this->*command[this->_strToCommandType("comment")])(abstract, nullptr);
+			else if (it->size()) {
+				if (tkOperand && !tkArgs && tkOperand->type != TK_COMMENT)
+					throw MyException(EXC_CHAR_BEYOND);
+				IOperand const * op = tkArgs ? this->_builder.createOperand(this->_strToOperandType(tkOperand->value), tkArgs->value) : nullptr;
+				int index = this->_strToCommandType(tkCommand->value);
+				if (index == -1)
+					throw MyException(EXC_COMMAND_NOT_FOUND);
+				(this->*command[index])(abstract, op);
+			}
+		} catch (MyException const & e) {
+			ret = 1;
+			outStream << "Fail to exec \"" << this->_tokensToStr(*it) << "\": " << e.what() << std::endl;
+			if (Parser::abortException)
+				break;
+		}
+		if (this->_end)
+			break;
 	}
+	return ret;
 }
 
 void 	Parser::feed(t_tokens tk) {
@@ -169,3 +198,5 @@ eOperandType Parser::_strToOperandType(std::string const str) const {
 		throw MyException(EXC_OPERAND_NOT_FOUND);
 	return type[str];
 }
+
+bool 	Parser::abortException = false;

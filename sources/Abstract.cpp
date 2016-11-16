@@ -2,7 +2,7 @@
 #include <Operand.hpp>
 #include <iostream>
 
-Abstract::Abstract(void) {}
+Abstract::Abstract(void) { }
 Abstract::~Abstract(void) {}
 
 void Abstract::Push(IOperand const * op) {
@@ -28,7 +28,7 @@ void Abstract::Add(void) {
 	IOperand const * op2 = this->front();
 	this->Pop();
 
-	this->Push((*op1) + (*op2));
+	this->Push((*op2) + (*op1));
 	this->_DeleteOperand(op1);
 	this->_DeleteOperand(op2);
 }
@@ -42,7 +42,7 @@ void Abstract::Sub(void) {
 	IOperand const * op2 = this->front();
 	this->Pop();
 
-	this->Push((*op1) - (*op2));
+	this->Push((*op2) - (*op1));
 	this->_DeleteOperand(op1);
 	this->_DeleteOperand(op2);
 }
@@ -56,7 +56,7 @@ void Abstract::Div(void) {
 	IOperand const * op2 = this->front();
 	this->Pop();
 
-	this->Push((*op1) / (*op2));
+	this->Push((*op2) / (*op1));
 	this->_DeleteOperand(op1);
 	this->_DeleteOperand(op2);
 }
@@ -70,7 +70,7 @@ void Abstract::Mul(void) {
 	IOperand const * op2 = this->front();
 	this->Pop();
 
-	this->Push((*op1) * (*op2));
+	this->Push((*op2) * (*op1));
 	this->_DeleteOperand(op1);
 	this->_DeleteOperand(op2);
 }
@@ -84,31 +84,26 @@ void Abstract::Mod(void) {
 	IOperand const * op2 = this->front();
 	this->Pop();
 
-	this->Push((*op1) % (*op2));
+	this->Push((*op2) % (*op1));
 	this->_DeleteOperand(op1);
 	this->_DeleteOperand(op2);
 }
 
-void Abstract::Print(void) const {
+void Abstract::Print(void) {
 	if (this->empty())
 		throw MyException(EXC_STACK_EMPTY);
 
 	IOperand const * operand = this->front();
 	if (operand->getType() != INT8)
 		throw MyException(EXC_ASSERT_FAILED);
-	char const c = static_cast<char const>(std::stoi(operand->toString()));
-	this->_stringStream = this->_ConcatStream(c);
+	this->_stringStream << static_cast<char const>(std::stoi(operand->toString()));
 }
-void Abstract::Dump(void) const {
+void Abstract::Dump() {
 	std::deque<IOperand const *>::const_iterator operand = this->begin();
 
 	while (operand != this->end()) {
-		this->_stringStream = this->_ConcatStream((*operand++)->toString() + '\n');
+		this->_stringStream << (*operand++)->toString() << std::endl;
 	}
-}
-
-void Abstract::Exit(void) const {
-	_Exit(0);
 }
 
 void Abstract::_DeleteOperand(IOperand const * operand) {
@@ -119,20 +114,6 @@ void Abstract::_DeleteOperand(IOperand const * operand) {
 	else
 		throw MyException(EXC_TMP);
 }
-
-std::stringstream	Abstract::_ConcatStream(char const c) const {
-	std::stringstream newStringString;
-
-	newStringString << this->_stringStream << c;
-	return newStringString;
-}
-std::stringstream	Abstract::_ConcatStream(std::string const str) const {
-	std::stringstream newStringString;
-
-	newStringString << this->_stringStream << str;
-	return newStringString;
-}
-
 
 std::stringstream & Abstract::GetStringStream(void) {
 	return this->_stringStream;

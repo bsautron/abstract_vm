@@ -15,9 +15,7 @@ class Vm {
 		Lexer			_lexer;
 		Parser			_parser;
 		t_listError		_listError;
-
-		// std::vector<t_token>	_tokens;
-		OperandBuilder			_builder;
+		OperandBuilder	_builder;
 
 	public:
 		Vm (std::istream & is, std::ostream & os);

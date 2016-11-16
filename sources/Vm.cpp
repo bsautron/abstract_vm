@@ -13,24 +13,35 @@ Vm::~Vm(void) {}
 
 //TODO: Excpetion line too large
 int Vm::start(void) {
-	// Debug::Log("Start");
-	char line[Vm::commandLenghtMax];
+	// char line[Vm::commandLenghtMax];
+	std::string	line;
 	int nbLine = 0;
+	int retLexer = 0;
+	int retParser = 0;
+	int	ret = 0;
+	t_tokens currentTk;
 
-	while (this->_inStream.getline(line, Vm::commandLenghtMax)) {
+	while (std::getline(this->_inStream, line) && line.compare(";;")) {
 		nbLine++;
-		// Debug::Log(line);
 		try {
-			this->_parser.feed(this->_lexer.getTokens(line));
-		} catch (MyException const e) {
+			currentTk = this->_lexer.getTokens(line);
+			this->_parser.feed(currentTk);
+		} catch (MyException const & e) {
 			this->_listError.push_back({nbLine, e});
 		}
 	}
 	for (t_listError::const_iterator itErr = this->_listError.begin(); itErr != this->_listError.end(); ++itErr) {
 		std::cout << "Line " << itErr->line << ": " << itErr->exception.what() << std::endl;
 	}
-	this->_parser.exec(this->_abstract);
-	this->_outStream << this->_abstract.GetStringStream().str();
-	return (0);
+	if (!currentTk.size() || currentTk[0]->value.compare("exit")) {
+		throw MyException(EXC_NOT_END_EXIT);
+	}
+	retLexer = this->_listError.size();
+	retParser = this->_parser.exec(this->_abstract, this->_outStream);
+	ret = retLexer | retParser;
+	if (!ret) {
+		this->_outStream << this->_abstract.GetStringStream().str();
+	}
+	return (ret);
 }
 int Vm::commandLenghtMax = 256;

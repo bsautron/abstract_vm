@@ -2,20 +2,16 @@
 # define LEXER_HPP
 
 # include <iostream>
-# include <vector>
 # include <token.hpp>
 
 enum eScopeType {
 	LXS_DEFAULT,
-	LXS_EXITORCOMMENT,
 	LXS_EXIT,
 	LXS_COMMENT,
 	LXS_COMMAND,
 	LXS_ARGS,
 	LXS_OPERAND
 };
-
-typedef std::vector<t_token *>	t_tokens;
 
 class Lexer {
 	private:
@@ -31,10 +27,9 @@ class Lexer {
 		Lexer(void);
 		~Lexer(void);
 
-		t_tokens	getTokens(char const * str);
+		t_tokens	getTokens(std::string const str);
 
 		eTokenType Default(void);
-		eTokenType ExitOrComment(void);
 		eTokenType Exit(void);
 		eTokenType Comment(void);
 		eTokenType Command(void);

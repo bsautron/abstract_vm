@@ -16,11 +16,8 @@
 
 class Abstract : public std::deque<IOperand const *> {
 	private:
+		void 				_DeleteOperand(IOperand const * operand);
 		std::stringstream	_stringStream;
-
-		void 	_DeleteOperand(IOperand const * operand);
-		std::stringstream	_ConcatStream(char const c) const;
-		std::stringstream	_ConcatStream(std::string const str) const;
 
 	public:
 		Abstract(void);
@@ -28,19 +25,16 @@ class Abstract : public std::deque<IOperand const *> {
 
 		void 	Push(IOperand const * op);
 		void 	Pop(void);
-		void 	Dump(void) const;
+		void 	Dump(void);
 		void 	Assert(IOperand const & value) const;
 		void 	Add(void);
 		void 	Sub(void);
 		void 	Div(void);
 		void 	Mod(void);
 		void 	Mul(void);
-		void 	Print(void) const;
-		void 	Exit(void) const;
+		void 	Print(void);
 
 		std::stringstream & GetStringStream(void);
-
-
 };
 
 #endif

@@ -26,5 +26,6 @@ std::string	MyException::exceptionString[] = {
 	"There are still character beyond",
 	"Syntax error",
 	"Command not found",
-	"Operand not found"
+	"Operand not found",
+	"Missing exit command in the end"
 };

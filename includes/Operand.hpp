@@ -23,6 +23,9 @@ class Operand : public IOperand
 		void _Checker(std::string const & value) {
 			this->_CheckIsNumber(value);
 			this->_CheckIsBounded(value);
+
+			if (!Operand<T>::assumePrecision && !this->_IsEqual(value))
+				throw MyException(EXC_LIMITATION_PRECISION);
 		}
 
 		void _CheckIsNumber(std::string const & value)	{
@@ -40,15 +43,12 @@ class Operand : public IOperand
 				this->_precision = arrayMatch[1].length() ? arrayMatch[1].length() - 1 : 0;
 				if (!arrayMatch[1].length())
 					throw MyException(EXC_NOT_VALID_SYNTAX_NUMBER);
-
 			}
 			this->_stringStream = this->_GetStream(this->_precision, std::stold(value));
-
-			if (!Operand<T>::assumePrecision && !this->_IsEqual(value))
-				throw MyException(EXC_LIMITATION_PRECISION);
 		}
 
 		void _CheckIsBounded(std::string const & value) const {
+
 			if (value[0] == '-')
 				this->_CheckIsUpperMin(value);
 			else
