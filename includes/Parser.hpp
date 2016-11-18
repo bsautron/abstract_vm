@@ -22,7 +22,7 @@ class Parser {
 		Parser (void);
 		~Parser (void);
 
-		int 	exec(Abstract & abstract, std::ostream & outStream);
+		int 	exec(Abstract & abstract);
 		void 	feed(t_tokens tk);
 
 		void 	push(Abstract & abstract, IOperand const * op);

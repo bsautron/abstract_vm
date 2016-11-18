@@ -1,5 +1,6 @@
 #include <Parser.hpp>
 #include <Debug.hpp>
+#include <sstream>
 
 Parser::Parser(void) : _end(false) {}
 Parser::~Parser(void) {}
@@ -89,7 +90,7 @@ std::string Parser::_tokensToStr(t_tokens tk) const {
 	return s.str();
 }
 
-int Parser::exec(Abstract & abstract, std::ostream & outStream) {
+int Parser::exec(Abstract & abstract) {
 	int ret = 0;
 	this->_listCommand.reverse();
 
@@ -143,7 +144,9 @@ int Parser::exec(Abstract & abstract, std::ostream & outStream) {
 			}
 		} catch (MyException const & e) {
 			ret = 1;
-			outStream << "Fail to exec \"" << this->_tokensToStr(*it) << "\": " << e.what() << std::endl;
+			std::stringstream	s;
+			s << "Fail to exec \"" << this->_tokensToStr(*it) << "\": " << e.what();
+			Debug::Error(s.str());
 			if (Parser::abortException)
 				break;
 		}

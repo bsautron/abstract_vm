@@ -34,6 +34,11 @@ class Abstract : public std::deque<IOperand const *> {
 		void 	Mul(void);
 		void 	Print(void);
 
+//		void	Min(void);
+//		void	Max(void);
+//		void	Swap(void);
+//		void	Inverse(void);
+
 		std::stringstream & GetStringStream(void);
 };
 

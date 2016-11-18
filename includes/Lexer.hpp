@@ -37,6 +37,8 @@ class Lexer {
 		eTokenType Command(void);
 		eTokenType Args(void);
 		eTokenType Operand(void);
+
+		static size_t commandLengthMax;
 };
 
 #endif

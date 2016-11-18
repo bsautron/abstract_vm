@@ -27,5 +27,6 @@ std::string	MyException::exceptionString[] = {
 	"Syntax error",
 	"Command not found",
 	"Operand not found",
-	"Missing exit command in the end"
+	"Missing exit command in the end",
+	"The line is too long"
 };

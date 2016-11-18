@@ -26,7 +26,8 @@ enum eExceptionCode {
 	EXC_LEXICAL,
 	EXC_COMMAND_NOT_FOUND,
 	EXC_OPERAND_NOT_FOUND,
-	EXC_NOT_END_EXIT
+	EXC_NOT_END_EXIT,
+	EXC_LINE_TOO_LONG
 };
 
 class MyException : public std::exception {

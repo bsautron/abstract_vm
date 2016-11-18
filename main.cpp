@@ -6,12 +6,13 @@
 /*   By: bsautron <bsautron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/08 14:35:07 by bsautron          #+#    #+#             */
-/*   Updated: 2016/07/08 12:39:57 by bsautron         ###   ########.fr       */
+/*   Updated: 2016/11/18 19:47:35 by bsautron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <abstract_vm.hpp>
 #include <fstream>
+#include <Debug.hpp>
 
 // TODO: Lowercase first letter of members function
 // TODO: Add static variable to enable multi error - Can't you parse en command to set this?
@@ -28,7 +29,7 @@ int main(int ac, char **av)
 		ret = vm.start();
 	}
 	catch (MyException const & e) {
-		std::cout << "Fatal error: " << e.what() << std::endl;
+		Debug::Fatal(std::string(e.what()));
 		ret = 1;
 	}
 	if (ifs.good())

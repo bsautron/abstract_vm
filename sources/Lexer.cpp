@@ -126,3 +126,5 @@ t_tokens	Lexer::getTokens(std::string const str) {
 		throw MyException(EXC_CHAR_BEYOND);
 	return this->_tokens;
 }
+
+size_t	Lexer::commandLengthMax = 255;
