@@ -21,7 +21,9 @@ class Lexer {
 
 		t_token *	_createNewToken(eTokenType type);
 		eTokenType	_enterScope(eScopeType scopeType);
+		eTokenType	_enterScope(eScopeType scopeType, bool skipSpace);
 		void 		_skipAllSpace(void);
+		bool		_isSpace(char const c) const;
 
 	public:
 		Lexer(void);

@@ -6,19 +6,19 @@
 /*   By: bsautron <bsautron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/08 14:35:07 by bsautron          #+#    #+#             */
-/*   Updated: 2016/06/08 16:28:51 by bsautron         ###   ########.fr       */
+/*   Updated: 2016/11/18 19:20:04 by bsautron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "abstract_vm.hpp"
 #include <cstring>
 
-// # define TEST_GOOD_THINGS
-// # define TEST_OVERFLOW
-// # define TEST_LEXICAL_NUMBER
+# define TEST_GOOD_THINGS
+# define TEST_OVERFLOW
+# define TEST_LEXICAL_NUMBER
 # define TEST_LEXER
-// # define TEST_BOUND
-// # define TEST_OTHER
+# define TEST_BOUND
+# define TEST_OTHER
 
 // TODO: test the Parser
 
@@ -462,39 +462,18 @@ int main(void)
 	}
 
 	{
-		value = "aopgho aiuwehf";
+		value = "aopgho awuihf";
 		i = 0;
-		bool	fail = false;
 		std::cout << "Get token [" << value << "]: ";
-		eTokenType types[] = {
-			TK_COMMAND,
-			TK_OPERAND
-		};
 
 		try {
 			tokens = lex.getTokens(value);
-			for (t_tokens::iterator it = tokens.begin() ; it != tokens.end(); ++it) {
-				if ((*it)->type != types[i]) {
-					fail = true;
-					std::cout << std::endl << "\t";
-					test_fail("\"" + (*it)->value + "\" ['" + tkName[(*it)->type] + "'] must be '" + tkName[types[i]] + "'");
-				}
-				i++;
-			}
-			if (tokens.size() != 2) {
-				fail = true;
-				std::cout << std::endl << "\t";
-				test_fail("no");
-			}
-			if (!fail) {
-				test_success("Good");
-			}
+			test_fail("Must be syntax error");
 		} catch (std::exception const & e) {
-			test_fail(e.what());
+			test_success(e.what());
 		}
 		std::cout << std::endl;
 	}
-
 	{
 		value = "aopgho awuihf awefu";
 		i = 0;
@@ -547,6 +526,48 @@ int main(void)
 	{
 		value = "aopgho ()";
 		i = 0;
+		std::cout << "Get token [" << value << "]: ";
+
+		try {
+			tokens = lex.getTokens(value);
+			test_fail("Must be syntax error");
+		} catch (std::exception const & e) {
+			test_success(e.what());
+		}
+		std::cout << std::endl;
+	}
+
+	{
+		value = "aopgho sdfg(esiru serihu)";
+		i = 0;
+		std::cout << "Get token [" << value << "]: ";
+
+		try {
+			tokens = lex.getTokens(value);
+			test_fail("Must be syntax error");
+		} catch (std::exception const & e) {
+			test_success(e.what());
+		}
+		std::cout << std::endl;
+	}
+
+	{
+		value = "aopgho sdfg( opsi)";
+		i = 0;
+		std::cout << "Get token [" << value << "]: ";
+
+		try {
+			tokens = lex.getTokens(value);
+			test_fail("Must be syntax error");
+		} catch (std::exception const & e) {
+			test_success(e.what());
+		}
+		std::cout << std::endl;
+	}
+
+	{
+		value = "      push			  int5(sdfg)";
+		i = 0;
 		bool	fail = false;
 		std::cout << "Get token [" << value << "]: ";
 		eTokenType types[] = {
@@ -554,6 +575,7 @@ int main(void)
 			TK_OPERAND,
 			TK_ARGS
 		};
+
 
 		try {
 			tokens = lex.getTokens(value);
