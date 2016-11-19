@@ -14,6 +14,10 @@
 
 # define DELETE_CPTR(X)		{delete X; X = nullptr;}
 
+// empty | runtime_error
+// too short | runtime_error
+// assert failed | assert_error
+
 class Abstract : public std::deque<IOperand const *> {
 	private:
 		void 				_DeleteOperand(IOperand const * operand);
@@ -22,6 +26,21 @@ class Abstract : public std::deque<IOperand const *> {
 	public:
 		Abstract(void);
 		~Abstract(void);
+
+		class EmptyStackException : public std::runtime_error {
+
+			public:
+				EmptyStackException(std::string const & msg);
+				EmptyStackException(EmptyStackException const & src);
+				EmptyStackException & operator=(EmptyStackException const & rhs);
+
+				virtual ~EmptyStackException(void) throw();
+
+				virtual const char * what(void) const throw();
+
+			private:
+				EmptyStackException(void);
+		};
 
 		void 	Push(IOperand const * op);
 		void 	Pop(void);
@@ -34,10 +53,10 @@ class Abstract : public std::deque<IOperand const *> {
 		void 	Mul(void);
 		void 	Print(void);
 
-//		void	Min(void);
-//		void	Max(void);
-//		void	Swap(void);
-//		void	Inverse(void);
+		//		void	Min(void);
+		//		void	Max(void);
+		//		void	Swap(void);
+		//		void	Inverse(void);
 
 		std::stringstream & GetStringStream(void);
 };

@@ -129,14 +129,12 @@ t_tokens	Lexer::getTokens(std::string const str) {
 
 size_t	Lexer::commandLengthMax = 255;
 
-
-
-Lexer::LexicalError::LexicalError(void) : std::logic_error("Lexical error") {}
-Lexer::LexicalError::~LexicalError(void) throw() {}
-Lexer::LexicalError::LexicalError(LexicalError const & src) : std::logic_error("Lexical Error") {
+Lexer::LexicalException::LexicalException(void) : std::logic_error("Lexical error") {}
+Lexer::LexicalException::~LexicalException(void) throw() {}
+Lexer::LexicalException::LexicalException(LexicalException const & src) : std::logic_error("Lexical Error") {
 	*this = src;
 }
-Lexer::LexicalError & Lexer::LexicalError::operator=(Lexer::LexicalError const & rhs) {
+Lexer::LexicalException & Lexer::LexicalException::operator=(Lexer::LexicalException const & rhs) {
 	(void)rhs;
 	return *this;
 }

@@ -1,13 +1,17 @@
 #ifndef OPERAND_HPP
 # define OPERAND_HPP
 
-// # include <OperandBuilder.hpp>
 # include <MyException.hpp>
 # include <IOperand.hpp>
 # include <OperandBuilder.hpp>
 # include <limits>
 # include <sstream>
 # include <regex>
+
+// nan
+// over/under flow | over/under flow
+// | regex_error
+// by zero | runtime_error
 
 template <typename T>
 class Operand : public IOperand

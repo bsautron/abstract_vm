@@ -118,3 +118,5 @@ void Abstract::_DeleteOperand(IOperand const * operand) {
 std::stringstream & Abstract::GetStringStream(void) {
 	return this->_stringStream;
 }
+
+Abstract::EmptyStackException::EmptyStack

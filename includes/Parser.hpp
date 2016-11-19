@@ -7,6 +7,9 @@
 # include <list>
 # include <OperandBuilder.hpp>
 
+// commad not found | invalid_argument
+// operand not found | invalid_argument
+
 class Parser {
 	private:
 		std::list<t_tokens>		_listCommand;

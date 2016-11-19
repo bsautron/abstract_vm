@@ -7,6 +7,9 @@
 # include <OperandBuilder.hpp>
 # include <MyException.hpp>
 
+// line too long | out_of_range
+// exit not found | runtime_error
+
 class Vm {
 	private:
 		std::istream &	_inStream;

@@ -16,14 +16,14 @@ enum eScopeType {
 class Lexer {
 	
 	public:
-		class LexicalError : public std::logic_error {
+		class LexicalException : public std::logic_error {
 
 			public:
-				LexicalError(void);
-				LexicalError(LexicalError const & src);
-				LexicalError & operator=(LexicalError const & rhs);
+				LexicalException(void);
+				LexicalException(LexicalException const & src);
+				LexicalException & operator=(LexicalException const & rhs);
 
-				virtual ~LexicalError(void) throw();
+				virtual ~LexicalException(void) throw();
 
 
 			private:
