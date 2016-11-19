@@ -6,7 +6,7 @@
 /*   By: bsautron <bsautron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/08 14:35:07 by bsautron          #+#    #+#             */
-/*   Updated: 2016/11/18 19:47:35 by bsautron         ###   ########.fr       */
+/*   Updated: 2016/11/19 13:37:01 by bsautron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,10 @@ int main(int ac, char **av)
 	Vm	vm{inStream, outStream};
 
 	try {
-		ret = vm.start();
+//		ret = vm.start();
+		throw Lexer::LexicalError();
 	}
-	catch (MyException const & e) {
+	catch (std::exception const & e) {
 		Debug::Fatal(std::string(e.what()));
 		ret = 1;
 	}

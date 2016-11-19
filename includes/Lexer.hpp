@@ -26,6 +26,19 @@ class Lexer {
 		bool		_isSpace(char const c) const;
 
 	public:
+		class LexicalError : public std::logic_error {
+
+			public:
+				LexicalError(void);
+				virtual ~LexicalError(void) throw();
+
+				virtual const char *	what(void) const throw();
+
+			private:
+				LexicalError(LexicalError const & src);
+				LexicalError & operator=(LexicalError const & rhs);
+		};
+
 		Lexer(void);
 		~Lexer(void);
 
@@ -39,6 +52,7 @@ class Lexer {
 		eTokenType Operand(void);
 
 		static size_t commandLengthMax;
+
 };
 
 #endif

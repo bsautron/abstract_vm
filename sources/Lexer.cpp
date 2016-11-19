@@ -128,3 +128,12 @@ t_tokens	Lexer::getTokens(std::string const str) {
 }
 
 size_t	Lexer::commandLengthMax = 255;
+
+
+
+Lexer::LexicalError::LexicalError(void) : std::logic_error(0) {}
+Lexer::LexicalError::~LexicalError(void) throw() {}
+
+const char *		Lexer::LexicalError::what(void) const throw() {
+	return "Lexical error";
+}
