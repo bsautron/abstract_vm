@@ -14,29 +14,19 @@ enum eScopeType {
 };
 
 class Lexer {
-	private:
-		t_tokens					_tokens;
-		std::string					_str;
-		std::string::const_iterator _currentIt;
-
-		t_token *	_createNewToken(eTokenType type);
-		eTokenType	_enterScope(eScopeType scopeType);
-		eTokenType	_enterScope(eScopeType scopeType, bool skipSpace);
-		void 		_skipAllSpace(void);
-		bool		_isSpace(char const c) const;
-
+	
 	public:
 		class LexicalError : public std::logic_error {
 
 			public:
 				LexicalError(void);
-				virtual ~LexicalError(void) throw();
-
-				virtual const char *	what(void) const throw();
-
-			private:
 				LexicalError(LexicalError const & src);
 				LexicalError & operator=(LexicalError const & rhs);
+
+				virtual ~LexicalError(void) throw();
+
+
+			private:
 		};
 
 		Lexer(void);
@@ -52,6 +42,18 @@ class Lexer {
 		eTokenType Operand(void);
 
 		static size_t commandLengthMax;
+
+
+	private:
+		t_tokens					_tokens;
+		std::string					_str;
+		std::string::const_iterator _currentIt;
+
+		t_token *	_createNewToken(eTokenType type);
+		eTokenType	_enterScope(eScopeType scopeType);
+		eTokenType	_enterScope(eScopeType scopeType, bool skipSpace);
+		void 		_skipAllSpace(void);
+		bool		_isSpace(char const c) const;
 
 };
 

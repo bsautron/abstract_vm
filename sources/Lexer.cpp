@@ -131,9 +131,12 @@ size_t	Lexer::commandLengthMax = 255;
 
 
 
-Lexer::LexicalError::LexicalError(void) : std::logic_error(0) {}
+Lexer::LexicalError::LexicalError(void) : std::logic_error("Lexical error") {}
 Lexer::LexicalError::~LexicalError(void) throw() {}
-
-const char *		Lexer::LexicalError::what(void) const throw() {
-	return "Lexical error";
+Lexer::LexicalError::LexicalError(LexicalError const & src) : std::logic_error("Lexical Error") {
+	*this = src;
+}
+Lexer::LexicalError & Lexer::LexicalError::operator=(Lexer::LexicalError const & rhs) {
+	(void)rhs;
+	return *this;
 }
