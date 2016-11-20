@@ -5,10 +5,6 @@
 # include <Parser.hpp>
 # include <Abstract.hpp>
 # include <OperandBuilder.hpp>
-# include <MyException.hpp>
-
-// line too long | out_of_range
-// exit not found | runtime_error
 
 class Vm {
 	private:
@@ -17,7 +13,6 @@ class Vm {
 		Abstract		_abstract;
 		Lexer			_lexer;
 		Parser			_parser;
-		t_listError		_listError;
 		OperandBuilder	_builder;
 
 	public:
@@ -27,6 +22,25 @@ class Vm {
 		int start(void);
 
 		static int commandLenghtMax;
+
+		class BigLineException : public std::length_error {
+
+			public:
+				BigLineException(void) throw();
+				BigLineException(BigLineException const & src) throw();
+				BigLineException & operator=(BigLineException const & rhs) throw();
+
+				virtual ~BigLineException(void) throw();
+		};
+		class NotExitTerminateException : public std::runtime_error {
+
+			public:
+				NotExitTerminateException(void) throw();
+				NotExitTerminateException(NotExitTerminateException const & src) throw();
+				NotExitTerminateException & operator=(NotExitTerminateException const & rhs) throw();
+
+				virtual ~NotExitTerminateException(void) throw();
+		};
 };
 
 #endif

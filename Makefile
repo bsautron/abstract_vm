@@ -10,7 +10,6 @@ endif
 CFLAGS := $(MAKE_CFLAGS) $(DEFAULT_CFLAGS)
 
 SOURCES = Operand.cpp \
-						MyException.cpp \
 						Lexer.cpp \
 						Abstract.cpp \
 						Vm.cpp \
@@ -28,7 +27,6 @@ MAIN_OBJECT = $(OBJECTS_FOLDER)/$(MAIN:.cpp=.o)
 INCLUDES = $(NAME).hpp \
 			IOperand.hpp \
 			Operand.hpp \
-			MyException.hpp \
 			Lexer.hpp \
 			Parser.hpp \
 			Debug.hpp \

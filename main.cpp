@@ -6,7 +6,7 @@
 /*   By: bsautron <bsautron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/08 14:35:07 by bsautron          #+#    #+#             */
-/*   Updated: 2016/11/19 19:17:29 by bsautron         ###   ########.fr       */
+/*   Updated: 2016/11/19 22:04:19 by bsautron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 // TODO: Lowercase first letter of members function
 // TODO: Add static variable to enable multi error - Can't you parse en command to set this?
+// TODO: Attention pour la precision, prend la plus grand precision pour la virgule et pour le type
 int main(int ac, char **av)
 {
 	std::ifstream	ifs (av[1]);
@@ -26,8 +27,7 @@ int main(int ac, char **av)
 	Vm	vm{inStream, outStream};
 
 	try {
-//		ret = vm.start();
-		throw Lexer::LexicalError();
+		ret = vm.start();
 	}
 	catch (std::exception const & e) {
 		Debug::Fatal(std::string(e.what()));

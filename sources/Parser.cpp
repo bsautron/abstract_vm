@@ -1,6 +1,7 @@
 #include <Parser.hpp>
 #include <Debug.hpp>
 #include <sstream>
+#include <Operand.hpp>
 
 Parser::Parser(void) : _end(false) {}
 Parser::~Parser(void) {}
@@ -10,14 +11,14 @@ void 	Parser::push(Abstract & abstract, IOperand const * op) {
 }
 void 	Parser::pop(Abstract & abstract, IOperand const * op) {
 	if (op) {
-		throw MyException(EXC_CHAR_BEYOND);
+		throw ArgumentNotValidException();
 	}
 	abstract.Pop();
 
 }
 void 	Parser::dump(Abstract & abstract, IOperand const * op) {
 	if (op) {
-		throw MyException(EXC_CHAR_BEYOND);
+		throw ArgumentNotValidException();
 	}
 	abstract.Dump();
 }
@@ -26,42 +27,42 @@ void 	Parser::assert(Abstract & abstract, IOperand const * op) {
 }
 void 	Parser::add(Abstract & abstract, IOperand const * op) {
 	if (op) {
-		throw MyException(EXC_CHAR_BEYOND);
+		throw ArgumentNotValidException();
 	}
 	abstract.Add();
 
 }
 void 	Parser::sub(Abstract & abstract, IOperand const * op) {
 	if (op) {
-		throw MyException(EXC_CHAR_BEYOND);
+		throw ArgumentNotValidException();
 	}
 	abstract.Sub();
 
 }
 void 	Parser::div(Abstract & abstract, IOperand const * op) {
 	if (op) {
-		throw MyException(EXC_CHAR_BEYOND);
+		throw ArgumentNotValidException();
 	}
 	abstract.Div();
 
 }
 void 	Parser::mod(Abstract & abstract, IOperand const * op) {
 	if (op) {
-		throw MyException(EXC_CHAR_BEYOND);
+		throw ArgumentNotValidException();
 	}
 	abstract.Mod();
 
 }
 void 	Parser::mul(Abstract & abstract, IOperand const * op) {
 	if (op) {
-		throw MyException(EXC_CHAR_BEYOND);
+		throw ArgumentNotValidException();
 	}
 	abstract.Mul();
 
 }
 void 	Parser::print(Abstract & abstract, IOperand const * op) {
 	if (op) {
-		throw MyException(EXC_CHAR_BEYOND);
+		throw ArgumentNotValidException();
 	}
 	abstract.Print();
 
@@ -69,7 +70,7 @@ void 	Parser::print(Abstract & abstract, IOperand const * op) {
 void 	Parser::exit(Abstract & abstract, IOperand const * op) {
 	(void)abstract;
 	if (op) {
-		throw MyException(EXC_CHAR_BEYOND);
+		throw ArgumentNotValidException();
 	}
 	this->_end = true;
 }
@@ -114,19 +115,12 @@ int Parser::exec(Abstract & abstract) {
 			&Parser::comment
 		};
 
-		// Debug::Info("Exec");
-		if (it->size() > 0) {
-			// Debug::Log(tkName[it[0]->type] + ": " + it[0]->value);
+		if (it->size() > 0)
 			tkCommand = (*it)[0];
-		}
-		if (it->size() > 1) {
-			// Debug::Log("Operand: " + it[1]->value);
+		if (it->size() > 1)
 			tkOperand = (*it)[1];
-		}
-		if (it->size() > 2) {
-			// Debug::Log("Args: " + it[2]->value);
+		if (it->size() > 2)
 			tkArgs = (*it)[2];
-		}
 
 		try {
 			if (it->size() && (*it->begin())->type == TK_EXIT)
@@ -135,14 +129,14 @@ int Parser::exec(Abstract & abstract) {
 				(this->*command[this->_strToCommandType("comment")])(abstract, nullptr);
 			else if (it->size()) {
 				if (tkOperand && !tkArgs && tkOperand->type != TK_COMMENT)
-					throw MyException(EXC_CHAR_BEYOND);
+					throw ArgumentNotValidException();
 				IOperand const * op = tkArgs ? this->_builder.createOperand(this->_strToOperandType(tkOperand->value), tkArgs->value) : nullptr;
 				int index = this->_strToCommandType(tkCommand->value);
 				if (index == -1)
-					throw MyException(EXC_COMMAND_NOT_FOUND);
+					throw Command404Exception();
 				(this->*command[index])(abstract, op);
 			}
-		} catch (MyException const & e) {
+		} catch (std::exception const & e) {
 			ret = 1;
 			std::stringstream	s;
 			s << "Fail to exec \"" << this->_tokensToStr(*it) << "\": " << e.what();
@@ -198,8 +192,38 @@ eOperandType Parser::_strToOperandType(std::string const str) const {
 
 	it = type.find(str);
 	if (it == type.end())
-		throw MyException(EXC_OPERAND_NOT_FOUND);
+		throw Operand404Exception();
 	return type[str];
 }
 
 bool 	Parser::abortException = false;
+
+
+Parser::Command404Exception::Command404Exception(void) throw() : std::invalid_argument("Command not found") {}
+Parser::Command404Exception::~Command404Exception(void) throw() {}
+Parser::Command404Exception::Command404Exception(Parser::Command404Exception const & src) throw() : std::invalid_argument("Command not found") {
+	*this = src;
+}
+Parser::Command404Exception & Parser::Command404Exception::operator=(Parser::Command404Exception const & rhs) throw() {
+	(void)rhs;
+	return *this;
+}
+
+Parser::Operand404Exception::Operand404Exception(void) throw() : std::invalid_argument("Operand not found") {}
+Parser::Operand404Exception::~Operand404Exception(void) throw() {}
+Parser::Operand404Exception::Operand404Exception(Parser::Operand404Exception const & src) throw() : std::invalid_argument("Operand not found") {
+	*this = src;
+}
+Parser::Operand404Exception & Parser::Operand404Exception::operator=(Parser::Operand404Exception const & rhs) throw() {
+	(void)rhs;
+	return *this;
+}
+Parser::ArgumentNotValidException::ArgumentNotValidException(void) throw() : std::invalid_argument("Argument not valid") {}
+Parser::ArgumentNotValidException::~ArgumentNotValidException(void) throw() {}
+Parser::ArgumentNotValidException::ArgumentNotValidException(Parser::ArgumentNotValidException const & src) throw() : std::invalid_argument("Argument not valid") {
+	*this = src;
+}
+Parser::ArgumentNotValidException & Parser::ArgumentNotValidException::operator=(Parser::ArgumentNotValidException const & rhs) throw() {
+	(void)rhs;
+	return *this;
+}

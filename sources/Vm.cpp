@@ -21,25 +21,22 @@ int Vm::start(void) {
 
 	while (std::getline(this->_inStream, line) && line.compare(";;")) {
 		if (line.size() > Lexer::commandLengthMax) {
-			throw MyException(EXC_LINE_TOO_LONG);
+			throw BigLineException();
 		}
 		nbLine++;
 		try {
 			currentTk = this->_lexer.getTokens(line);
 			this->_parser.feed(currentTk);
-		} catch (MyException const & e) {
-			this->_listError.push_back({nbLine, e});
+		} catch (std::exception const & e) {
+			std::stringstream	s;
+			s << "Line " << nbLine << ": " << e.what();
+			retLexer = 1;
+			Debug::Error(s.str());
 		}
 	}
-	for (t_listError::const_iterator itErr = this->_listError.begin(); itErr != this->_listError.end(); ++itErr) {
-		std::stringstream	s;
-		s << "Line " << itErr->line << ": " << itErr->exception.what();
-		Debug::Error(s.str());
-	}
 	if (!currentTk.size() || currentTk[0]->value.compare("exit")) {
-		throw MyException(EXC_NOT_END_EXIT);
+		throw NotExitTerminateException();
 	}
-	retLexer = this->_listError.size();
 	retParser = this->_parser.exec(this->_abstract);
 	ret = retLexer | retParser;
 	if (!ret) {
@@ -48,3 +45,23 @@ int Vm::start(void) {
 	return (ret);
 }
 int Vm::commandLenghtMax = 256;
+
+Vm::BigLineException::BigLineException(void) throw() : std::length_error("Line too long") {}
+Vm::BigLineException::~BigLineException(void) throw() {}
+Vm::BigLineException::BigLineException(BigLineException const & src) throw() : std::length_error("Line too long") {
+	*this = src;
+}
+Vm::BigLineException & Vm::BigLineException::operator=(Vm::BigLineException const & rhs) throw() {
+	(void)rhs;
+	return *this;
+}
+
+Vm::NotExitTerminateException::NotExitTerminateException(void) throw() : std::runtime_error("Missing exit command in the end") {}
+Vm::NotExitTerminateException::~NotExitTerminateException(void) throw() {}
+Vm::NotExitTerminateException::NotExitTerminateException(NotExitTerminateException const & src) throw() : std::runtime_error("Missing exit command in the end") {
+	*this = src;
+}
+Vm::NotExitTerminateException & Vm::NotExitTerminateException::operator=(Vm::NotExitTerminateException const & rhs) throw() {
+	(void)rhs;
+	return *this;
+}

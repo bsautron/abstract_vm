@@ -3,7 +3,7 @@ push int10(00);
 push int8(333);
 push int8(ff);
 push int8(-1004);
-pop
+pop;pop
 push int8(70); Hola
 print     ;ccliua
 push int8(65)

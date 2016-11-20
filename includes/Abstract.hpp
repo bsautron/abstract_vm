@@ -4,7 +4,6 @@
 # include <sstream>
 # include <string>
 # include <deque>
-# include <MyException.hpp>
 # include <IOperand.hpp>
 # include <cstdlib>
 # include <OperandBuilder.hpp>
@@ -13,10 +12,6 @@
 # include <vector>
 
 # define DELETE_CPTR(X)		{delete X; X = nullptr;}
-
-// empty | runtime_error
-// too short | runtime_error
-// assert failed | assert_error
 
 class Abstract : public std::deque<IOperand const *> {
 	private:
@@ -27,19 +22,37 @@ class Abstract : public std::deque<IOperand const *> {
 		Abstract(void);
 		~Abstract(void);
 
-		class EmptyStackException : public std::runtime_error {
+		class StackEmptyException : public std::runtime_error {
 
 			public:
-				EmptyStackException(std::string const & msg);
-				EmptyStackException(EmptyStackException const & src);
-				EmptyStackException & operator=(EmptyStackException const & rhs);
+				StackEmptyException(void) throw();
+				StackEmptyException(StackEmptyException const & src) throw();
+				StackEmptyException & operator=(StackEmptyException const & rhs) throw();
 
-				virtual ~EmptyStackException(void) throw();
+				virtual ~StackEmptyException(void) throw();
 
-				virtual const char * what(void) const throw();
+		};
 
-			private:
-				EmptyStackException(void);
+		class StackTooShortException : public std::runtime_error {
+
+			public:
+				StackTooShortException(void) throw();
+				StackTooShortException(StackTooShortException const & src) throw();
+				StackTooShortException & operator=(StackTooShortException const & rhs) throw();
+
+				virtual ~StackTooShortException(void) throw();
+
+		};
+
+		class AssertException : public std::runtime_error {
+
+			public:
+				AssertException(void) throw();
+				AssertException(AssertException const & src) throw();
+				AssertException & operator=(AssertException const & rhs) throw();
+
+				virtual ~AssertException(void) throw();
+
 		};
 
 		void 	Push(IOperand const * op);

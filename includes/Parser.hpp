@@ -7,9 +7,6 @@
 # include <list>
 # include <OperandBuilder.hpp>
 
-// commad not found | invalid_argument
-// operand not found | invalid_argument
-
 class Parser {
 	private:
 		std::list<t_tokens>		_listCommand;
@@ -42,6 +39,37 @@ class Parser {
 		void 	comment(Abstract & abstract, IOperand const * op);
 
 		static	bool 	abortException;
+
+		class Command404Exception : public std::invalid_argument {
+
+			public:
+				Command404Exception(void) throw();
+				Command404Exception(Command404Exception const & src) throw();
+				Command404Exception & operator=(Command404Exception const & rhs) throw();
+
+				virtual ~Command404Exception(void) throw();
+		};
+
+		class Operand404Exception : public std::invalid_argument {
+
+			public:
+				Operand404Exception(void) throw();
+				Operand404Exception(Operand404Exception const & src) throw();
+				Operand404Exception & operator=(Operand404Exception const & rhs) throw();
+
+				virtual ~Operand404Exception(void) throw();
+		};
+
+		class ArgumentNotValidException : public std::invalid_argument {
+
+			public:
+				ArgumentNotValidException(void) throw();
+				ArgumentNotValidException(ArgumentNotValidException const & src) throw();
+				ArgumentNotValidException & operator=(ArgumentNotValidException const & rhs) throw();
+
+				virtual ~ArgumentNotValidException(void) throw();
+		};
+
 };
 
 #endif

@@ -1,6 +1,5 @@
 #include <Lexer.hpp>
 #include <Debug.hpp>
-#include <MyException.hpp>
 
 Lexer::Lexer(void) {}
 Lexer::~Lexer(void) {}
@@ -60,11 +59,11 @@ eTokenType Lexer::Operand(void) {
 		 newToken = this->_createNewToken(TK_OPERAND);
 
 	if (*this->_currentIt == '(')
-		throw MyException(EXC_LEXICAL);
+		throw LexicalException();
 
 	while (this->_currentIt != this->_str.end()) {
 		if (this->_isSpace(*this->_currentIt))
-			throw MyException(EXC_LEXICAL);
+			throw LexicalException();
 		if (*this->_currentIt == '(') {
 			this->_currentIt++;
 			return this->_enterScope(LXS_ARGS, false);
@@ -72,7 +71,7 @@ eTokenType Lexer::Operand(void) {
 		newToken->value.push_back(*this->_currentIt);
 		this->_currentIt++;
 	}
-	throw MyException(EXC_LEXICAL);
+	throw LexicalException();
 	return TK_NONE;
 }
 
@@ -83,7 +82,7 @@ eTokenType Lexer::Args(void) {
 
 	while (this->_currentIt != this->_str.end()) {
 		if (this->_isSpace(*this->_currentIt))
-			throw MyException(EXC_LEXICAL);
+			throw LexicalException();
 		if (*this->_currentIt == ')') {
 			this->_currentIt++;
 			return TK_ARGS;
@@ -91,7 +90,7 @@ eTokenType Lexer::Args(void) {
 		newToken->value.push_back(*this->_currentIt);
 		this->_currentIt++;
 	}
-	throw MyException(EXC_LEXICAL);
+	throw LexicalException();
 	return TK_NONE;
 }
 
@@ -123,18 +122,18 @@ t_tokens	Lexer::getTokens(std::string const str) {
 	if (*this->_currentIt == ';')
 		this->_enterScope(LXS_COMMENT);
 	if (this->_currentIt != this->_str.end())
-		throw MyException(EXC_CHAR_BEYOND);
+		throw LexicalException();
 	return this->_tokens;
 }
 
 size_t	Lexer::commandLengthMax = 255;
 
-Lexer::LexicalException::LexicalException(void) : std::logic_error("Lexical error") {}
+Lexer::LexicalException::LexicalException(void) throw() : std::logic_error("Lexical error") {}
 Lexer::LexicalException::~LexicalException(void) throw() {}
-Lexer::LexicalException::LexicalException(LexicalException const & src) : std::logic_error("Lexical Error") {
+Lexer::LexicalException::LexicalException(LexicalException const & src) throw() : std::logic_error("Lexical error") {
 	*this = src;
 }
-Lexer::LexicalException & Lexer::LexicalException::operator=(Lexer::LexicalException const & rhs) {
+Lexer::LexicalException & Lexer::LexicalException::operator=(Lexer::LexicalException const & rhs) throw() {
 	(void)rhs;
 	return *this;
 }
