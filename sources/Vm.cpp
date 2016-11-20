@@ -44,7 +44,6 @@ int Vm::start(void) {
 	}
 	return (ret);
 }
-int Vm::commandLenghtMax = 256;
 
 Vm::BigLineException::BigLineException(void) throw() : std::length_error("Line too long") {}
 Vm::BigLineException::~BigLineException(void) throw() {}

@@ -19,6 +19,11 @@
 // TODO: Attention pour la precision, prend la plus grand precision pour la virgule et pour le type
 int main(int ac, char **av)
 {
+	Operand<float>::assumePrecision = false;
+	Operand<double>::assumePrecision = false;
+	Lexer::commandLengthMax = 256;
+	Parser::abortException = true;
+
 	std::ifstream	ifs (av[1]);
 	std::istream	& inStream = (ac > 1 && ifs.good()) ? ifs : std::cin;
 	std::ostream	& outStream = std::cout;

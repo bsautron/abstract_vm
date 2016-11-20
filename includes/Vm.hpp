@@ -21,8 +21,6 @@ class Vm {
 
 		int start(void);
 
-		static int commandLenghtMax;
-
 		class BigLineException : public std::length_error {
 
 			public:
