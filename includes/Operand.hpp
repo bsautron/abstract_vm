@@ -60,8 +60,6 @@ class Operand : public IOperand
 					throw UnderflowException();
 			} catch (const std::out_of_range & e) {
 				throw UnderflowException();
-			} catch (const std::exception & e) {
-				throw e;
 			}
 		}
 
@@ -71,8 +69,6 @@ class Operand : public IOperand
 					throw OverflowException();
 			} catch (const std::out_of_range & e) {
 				throw OverflowException();
-			} catch (const std::exception & e) {
-				throw e;
 			}
 		}
 
@@ -122,8 +118,8 @@ class Operand : public IOperand
 		class OverflowException : public std::overflow_error {
 
 			public:
-				OverflowException(void) throw() : std::overflow_error("") {}
-				OverflowException(OverflowException const & src) throw() : std::overflow_error("") {
+				OverflowException(void) throw() : std::overflow_error("Overflow") {}
+				OverflowException(OverflowException const & src) throw() : std::overflow_error("Overflow") {
 					*this = src;
 				}
 				OverflowException & operator=(OverflowException const & rhs) throw() {
@@ -137,8 +133,8 @@ class Operand : public IOperand
 		class UnderflowException : public std::underflow_error {
 
 			public:
-				UnderflowException(void) throw() : std::underflow_error("") {}
-				UnderflowException(UnderflowException const & src) throw() : std::underflow_error("") {
+				UnderflowException(void) throw() : std::underflow_error("Underflow") {}
+				UnderflowException(UnderflowException const & src) throw() : std::underflow_error("Underflow") {
 					*this = src;
 				}
 				UnderflowException & operator=(UnderflowException const & rhs) throw() {
@@ -152,8 +148,8 @@ class Operand : public IOperand
 		class DivideByZeroException : public std::runtime_error {
 
 			public:
-				DivideByZeroException(void) throw() : std::runtime_error("") {}
-				DivideByZeroException(DivideByZeroException const & src) throw() : std::runtime_error("") {
+				DivideByZeroException(void) throw() : std::runtime_error("Division by zero") {}
+				DivideByZeroException(DivideByZeroException const & src) throw() : std::runtime_error("Division by zero") {
 					*this = src;
 				}
 				DivideByZeroException & operator=(DivideByZeroException const & rhs) throw() {
@@ -167,8 +163,8 @@ class Operand : public IOperand
 		class ModuloByZeroException : public std::runtime_error {
 
 			public:
-				ModuloByZeroException(void) throw() : std::runtime_error("") {}
-				ModuloByZeroException(ModuloByZeroException const & src) throw() : std::runtime_error("") {
+				ModuloByZeroException(void) throw() : std::runtime_error("Modulo by zero") {}
+				ModuloByZeroException(ModuloByZeroException const & src) throw() : std::runtime_error("Modulo by zero") {
 					*this = src;
 				}
 				ModuloByZeroException & operator=(ModuloByZeroException const & rhs) throw() {
@@ -182,8 +178,8 @@ class Operand : public IOperand
 		class ModuloFloatException : public std::runtime_error {
 
 			public:
-				ModuloFloatException(void) throw() : std::runtime_error("") {}
-				ModuloFloatException(ModuloFloatException const & src) throw() : std::runtime_error("") {
+				ModuloFloatException(void) throw() : std::runtime_error("Modulo by float") {}
+				ModuloFloatException(ModuloFloatException const & src) throw() : std::runtime_error("Modulo by float") {
 					*this = src;
 				}
 				ModuloFloatException & operator=(ModuloFloatException const & rhs) throw() {
@@ -197,8 +193,8 @@ class Operand : public IOperand
 		class LimitationPrecisionException : public std::runtime_error {
 
 			public:
-				LimitationPrecisionException(void) throw() : std::runtime_error("") {}
-				LimitationPrecisionException(LimitationPrecisionException const & src) throw() : std::runtime_error("") {
+				LimitationPrecisionException(void) throw() : std::runtime_error("Limiation precision") {}
+				LimitationPrecisionException(LimitationPrecisionException const & src) throw() : std::runtime_error("Limiation precision") {
 					*this = src;
 				}
 				LimitationPrecisionException & operator=(LimitationPrecisionException const & rhs) throw() {
@@ -211,8 +207,8 @@ class Operand : public IOperand
 		class NanException : public std::invalid_argument {
 
 			public:
-				NanException(void) throw() : std::invalid_argument("") {}
-				NanException(NanException const & src) throw() : std::invalid_argument("") {
+				NanException(void) throw() : std::invalid_argument("Argument is not a number") {}
+				NanException(NanException const & src) throw() : std::invalid_argument("Argument is not a number") {
 					*this = src;
 				}
 				NanException & operator=(NanException const & rhs) throw() {
@@ -225,8 +221,8 @@ class Operand : public IOperand
 		class NotValidNumberException : public std::invalid_argument {
 
 			public:
-				NotValidNumberException(void) throw() : std::invalid_argument("") {}
-				NotValidNumberException(NotValidNumberException const & src) throw() : std::invalid_argument("") {
+				NotValidNumberException(void) throw() : std::invalid_argument("Argument is not a valid number") {}
+				NotValidNumberException(NotValidNumberException const & src) throw() : std::invalid_argument("Argument is not a valid number") {
 					*this = src;
 				}
 				NotValidNumberException & operator=(NotValidNumberException const & rhs) throw() {
