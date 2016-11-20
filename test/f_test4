@@ -4,6 +4,9 @@ push int8(333);
 push int8(ff);
 push int8(-1004);
 pop;pop
+push dou;ble(23.4)
+push double(;3.4)
+push double(2;3.4)
 push int8(70); Hola
 print     ;ccliua
 push int8(65)

@@ -45,6 +45,8 @@ eTokenType Lexer::Comment(void) {
 eTokenType Lexer::Command(void) {
 	t_token * newToken = this->_createNewToken(TK_COMMAND);
 	while (this->_currentIt != this->_str.end()) {
+		if (*this->_currentIt == ';')
+			return this->_enterScope(LXS_COMMENT);
 		if (this->_isSpace(*this->_currentIt))
 			return this->_enterScope(LXS_OPERAND);
 		newToken->value.push_back(*this->_currentIt);
@@ -64,8 +66,12 @@ eTokenType Lexer::Operand(void) {
 	while (this->_currentIt != this->_str.end()) {
 		if (this->_isSpace(*this->_currentIt))
 			throw LexicalException();
+		if (*this->_currentIt == ';')
+			throw LexicalException();
 		if (*this->_currentIt == '(') {
 			this->_currentIt++;
+			if (*this->_currentIt == ';')
+				throw LexicalException();
 			return this->_enterScope(LXS_ARGS, false);
 		}
 		newToken->value.push_back(*this->_currentIt);
@@ -82,6 +88,8 @@ eTokenType Lexer::Args(void) {
 
 	while (this->_currentIt != this->_str.end()) {
 		if (this->_isSpace(*this->_currentIt))
+			throw LexicalException();
+		if (*this->_currentIt == ';')
 			throw LexicalException();
 		if (*this->_currentIt == ')') {
 			this->_currentIt++;
