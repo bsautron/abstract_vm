@@ -78,6 +78,16 @@ void 	Parser::comment(Abstract & abstract, IOperand const * op) {
 	(void)abstract;
 	(void)op;
 }
+void 	Parser::enableVerbose(Abstract & abstract, IOperand const * op) {
+	(void)abstract;
+	(void)op;
+	abstract.enableVerbose();
+}
+void 	Parser::disableVerbose(Abstract & abstract, IOperand const * op) {
+	(void)abstract;
+	(void)op;
+	abstract.disableVerbose();
+}
 
 std::string Parser::_tokensToStr(t_tokens tk) const {
 	std::stringstream s;
@@ -112,7 +122,9 @@ int Parser::exec(Abstract & abstract) {
 			&Parser::mul,
 			&Parser::print,
 			&Parser::exit,
-			&Parser::comment
+			&Parser::comment,
+			&Parser::enableVerbose,
+			&Parser::disableVerbose
 		};
 
 		if (it->size() > 0)
@@ -170,6 +182,8 @@ int 		Parser::_strToCommandType(std::string const str) const {
 	commandName.push_back("print");
 	commandName.push_back("exit");
 	commandName.push_back("comment");
+	commandName.push_back("enableVerbose");
+	commandName.push_back("disableVerbose");
 
 	for (std::vector<std::string const>::const_iterator it = commandName.begin(); it != commandName.end(); ++it) {
 		if (!str.compare(*it)) {

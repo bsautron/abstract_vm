@@ -1,6 +1,7 @@
 #include <Abstract.hpp>
 #include <Operand.hpp>
 #include <iostream>
+#include <Debug.hpp>
 
 Abstract::Abstract(void) { }
 Abstract::~Abstract(void) {}
@@ -102,8 +103,25 @@ void Abstract::dump() {
 	std::deque<IOperand const *>::const_iterator operand = this->begin();
 
 	while (operand != this->end()) {
+		if (this->_verbose) this->_stringStream
+			<< "Type: "
+			<< Abstract::stringType[(*operand)->getType()]
+			<< " - Precision: "
+			<< (*operand)->getPrecision()
+			<< " - Value: ";
+
 		this->_stringStream << (*operand++)->toString() << std::endl;
 	}
+}
+
+void Abstract::enableVerbose() {
+	Debug::info("Enable verbse mode");
+	this->_verbose = true;
+}
+
+void Abstract::disableVerbose() {
+	Debug::info("Disable verbse mode");
+	this->_verbose = false;
 }
 
 void Abstract::_deleteOperand(IOperand const * operand) {
@@ -116,6 +134,14 @@ void Abstract::_deleteOperand(IOperand const * operand) {
 std::stringstream & Abstract::getStringStream(void) {
 	return this->_stringStream;
 }
+
+std::string 	Abstract::stringType[5] = {
+	"INT8",
+	"INT16",
+	"INT32",
+	"FLOAT",
+	"DOUBLE"
+};
 
 /* Exceptions */
 

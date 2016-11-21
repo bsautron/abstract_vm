@@ -17,6 +17,7 @@ class Abstract : public std::deque<IOperand const *> {
 	private:
 		void				_deleteOperand(IOperand const * operand);
 		std::stringstream	_stringStream;
+		bool				_verbose;
 
 	public:
 		Abstract(void);
@@ -66,13 +67,18 @@ class Abstract : public std::deque<IOperand const *> {
 		void		mul(void);
 		void		print(void);
 
-		//		void	Min(void);
-		//		void	Max(void);
-		//		void	Swap(void);
-		//		void	Inverse(void);
+		void		enableVerbose();
+		void 		disableVerbose();
+
+		//		void	min(void);
+		//		void	max(void);
+		//		void	swap(void);
+		//		void	inverse(void);
 		//		Dump verbose
 
 		std::stringstream & getStringStream(void);
+
+		static std::string 	stringType[5];
 };
 
 #endif

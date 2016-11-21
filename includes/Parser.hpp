@@ -37,6 +37,8 @@ class Parser {
 		void 	print(Abstract & abstract, IOperand const * op);
 		void 	exit(Abstract & abstract, IOperand const * op);
 		void 	comment(Abstract & abstract, IOperand const * op);
+		void 	enableVerbose(Abstract & abstract, IOperand const * op);
+		void 	disableVerbose(Abstract & abstract, IOperand const * op);
 
 		static	bool 	abortException;
 

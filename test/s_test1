@@ -1,0 +1,5 @@
+push int8(3)
+push float(34.3)
+enableVerbose
+dump
+exit
