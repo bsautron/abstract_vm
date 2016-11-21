@@ -31,12 +31,12 @@ class Lexer {
 
 		t_tokens	getTokens(std::string const str);
 
-		eTokenType Default(void);
-		eTokenType Exit(void);
-		eTokenType Comment(void);
-		eTokenType Command(void);
-		eTokenType Args(void);
-		eTokenType Operand(void);
+		eTokenType scopeDefault(void);
+		eTokenType scopeExit(void);
+		eTokenType scopeComment(void);
+		eTokenType scopeCommand(void);
+		eTokenType scopeArgs(void);
+		eTokenType scopeOperand(void);
 
 		static size_t commandLengthMax;
 

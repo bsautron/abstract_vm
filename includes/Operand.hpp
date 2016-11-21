@@ -19,15 +19,15 @@ class Operand : public IOperand
 
 		Operand(void);
 
-		void _Checker(std::string const & value) {
-			this->_CheckIsNumber(value);
-			this->_CheckIsBounded(value);
+		void _checker(std::string const & value) {
+			this->_checkIsNumber(value);
+			this->_checkIsBounded(value);
 
-			if (!Operand<T>::assumePrecision && !this->_IsEqual(value))
+			if (!Operand<T>::assumePrecision && !this->_isEqual(value))
 				throw LimitationPrecisionException();
 		}
 
-		void _CheckIsNumber(std::string const & value)	{
+		void _checkIsNumber(std::string const & value)	{
 			std::smatch	arrayMatch;
 			std::regex	numberPattern("-?\\d+(\\.\\d+)?");
 
@@ -43,56 +43,52 @@ class Operand : public IOperand
 				if (!arrayMatch[1].length())
 					throw NotValidNumberException();
 			}
-			this->_stringStream = this->_GetStream(this->_precision, std::stold(value));
+			this->_stringStream = this->_getStream(this->_precision, std::stold(value));
 		}
 
-		void _CheckIsBounded(std::string const & value) const {
+		void _checkIsBounded(std::string const & value) const {
 
 			if (value[0] == '-')
-				this->_CheckIsUpperMin(value);
+				this->_checkIsUpperMin(value);
 			else
-				this->_CheckIsUnderMax(value);
+				this->_checkIsUnderMax(value);
 		}
 
-		void _CheckIsUpperMin(std::string const & value) const {
+		void _checkIsUpperMin(std::string const & value) const {
 			try {
-				if ( !( (this->_IsInteger() ? std::stoi(value) : std::stod(value)) >= std::numeric_limits<T>::lowest() ))
+				if ( !( (this->_isInteger() ? std::stoi(value) : std::stod(value)) >= std::numeric_limits<T>::lowest() ))
 					throw UnderflowException();
 			} catch (const std::out_of_range & e) {
 				throw UnderflowException();
 			}
 		}
 
-		void _CheckIsUnderMax(std::string const & value) const {
+		void _checkIsUnderMax(std::string const & value) const {
 			try {
-				if ( ! ((this->_IsInteger() ? std::stoi(value) : std::stod(value)) <= std::numeric_limits<T>::max() ))
+				if ( ! ((this->_isInteger() ? std::stoi(value) : std::stod(value)) <= std::numeric_limits<T>::max() ))
 					throw OverflowException();
 			} catch (const std::out_of_range & e) {
 				throw OverflowException();
 			}
 		}
 
-		bool _IsInteger(void) const {
+		bool _isInteger(void) const {
 			return (this->_type < FLOAT);
 		}
 
-		bool _IsEqual( std::string const & value ) const {
+		bool _isEqual( std::string const & value ) const {
 			return this->_stringStream.str().compare(value) == 0;
 		}
 
-		eOperandType _GetBiggerType(eOperandType a, eOperandType b) const {
+		eOperandType _getBiggerType(eOperandType a, eOperandType b) const {
 			return a > b ? a : b;
 		}
 
-		int _GetBiggerPrecision(int a, int b) const {
+		int _getBiggerPrecision(int a, int b) const {
 			return a > b ? a : b;
 		}
 
-		IOperand const * _GetBiggerOperandPrecision(IOperand const * a, IOperand const * b) const {
-			return (a->getPrecision() > b->getPrecision()) ? a : b;
-		}
-
-		std::stringstream _GetStream(int precision, long double number) const {
+		std::stringstream _getStream(int precision, long double number) const {
 			std::stringstream stream;
 			stream << std::fixed;
 			stream.precision(precision);
@@ -100,15 +96,14 @@ class Operand : public IOperand
 			return stream;
 		}
 
-		IOperand const *	_BuilderOperand( IOperand const & rhs, long double value) const {
-			IOperand const * opSelected = this->_GetBiggerOperandPrecision(&rhs, this);
+		IOperand const *	_builderOperand( IOperand const & rhs, long double value) const {
 			return this->_builder.createOperand(
-				(opSelected->getType() >= FLOAT) ? opSelected->getType() : this->_GetBiggerType( rhs.getType(), this->_type ),
-				this->_GetStream( opSelected->getPrecision(), value ).str()
+				this->_getBiggerType( rhs.getType(), this->_type ),
+				this->_getStream( this->_getBiggerPrecision(rhs.getPrecision(), this->_precision), value ).str()
 			);
 		}
 
-		bool _IsZero(std::string const value) const {
+		bool _isZero(std::string const value) const {
 			return std::regex_match(value, std::regex("-?0*(\\.0+)?"));
 		}
 
@@ -239,35 +234,35 @@ class Operand : public IOperand
 		virtual ~Operand(void) {}
 
 		IOperand const * operator+( IOperand const & rhs ) const {
-			return this->_BuilderOperand(rhs, std::stold(this->_stringStream.str()) + std::stold(rhs.toString()));
+			return this->_builderOperand(rhs, std::stold(this->_stringStream.str()) + std::stold(rhs.toString()));
 		}
 
 		IOperand const * operator-( IOperand const & rhs ) const {
-			return this->_BuilderOperand(rhs, std::stold(this->_stringStream.str()) - std::stold(rhs.toString()));
+			return this->_builderOperand(rhs, std::stold(this->_stringStream.str()) - std::stold(rhs.toString()));
 		}
 
 		IOperand const * operator*( IOperand const & rhs ) const {
-			return this->_BuilderOperand(rhs, std::stold(this->_stringStream.str()) * std::stold(rhs.toString()));
+			return this->_builderOperand(rhs, std::stold(this->_stringStream.str()) * std::stold(rhs.toString()));
 		}
 
 		IOperand const * operator/( IOperand const & rhs ) const {
-			if (this->_IsZero(rhs.toString()))
+			if (this->_isZero(rhs.toString()))
 				throw DivideByZeroException();
-			return this->_BuilderOperand(rhs, std::stold(this->_stringStream.str()) / std::stold(rhs.toString()));
+			return this->_builderOperand(rhs, std::stold(this->_stringStream.str()) / std::stold(rhs.toString()));
 		}
 
 		IOperand const * operator%( IOperand const & rhs ) const {
 			if (rhs.getType() >= FLOAT || this->_type >= FLOAT)
 				throw ModuloFloatException();
-			if (this->_IsZero(rhs.toString()))
+			if (this->_isZero(rhs.toString()))
 				throw ModuloByZeroException();
-			return this->_BuilderOperand(rhs, std::stoi(this->_stringStream.str()) % std::stoi(rhs.toString()));
+			return this->_builderOperand(rhs, std::stoi(this->_stringStream.str()) % std::stoi(rhs.toString()));
 		}
 
 		int						getPrecision( void ) 	const { return this->_precision; }
 		eOperandType			getType( void ) 		const { return this->_type; }
 
-		bool 	IsPositive(void) const {
+		bool 	isPositive(void) const {
 			return this->_stringStream.str()[0] != '-';
 		}
 

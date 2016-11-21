@@ -7,64 +7,64 @@ Parser::Parser(void) : _end(false) {}
 Parser::~Parser(void) {}
 
 void 	Parser::push(Abstract & abstract, IOperand const * op) {
-	abstract.Push(op);
+	abstract.push(op);
 }
 void 	Parser::pop(Abstract & abstract, IOperand const * op) {
 	if (op) {
 		throw ArgumentNotValidException();
 	}
-	abstract.Pop();
+	abstract.pop();
 
 }
 void 	Parser::dump(Abstract & abstract, IOperand const * op) {
 	if (op) {
 		throw ArgumentNotValidException();
 	}
-	abstract.Dump();
+	abstract.dump();
 }
 void 	Parser::assert(Abstract & abstract, IOperand const * op) {
-	abstract.Assert(*op);
+	abstract.assert(*op);
 }
 void 	Parser::add(Abstract & abstract, IOperand const * op) {
 	if (op) {
 		throw ArgumentNotValidException();
 	}
-	abstract.Add();
+	abstract.add();
 
 }
 void 	Parser::sub(Abstract & abstract, IOperand const * op) {
 	if (op) {
 		throw ArgumentNotValidException();
 	}
-	abstract.Sub();
+	abstract.sub();
 
 }
 void 	Parser::div(Abstract & abstract, IOperand const * op) {
 	if (op) {
 		throw ArgumentNotValidException();
 	}
-	abstract.Div();
+	abstract.div();
 
 }
 void 	Parser::mod(Abstract & abstract, IOperand const * op) {
 	if (op) {
 		throw ArgumentNotValidException();
 	}
-	abstract.Mod();
+	abstract.mod();
 
 }
 void 	Parser::mul(Abstract & abstract, IOperand const * op) {
 	if (op) {
 		throw ArgumentNotValidException();
 	}
-	abstract.Mul();
+	abstract.mul();
 
 }
 void 	Parser::print(Abstract & abstract, IOperand const * op) {
 	if (op) {
 		throw ArgumentNotValidException();
 	}
-	abstract.Print();
+	abstract.print();
 
 }
 void 	Parser::exit(Abstract & abstract, IOperand const * op) {
@@ -140,7 +140,7 @@ int Parser::exec(Abstract & abstract) {
 			ret = 1;
 			std::stringstream	s;
 			s << "Fail to exec \"" << this->_tokensToStr(*it) << "\": " << e.what();
-			Debug::Error(s.str());
+			Debug::error(s.str());
 			if (Parser::abortException)
 				break;
 		}

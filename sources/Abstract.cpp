@@ -5,91 +5,91 @@
 Abstract::Abstract(void) { }
 Abstract::~Abstract(void) {}
 
-void Abstract::Push(IOperand const * op) {
+void Abstract::push(IOperand const * op) {
 	this->push_front(op);
 }
-void Abstract::Pop(void) {
+void Abstract::pop(void) {
 	if (this->empty())
 		throw StackEmptyException();
 	this->pop_front();
 }
-void Abstract::Assert(IOperand const & value) const {
+void Abstract::assert(IOperand const & value) const {
 	IOperand const * operand = this->front();
 	if ( value.toString().compare(operand->toString()) || value.getType() != operand->getType())
 		throw AssertException();
 }
-void Abstract::Add(void) {
+void Abstract::add(void) {
 
 	if (this->size() < 2)
 		throw StackTooShortException();
 
 	IOperand const * op1 = this->front();
-	this->Pop();
+	this->pop();
 	IOperand const * op2 = this->front();
-	this->Pop();
+	this->pop();
 
-	this->Push((*op2) + (*op1));
-	this->_DeleteOperand(op1);
-	this->_DeleteOperand(op2);
+	this->push((*op2) + (*op1));
+	this->_deleteOperand(op1);
+	this->_deleteOperand(op2);
 }
-void Abstract::Sub(void) {
+void Abstract::sub(void) {
 
 	if (this->size() < 2)
 		throw StackTooShortException();
 
 	IOperand const * op1 = this->front();
-	this->Pop();
+	this->pop();
 	IOperand const * op2 = this->front();
-	this->Pop();
+	this->pop();
 
-	this->Push((*op2) - (*op1));
-	this->_DeleteOperand(op1);
-	this->_DeleteOperand(op2);
+	this->push((*op2) - (*op1));
+	this->_deleteOperand(op1);
+	this->_deleteOperand(op2);
 }
-void Abstract::Div(void) {
+void Abstract::div(void) {
 
 	if (this->size() < 2)
 		throw StackTooShortException();
 
 	IOperand const * op1 = this->front();
-	this->Pop();
+	this->pop();
 	IOperand const * op2 = this->front();
-	this->Pop();
+	this->pop();
 
-	this->Push((*op2) / (*op1));
-	this->_DeleteOperand(op1);
-	this->_DeleteOperand(op2);
+	this->push((*op2) / (*op1));
+	this->_deleteOperand(op1);
+	this->_deleteOperand(op2);
 }
-void Abstract::Mul(void) {
+void Abstract::mul(void) {
 
 	if (this->size() < 2)
 		throw StackTooShortException();
 
 	IOperand const * op1 = this->front();
-	this->Pop();
+	this->pop();
 	IOperand const * op2 = this->front();
-	this->Pop();
+	this->pop();
 
-	this->Push((*op2) * (*op1));
-	this->_DeleteOperand(op1);
-	this->_DeleteOperand(op2);
+	this->push((*op2) * (*op1));
+	this->_deleteOperand(op1);
+	this->_deleteOperand(op2);
 }
-void Abstract::Mod(void) {
+void Abstract::mod(void) {
 
 	if (this->size() < 2)
 		throw StackTooShortException();
 
 	IOperand const * op1 = this->front();
-	this->Pop();
+	this->pop();
 	IOperand const * op2 = this->front();
-	this->Pop();
+	this->pop();
 
-	this->Push((*op2) % (*op1));
-	this->_DeleteOperand(op1);
-	this->_DeleteOperand(op2);
+	this->push((*op2) % (*op1));
+	this->_deleteOperand(op1);
+	this->_deleteOperand(op2);
 }
 
-void Abstract::Print(void) {
+void Abstract::print(void) {
 	if (this->empty())
 		throw StackEmptyException();
 
@@ -98,7 +98,7 @@ void Abstract::Print(void) {
 		throw AssertException();
 	this->_stringStream << static_cast<char const>(std::stoi(operand->toString()));
 }
-void Abstract::Dump() {
+void Abstract::dump() {
 	std::deque<IOperand const *>::const_iterator operand = this->begin();
 
 	while (operand != this->end()) {
@@ -106,14 +106,14 @@ void Abstract::Dump() {
 	}
 }
 
-void Abstract::_DeleteOperand(IOperand const * operand) {
+void Abstract::_deleteOperand(IOperand const * operand) {
 	if (operand) {
 		delete operand;
 		operand = nullptr;
 	}
 }
 
-std::stringstream & Abstract::GetStringStream(void) {
+std::stringstream & Abstract::getStringStream(void) {
 	return this->_stringStream;
 }
 

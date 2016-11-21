@@ -23,12 +23,12 @@ public:
 	Debug(void);
 	~Debug(void);
 
-	static void Log(std::string const message);
-	static void Info(std::string const message);
-	static void Warning(std::string const message);
-	static void Error(std::string const message);
-	static void Fatal(std::string const message);
-	static void Logger(int level, std::string const message);
+	static void log(std::string const message);
+	static void info(std::string const message);
+	static void warning(std::string const message);
+	static void error(std::string const message);
+	static void fatal(std::string const message);
+	static void logger(int level, std::string const message);
 
 	static tDebugLevel debugLevel[];
 };

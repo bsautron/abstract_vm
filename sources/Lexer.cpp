@@ -10,12 +10,12 @@ eTokenType Lexer::_enterScope(eScopeType scopeType) {
 
 eTokenType Lexer::_enterScope(eScopeType scopeType, bool skipSpace) {
 	eTokenType (Lexer::*scope[])(void) = {
-		&Lexer::Default,
-		&Lexer::Exit,
-		&Lexer::Comment,
-		&Lexer::Command,
-		&Lexer::Args,
-		&Lexer::Operand
+		&Lexer::scopeDefault,
+		&Lexer::scopeExit,
+		&Lexer::scopeComment,
+		&Lexer::scopeCommand,
+		&Lexer::scopeArgs,
+		&Lexer::scopeOperand
 	};
 
 	if (skipSpace)
@@ -26,23 +26,23 @@ eTokenType Lexer::_enterScope(eScopeType scopeType, bool skipSpace) {
 	return (this->*scope[scopeType])();
 }
 
-eTokenType Lexer::Default(void) {
+eTokenType Lexer::scopeDefault(void) {
 	if (this->_currentIt == this->_str.end())
 		return TK_NONE;
 	return this->_enterScope(LXS_COMMAND);
 }
 
-eTokenType Lexer::Exit(void) {
+eTokenType Lexer::scopeExit(void) {
 	this->_createNewToken(TK_EXIT);
 	return TK_NONE;
 }
-eTokenType Lexer::Comment(void) {
+eTokenType Lexer::scopeComment(void) {
 	this->_currentIt = this->_str.end();
 	this->_createNewToken(TK_COMMENT);
 	return TK_NONE;
 }
 
-eTokenType Lexer::Command(void) {
+eTokenType Lexer::scopeCommand(void) {
 	t_token * newToken = this->_createNewToken(TK_COMMAND);
 	while (this->_currentIt != this->_str.end()) {
 		if (*this->_currentIt == ';')
@@ -55,7 +55,7 @@ eTokenType Lexer::Command(void) {
 	return TK_NONE;
 }
 
-eTokenType Lexer::Operand(void) {
+eTokenType Lexer::scopeOperand(void) {
 	t_token * newToken;
 	if (this->_currentIt != this->_str.end())
 		 newToken = this->_createNewToken(TK_OPERAND);
@@ -81,7 +81,7 @@ eTokenType Lexer::Operand(void) {
 	return TK_NONE;
 }
 
-eTokenType Lexer::Args(void) {
+eTokenType Lexer::scopeArgs(void) {
 	t_token * newToken;
 	if (this->_currentIt != this->_str.end())
 		 newToken = this->_createNewToken(TK_ARGS);

@@ -13,26 +13,30 @@ Vm::~Vm(void) {}
 
 int Vm::start(void) {
 	std::string	line;
-	int nbLine = 0;
+	size_t nbLine = 0;
 	int retLexer = 0;
 	int retParser = 0;
 	int	ret = 0;
 	t_tokens currentTk;
+	std::list<t_errors> errors;
 
 	while (std::getline(this->_inStream, line) && line.compare(";;")) {
+		++nbLine;
 		if (line.size() > Lexer::commandLengthMax) {
 			throw BigLineException();
 		}
-		nbLine++;
 		try {
 			currentTk = this->_lexer.getTokens(line);
 			this->_parser.feed(currentTk);
 		} catch (std::exception const & e) {
-			std::stringstream	s;
-			s << "Line " << nbLine << ": " << e.what();
+			errors.push_back({nbLine, std::string(e.what())});
 			retLexer = 1;
-			Debug::Error(s.str());
 		}
+	}
+	for (std::list<t_errors>::const_iterator it = errors.begin(); it != errors.end(); ++it) {
+		std::stringstream	s;
+		s << "Line " << it->nbLine << ": " << it->message;
+		Debug::error(s.str());
 	}
 	if (!currentTk.size() || currentTk[0]->value.compare("exit")) {
 		throw NotExitTerminateException();
@@ -40,7 +44,7 @@ int Vm::start(void) {
 	retParser = this->_parser.exec(this->_abstract);
 	ret = retLexer | retParser;
 	if (!ret) {
-		this->_outStream << this->_abstract.GetStringStream().str();
+		this->_outStream << this->_abstract.getStringStream().str();
 	}
 	return (ret);
 }

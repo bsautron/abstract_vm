@@ -5,6 +5,12 @@
 # include <Parser.hpp>
 # include <Abstract.hpp>
 # include <OperandBuilder.hpp>
+# include <list>
+
+typedef struct	s_errors {
+	size_t					nbLine;
+	std::string	const 		message;
+}				t_errors;
 
 class Vm {
 	private:
@@ -16,8 +22,8 @@ class Vm {
 		OperandBuilder	_builder;
 
 	public:
-		Vm (std::istream & is, std::ostream & os);
-		~Vm (void);
+		Vm(std::istream & is, std::ostream & os);
+		~Vm(void);
 
 		int start(void);
 

@@ -14,15 +14,12 @@
 #include <fstream>
 #include <Debug.hpp>
 
-// TODO: Lowercase first letter of members function
-// TODO: Add static variable to enable multi error - Can't you parse en command to set this?
-// TODO: Attention pour la precision, prend la plus grand precision pour la virgule et pour le type
 int main(int ac, char **av)
 {
 	Operand<float>::assumePrecision = false;
 	Operand<double>::assumePrecision = false;
 	Lexer::commandLengthMax = 256;
-	Parser::abortException = true;
+	Parser::abortException = false;
 
 	std::ifstream	ifs (av[1]);
 	std::istream	& inStream = (ac > 1 && ifs.good()) ? ifs : std::cin;
@@ -35,12 +32,12 @@ int main(int ac, char **av)
 		ret = vm.start();
 	}
 	catch (std::exception const & e) {
-		Debug::Fatal(std::string(e.what()));
+		Debug::fatal(std::string(e.what()));
 		ret = 1;
 	}
 
 	if (ifs.good())
 		ifs.close();
-	
+
 	return (ret);
 }
