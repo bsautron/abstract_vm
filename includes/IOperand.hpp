@@ -3,7 +3,7 @@
 
 # include <iostream>
 
-enum eOperandType { INT8, INT16, INT32, FLOAT, DOUBLE, UNKNOW};
+enum eOperandType { INT8, INT16, INT32, FLOAT, DOUBLE };
 
 class IOperand {
 public:

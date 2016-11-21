@@ -6,6 +6,7 @@
 class OperandBuilder {
 	private:
 		OperandBuilder(OperandBuilder const & src);
+		OperandBuilder & operator=(OperandBuilder const & rhs);
 
 	public:
 		OperandBuilder (void);

@@ -19,6 +19,9 @@ class Abstract : public std::deque<IOperand const *> {
 		std::stringstream	_stringStream;
 		bool				_verbose;
 
+		Abstract(Abstract const & src);
+		Abstract & operator=(Abstract const & rhs); 
+
 	public:
 		Abstract(void);
 		~Abstract(void);

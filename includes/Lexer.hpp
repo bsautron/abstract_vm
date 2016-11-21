@@ -46,6 +46,9 @@ class Lexer {
 		std::string					_str;
 		std::string::const_iterator _currentIt;
 
+		Lexer(Lexer const & src);
+		Lexer & operator=(Lexer const & rhs);
+
 		t_token *	_createNewToken(eTokenType type);
 		eTokenType	_enterScope(eScopeType scopeType);
 		eTokenType	_enterScope(eScopeType scopeType, bool skipSpace);

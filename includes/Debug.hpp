@@ -19,6 +19,10 @@ typedef struct	sDebugLevel {
 }				tDebugLevel;
 
 class Debug {
+private:
+	Debug(Debug const & src);
+	Debug & operator=(Debug const & rhs);
+
 public:
 	Debug(void);
 	~Debug(void);

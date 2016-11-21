@@ -21,6 +21,10 @@ class Vm {
 		Parser			_parser;
 		OperandBuilder	_builder;
 
+		Vm(void);
+		Vm(Vm const & src);
+		Vm & operator=(Vm const & rhs);
+
 	public:
 		Vm(std::istream & is, std::ostream & os);
 		~Vm(void);

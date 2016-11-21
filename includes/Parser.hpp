@@ -13,6 +13,9 @@ class Parser {
 		OperandBuilder			_builder;
 		bool					_end;
 
+		Parser(Parser const * src);
+		Parser & operator=(Parser const & rhs);
+
 		int 			_strToCommandType(std::string const str) const;
 		eOperandType	_strToOperandType(std::string const str) const;
 		std::string 	_tokensToStr(t_tokens tk) const;

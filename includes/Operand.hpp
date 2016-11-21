@@ -18,6 +18,8 @@ class Operand : public IOperand
 		std::stringstream	_stringStream;
 
 		Operand(void);
+		Operand(IOperand const & src);
+		Operand & operator=(Operand<T> const & rhs);
 
 		void _checker(std::string const & value) {
 			this->_checkIsNumber(value);
@@ -229,7 +231,6 @@ class Operand : public IOperand
 		};
 
 		Operand(std::string const & value);
-		// Operand(IOperand const & op);
 
 		virtual ~Operand(void) {}
 
