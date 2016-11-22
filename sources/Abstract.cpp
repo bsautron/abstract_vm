@@ -103,12 +103,9 @@ void Abstract::dump() {
 	std::deque<IOperand const *>::const_iterator operand = this->begin();
 
 	while (operand != this->end()) {
-		if (this->_verbose) this->_stringStream
-			<< "Type: "
-			<< Abstract::stringType[(*operand)->getType()]
-			<< " - Precision: "
-			<< (*operand)->getPrecision()
-			<< " - Value: ";
+
+		if (this->_verbose)
+			this->_printVerboseOperand("dump", *operand);
 
 		this->_stringStream << (*operand++)->toString() << std::endl;
 	}
@@ -124,11 +121,69 @@ void Abstract::disableVerbose() {
 	this->_verbose = false;
 }
 
+void Abstract::min() {
+	if (this->empty())
+		throw StackEmptyException();
+
+	size_t posMin = 0;
+	size_t pos = 0;
+	long double minValue = std::stold(this->at(posMin)->toString());
+
+	for (std::deque<IOperand const *>::const_iterator it = this->begin(); it != this->end(); ++it) {
+		long double const current = std::stold((*it)->toString());
+
+		if (current < minValue) {
+			minValue = current;
+			posMin = pos;
+		}
+		++pos;
+	}
+
+	if (this->_verbose)
+		this->_printVerboseOperand("min", this->at(posMin));
+
+	this->_stringStream << this->at(posMin)->toString() << std::endl;
+}
+
+void Abstract::max() {
+	if (this->empty())
+		throw StackEmptyException();
+
+	size_t posMax = 0;
+	size_t pos = 0;
+	long double maxValue = std::stold(this->at(posMax)->toString());
+
+	for (std::deque<IOperand const *>::const_iterator it = this->begin(); it != this->end(); ++it) {
+		long double const current = std::stold((*it)->toString());
+
+		if (current > maxValue) {
+			maxValue = current;
+			posMax = pos;
+		}
+		++pos;
+	}
+
+	if (this->_verbose)
+		this->_printVerboseOperand("max", this->at(posMax));
+
+	this->_stringStream << this->at(posMax)->toString() << std::endl;
+}
+
 void Abstract::_deleteOperand(IOperand const * operand) {
 	if (operand) {
 		delete operand;
 		operand = nullptr;
 	}
+}
+
+void Abstract::_printVerboseOperand(std::string const & prefix, IOperand const * op) {
+	this->_stringStream
+		<< "[" << prefix << "]"
+		<< " Type "
+		<< Abstract::stringType[op->getType()]
+		<< " - Precision: "
+		<< op->getPrecision()
+		<< " - Value: ";
 }
 
 std::stringstream & Abstract::getStringStream(void) {

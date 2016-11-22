@@ -20,7 +20,9 @@ class Abstract : public std::deque<IOperand const *> {
 		bool				_verbose;
 
 		Abstract(Abstract const & src);
-		Abstract & operator=(Abstract const & rhs); 
+		Abstract & operator=(Abstract const & rhs);
+
+		void 	_printVerboseOperand(std::string const & prefix, IOperand const * op);
 
 	public:
 		Abstract(void);
@@ -69,15 +71,14 @@ class Abstract : public std::deque<IOperand const *> {
 		void		mod(void);
 		void		mul(void);
 		void		print(void);
+		void		min(void);
+		void		max(void);
+		//		void	swap(void);
+		//		void	inverse(void);
 
 		void		enableVerbose();
 		void 		disableVerbose();
 
-		//		void	min(void);
-		//		void	max(void);
-		//		void	swap(void);
-		//		void	inverse(void);
-		//		Dump verbose
 
 		std::stringstream & getStringStream(void);
 

@@ -77,7 +77,8 @@ eTokenType Lexer::scopeOperand(void) {
 		newToken->value.push_back(*this->_currentIt);
 		this->_currentIt++;
 	}
-	throw LexicalException();
+	if (this->_currentIt != this->_str.end())
+		throw LexicalException();
 	return TK_NONE;
 }
 
@@ -129,8 +130,9 @@ t_tokens	Lexer::getTokens(std::string const str) {
 	this->_skipAllSpace();
 	if (*this->_currentIt == ';')
 		this->_enterScope(LXS_COMMENT);
-	if (this->_currentIt != this->_str.end())
+	if (this->_currentIt != this->_str.end()) {
 		throw LexicalException();
+	}
 	return this->_tokens;
 }
 

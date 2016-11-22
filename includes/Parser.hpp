@@ -42,6 +42,8 @@ class Parser {
 		void 	comment(Abstract & abstract, IOperand const * op);
 		void 	enableVerbose(Abstract & abstract, IOperand const * op);
 		void 	disableVerbose(Abstract & abstract, IOperand const * op);
+		void 	min(Abstract & abstract, IOperand const * op);
+		void 	max(Abstract & abstract, IOperand const * op);
 
 		static	bool 	abortException;
 

@@ -79,14 +79,28 @@ void 	Parser::comment(Abstract & abstract, IOperand const * op) {
 	(void)op;
 }
 void 	Parser::enableVerbose(Abstract & abstract, IOperand const * op) {
-	(void)abstract;
-	(void)op;
+	if (op) {
+		throw ArgumentNotValidException();
+	}
 	abstract.enableVerbose();
 }
 void 	Parser::disableVerbose(Abstract & abstract, IOperand const * op) {
-	(void)abstract;
-	(void)op;
+	if (op) {
+		throw ArgumentNotValidException();
+	}
 	abstract.disableVerbose();
+}
+void 	Parser::min(Abstract & abstract, IOperand const * op) {
+	if (op) {
+		throw ArgumentNotValidException();
+	}
+	abstract.min();
+}
+void 	Parser::max(Abstract & abstract, IOperand const * op) {
+	if (op) {
+		throw ArgumentNotValidException();
+	}
+	abstract.max();
 }
 
 std::string Parser::_tokensToStr(t_tokens tk) const {
@@ -124,7 +138,9 @@ int Parser::exec(Abstract & abstract) {
 			&Parser::exit,
 			&Parser::comment,
 			&Parser::enableVerbose,
-			&Parser::disableVerbose
+			&Parser::disableVerbose,
+			&Parser::min,
+			&Parser::max
 		};
 
 		if (it->size() > 0)
@@ -184,6 +200,8 @@ int 		Parser::_strToCommandType(std::string const str) const {
 	commandName.push_back("comment");
 	commandName.push_back("enableVerbose");
 	commandName.push_back("disableVerbose");
+	commandName.push_back("min");
+	commandName.push_back("max");
 
 	for (std::vector<std::string const>::const_iterator it = commandName.begin(); it != commandName.end(); ++it) {
 		if (!str.compare(*it)) {

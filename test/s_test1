@@ -1,5 +1,8 @@
-push int8(3)
+push int8(120)
+push double(-2.0000001)
 push float(34.3)
-enableVerbose
+enableVerbose   
 dump
+min
+max
 exit
