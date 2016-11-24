@@ -40,8 +40,7 @@ class Parser {
 		void 	print(Abstract & abstract, IOperand const * op);
 		void 	exit(Abstract & abstract, IOperand const * op);
 		void 	comment(Abstract & abstract, IOperand const * op);
-		void 	enableVerbose(Abstract & abstract, IOperand const * op);
-		void 	disableVerbose(Abstract & abstract, IOperand const * op);
+		void 	verbose(Abstract & abstract, IOperand const * op);
 		void 	min(Abstract & abstract, IOperand const * op);
 		void 	max(Abstract & abstract, IOperand const * op);
 

@@ -78,17 +78,14 @@ void 	Parser::comment(Abstract & abstract, IOperand const * op) {
 	(void)abstract;
 	(void)op;
 }
-void 	Parser::enableVerbose(Abstract & abstract, IOperand const * op) {
+void 	Parser::verbose(Abstract & abstract, IOperand const * op) {
 	if (op) {
 		throw ArgumentNotValidException();
 	}
-	abstract.enableVerbose();
-}
-void 	Parser::disableVerbose(Abstract & abstract, IOperand const * op) {
-	if (op) {
-		throw ArgumentNotValidException();
-	}
-	abstract.disableVerbose();
+	if (abstract.isVerbose())
+		abstract.disableVerbose();
+	else
+		abstract.enableVerbose();
 }
 void 	Parser::min(Abstract & abstract, IOperand const * op) {
 	if (op) {
@@ -137,8 +134,7 @@ int Parser::exec(Abstract & abstract) {
 			&Parser::print,
 			&Parser::exit,
 			&Parser::comment,
-			&Parser::enableVerbose,
-			&Parser::disableVerbose,
+			&Parser::verbose,
 			&Parser::min,
 			&Parser::max
 		};
@@ -198,8 +194,7 @@ int 		Parser::_strToCommandType(std::string const str) const {
 	commandName.push_back("print");
 	commandName.push_back("exit");
 	commandName.push_back("comment");
-	commandName.push_back("enableVerbose");
-	commandName.push_back("disableVerbose");
+	commandName.push_back("verbose");
 	commandName.push_back("min");
 	commandName.push_back("max");
 

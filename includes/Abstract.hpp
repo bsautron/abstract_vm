@@ -22,7 +22,7 @@ class Abstract : public std::deque<IOperand const *> {
 		Abstract(Abstract const & src);
 		Abstract & operator=(Abstract const & rhs);
 
-		void 	_printVerboseOperand(std::string const & prefix, IOperand const * op);
+		void	_printVerboseOperand(std::string const & prefix, IOperand const * op);
 
 	public:
 		Abstract(void);
@@ -76,13 +76,15 @@ class Abstract : public std::deque<IOperand const *> {
 		//		void	swap(void);
 		//		void	inverse(void);
 
-		void		enableVerbose();
-		void 		disableVerbose();
+		void		enableVerbose(void);
+		void		disableVerbose(void);
+
+		bool		isVerbose(void) const;
 
 
 		std::stringstream & getStringStream(void);
 
-		static std::string 	stringType[5];
+		static std::string stringType[5];
 };
 
 #endif

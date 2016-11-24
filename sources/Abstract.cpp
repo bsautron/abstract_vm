@@ -6,6 +6,10 @@
 Abstract::Abstract(void) { }
 Abstract::~Abstract(void) {}
 
+bool Abstract::isVerbose(void) const {
+	return this->_verbose;
+}
+
 void Abstract::push(IOperand const * op) {
 	this->push_front(op);
 }
