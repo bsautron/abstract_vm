@@ -25,13 +25,12 @@ int main(int ac, char **av)
 	std::ostream	& outStream = std::cout;
 
 	Vm	vm{inStream, outStream};
-	int				ret = 0;
 
 	try {
 		for (int i = 1; i < ac; ++i) {
 			std::ifstream	ifs(av[i]);
 			if (!ifs.good()) {
-				Debug::fatal("If you want I process your file, give me a good file!!!");
+				Debug::fatal("If you want I process your files, give me good files!!!");
 				return (1);
 			}
 			vm.feedInStream(ifs, false);
@@ -41,9 +40,7 @@ int main(int ac, char **av)
 	}
 	catch (std::exception const & e) {
 		Debug::fatal(std::string(e.what()));
-		ret = 1;
+		return (1);
 	}
-
-
-	return (ret);
+	return (0);
 }
