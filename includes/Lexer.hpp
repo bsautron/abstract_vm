@@ -40,7 +40,6 @@ class Lexer {
 
 		static size_t commandLengthMax;
 
-
 	private:
 		t_tokens					_tokens;
 		std::string					_str;

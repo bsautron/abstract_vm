@@ -36,7 +36,7 @@ int main(int ac, char **av)
 			vm.feedInStream(ifs, false);
 			ifs.close();
 		}
-		ret = vm.start();
+		return vm.start();
 	}
 	catch (std::exception const & e) {
 		Debug::fatal(std::string(e.what()));

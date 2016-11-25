@@ -54,8 +54,7 @@ int Vm::start(void) {
 	this->_statusParser = this->_parser.exec(this->_abstract);
 	ret = this->_statusLexer | this->_statusParser;
 
-	if (!ret)
-		this->_outStream << this->_abstract.getStringStream().str();
+	this->_outStream << this->_abstract.getStringStream().str();
 	return (ret);
 }
 
