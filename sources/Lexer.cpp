@@ -111,7 +111,7 @@ t_token *	Lexer::_createNewToken(eTokenType type) {
 	return newToken;
 }
 
-void 	Lexer::_skipAllSpace(void) {
+void	Lexer::_skipAllSpace(void) {
 	while (this->_currentIt != this->_str.end() && this->_isSpace(*this->_currentIt))
 		this->_currentIt++;
 }
@@ -124,7 +124,7 @@ t_tokens	Lexer::getTokens(std::string const str) {
 	this->_tokens.clear();
 
 	this->_str = str;
- 	this->_currentIt = this->_str.begin();
+	this->_currentIt = this->_str.begin();
 
 	this->_enterScope(LXS_DEFAULT);
 	this->_skipAllSpace();

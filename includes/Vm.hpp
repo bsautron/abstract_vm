@@ -9,7 +9,7 @@
 
 typedef struct	s_errors {
 	size_t					nbLine;
-	std::string	const 		message;
+	std::string	const		message;
 }				t_errors;
 
 class Vm {
@@ -19,7 +19,13 @@ class Vm {
 		Abstract		_abstract;
 		Lexer			_lexer;
 		Parser			_parser;
+		int				_statusLexer;
+		int				_statusParser;
 		OperandBuilder	_builder;
+		size_t			_nbLine;
+		t_tokens		_currentTk;
+		bool			_alreadyReadNativeStream;
+
 
 		Vm(void);
 		Vm(Vm const & src);
@@ -28,6 +34,8 @@ class Vm {
 	public:
 		Vm(std::istream & is, std::ostream & os);
 		~Vm(void);
+
+		void	feedInStream(std::istream & inStream, bool stdIn);
 
 		int start(void);
 

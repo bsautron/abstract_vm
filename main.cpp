@@ -21,14 +21,22 @@ int main(int ac, char **av)
 	Lexer::commandLengthMax = 256;
 	Parser::abortException = false;
 
-	std::ifstream	ifs (av[1]);
-	std::istream	& inStream = (ac > 1 && ifs.good()) ? ifs : std::cin;
+	std::istream	& inStream = std::cin;
 	std::ostream	& outStream = std::cout;
 
 	Vm	vm{inStream, outStream};
 	int				ret = 0;
 
 	try {
+		for (int i = 1; i < ac; ++i) {
+			std::ifstream	ifs(av[i]);
+			if (!ifs.good()) {
+				Debug::fatal("If you want I process your file, give me a good file!!!");
+				return (1);
+			}
+			vm.feedInStream(ifs, false);
+			ifs.close();
+		}
 		ret = vm.start();
 	}
 	catch (std::exception const & e) {
@@ -36,8 +44,6 @@ int main(int ac, char **av)
 		ret = 1;
 	}
 
-	if (ifs.good())
-		ifs.close();
 
 	return (ret);
 }

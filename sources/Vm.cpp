@@ -11,41 +11,51 @@ Vm::Vm(std::istream & is, std::ostream & os) :
 	}
 Vm::~Vm(void) {}
 
-int Vm::start(void) {
-	std::string	line;
-	size_t nbLine = 0;
-	int retLexer = 0;
-	int retParser = 0;
-	int	ret = 0;
-	t_tokens currentTk;
-	std::list<t_errors> errors;
 
-	while (std::getline(this->_inStream, line) && line.compare(";;")) {
-		++nbLine;
-		if (line.size() > Lexer::commandLengthMax) {
+void	Vm::feedInStream(std::istream & inStream, bool stdIn) {
+	std::string			line;
+	std::list<t_errors>	errors;
+
+	if (stdIn) this->_alreadyReadNativeStream = true;
+
+	while (std::getline(inStream, line)) {
+		if (stdIn && !line.compare(";;"))
+			break;
+
+		++this->_nbLine;
+		if (line.size() > Lexer::commandLengthMax)
 			throw BigLineException();
-		}
 		try {
-			currentTk = this->_lexer.getTokens(line);
-			this->_parser.feed(currentTk);
+			this->_currentTk = this->_lexer.getTokens(line);
+			this->_parser.feed(this->_currentTk);
 		} catch (std::exception const & e) {
-			errors.push_back({nbLine, std::string(e.what())});
-			retLexer = 1;
+			errors.push_back({this->_nbLine, std::string(e.what())});
+			this->_statusLexer = 1;
 		}
 	}
+
 	for (std::list<t_errors>::const_iterator it = errors.begin(); it != errors.end(); ++it) {
 		std::stringstream	s;
 		s << "Line " << it->nbLine << ": " << it->message;
 		Debug::error(s.str());
 	}
-	if (!currentTk.size() || currentTk[0]->value.compare("exit")) {
+}
+
+int Vm::start(void) {
+	int	ret = 0;
+
+	if (!this->_alreadyReadNativeStream && (!this->_currentTk.size() || this->_currentTk[0]->value.compare("exit")))
+		this->feedInStream(this->_inStream, true);
+
+	if (!this->_currentTk.size() || this->_currentTk[0]->value.compare("exit"))
 		throw NotExitTerminateException();
-	}
-	retParser = this->_parser.exec(this->_abstract);
-	ret = retLexer | retParser;
-	if (!ret) {
+
+
+	this->_statusParser = this->_parser.exec(this->_abstract);
+	ret = this->_statusLexer | this->_statusParser;
+
+	if (!ret)
 		this->_outStream << this->_abstract.getStringStream().str();
-	}
 	return (ret);
 }
 
