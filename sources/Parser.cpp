@@ -6,79 +6,79 @@
 Parser::Parser(void) : _end(false) {}
 Parser::~Parser(void) {}
 
-void 	Parser::push(Abstract & abstract, IOperand const * op) {
+void		Parser::push(Abstract & abstract, IOperand const * op) {
 	abstract.push(op);
 }
-void 	Parser::pop(Abstract & abstract, IOperand const * op) {
+void		Parser::pop(Abstract & abstract, IOperand const * op) {
 	if (op) {
 		throw ArgumentNotValidException();
 	}
 	abstract.pop();
 
 }
-void 	Parser::dump(Abstract & abstract, IOperand const * op) {
+void		Parser::dump(Abstract & abstract, IOperand const * op) {
 	if (op) {
 		throw ArgumentNotValidException();
 	}
 	abstract.dump();
 }
-void 	Parser::assert(Abstract & abstract, IOperand const * op) {
+void		Parser::assert(Abstract & abstract, IOperand const * op) {
 	abstract.assert(*op);
 }
-void 	Parser::add(Abstract & abstract, IOperand const * op) {
+void		Parser::add(Abstract & abstract, IOperand const * op) {
 	if (op) {
 		throw ArgumentNotValidException();
 	}
 	abstract.add();
 
 }
-void 	Parser::sub(Abstract & abstract, IOperand const * op) {
+void		Parser::sub(Abstract & abstract, IOperand const * op) {
 	if (op) {
 		throw ArgumentNotValidException();
 	}
 	abstract.sub();
 
 }
-void 	Parser::div(Abstract & abstract, IOperand const * op) {
+void		Parser::div(Abstract & abstract, IOperand const * op) {
 	if (op) {
 		throw ArgumentNotValidException();
 	}
 	abstract.div();
 
 }
-void 	Parser::mod(Abstract & abstract, IOperand const * op) {
+void		Parser::mod(Abstract & abstract, IOperand const * op) {
 	if (op) {
 		throw ArgumentNotValidException();
 	}
 	abstract.mod();
 
 }
-void 	Parser::mul(Abstract & abstract, IOperand const * op) {
+void		Parser::mul(Abstract & abstract, IOperand const * op) {
 	if (op) {
 		throw ArgumentNotValidException();
 	}
 	abstract.mul();
 
 }
-void 	Parser::print(Abstract & abstract, IOperand const * op) {
+void		Parser::print(Abstract & abstract, IOperand const * op) {
 	if (op) {
 		throw ArgumentNotValidException();
 	}
 	abstract.print();
 
 }
-void 	Parser::exit(Abstract & abstract, IOperand const * op) {
+void		Parser::exit(Abstract & abstract, IOperand const * op) {
 	(void)abstract;
 	if (op) {
 		throw ArgumentNotValidException();
 	}
 	this->_end = true;
 }
-void 	Parser::comment(Abstract & abstract, IOperand const * op) {
+void		Parser::comment(Abstract & abstract, IOperand const * op) {
 	(void)abstract;
 	(void)op;
 }
-void 	Parser::verbose(Abstract & abstract, IOperand const * op) {
+void		Parser::verbose(Abstract & abstract, IOperand const * op) {
 	if (op) {
 		throw ArgumentNotValidException();
 	}
@@ -87,17 +87,35 @@ void 	Parser::verbose(Abstract & abstract, IOperand const * op) {
 	else
 		abstract.enableVerbose();
 }
-void 	Parser::min(Abstract & abstract, IOperand const * op) {
+void		Parser::min(Abstract & abstract, IOperand const * op) {
 	if (op) {
 		throw ArgumentNotValidException();
 	}
 	abstract.min();
 }
-void 	Parser::max(Abstract & abstract, IOperand const * op) {
+void		Parser::max(Abstract & abstract, IOperand const * op) {
 	if (op) {
 		throw ArgumentNotValidException();
 	}
 	abstract.max();
+}
+void		Parser::swap(Abstract & abstract, IOperand const * op) {
+	if (op) {
+		throw ArgumentNotValidException();
+	}
+	abstract.swap();
+}
+void		Parser::help(Abstract & abstract, IOperand const * op) {
+	if (op) {
+		throw ArgumentNotValidException();
+	}
+	abstract.help();
+}
+void		Parser::fuckedup(Abstract & abstract, IOperand const * op) {
+	if (op) {
+		throw ArgumentNotValidException();
+	}
+	abstract.fuckedup();
 }
 
 std::string Parser::_tokensToStr(t_tokens tk) const {
@@ -136,7 +154,10 @@ int Parser::exec(Abstract & abstract) {
 			&Parser::comment,
 			&Parser::verbose,
 			&Parser::min,
-			&Parser::max
+			&Parser::max,
+			&Parser::swap,
+			&Parser::help,
+			&Parser::fuckedup
 		};
 
 		if (it->size() > 0)
@@ -174,11 +195,11 @@ int Parser::exec(Abstract & abstract) {
 	return ret;
 }
 
-void 	Parser::feed(t_tokens tk) {
+void		Parser::feed(t_tokens tk) {
 	this->_listCommand.push_front(tk);
 }
 
-int 		Parser::_strToCommandType(std::string const str) const {
+int			Parser::_strToCommandType(std::string const str) const {
 	int	i = 0;
 	std::vector<std::string const> commandName;
 
@@ -197,6 +218,9 @@ int 		Parser::_strToCommandType(std::string const str) const {
 	commandName.push_back("verbose");
 	commandName.push_back("min");
 	commandName.push_back("max");
+	commandName.push_back("swap");
+	commandName.push_back("help");
+	commandName.push_back("fuckedup");
 
 	for (std::vector<std::string const>::const_iterator it = commandName.begin(); it != commandName.end(); ++it) {
 		if (!str.compare(*it)) {
@@ -223,7 +247,7 @@ eOperandType Parser::_strToOperandType(std::string const str) const {
 	return type[str];
 }
 
-bool 	Parser::abortException = false;
+bool		Parser::abortException = false;
 
 
 Parser::Command404Exception::Command404Exception(void) throw() : std::invalid_argument("Command not found") {}

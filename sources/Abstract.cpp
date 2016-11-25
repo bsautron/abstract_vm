@@ -173,6 +173,28 @@ void Abstract::max() {
 	this->_stringStream << this->at(posMax)->toString() << std::endl;
 }
 
+void Abstract::swap() {
+
+	if (this->size() < 2)
+		throw StackTooShortException();
+
+	IOperand const * op1 = this->front();
+	this->pop();
+	IOperand const * op2 = this->front();
+	this->pop();
+
+	this->push(op1);
+	this->push(op2);
+}
+
+void Abstract::help(void) const {
+	Debug::info("Helper");
+}
+
+void Abstract::fuckedup(void) {
+	this->clear();
+}
+
 void Abstract::_deleteOperand(IOperand const * operand) {
 	if (operand) {
 		delete operand;
@@ -194,7 +216,7 @@ std::stringstream & Abstract::getStringStream(void) {
 	return this->_stringStream;
 }
 
-std::string 	Abstract::stringType[5] = {
+std::string		Abstract::stringType[5] = {
 	"INT8",
 	"INT16",
 	"INT32",

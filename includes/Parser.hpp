@@ -16,35 +16,38 @@ class Parser {
 		Parser(Parser const * src);
 		Parser & operator=(Parser const & rhs);
 
-		int 			_strToCommandType(std::string const str) const;
+		int				_strToCommandType(std::string const str) const;
 		eOperandType	_strToOperandType(std::string const str) const;
-		std::string 	_tokensToStr(t_tokens tk) const;
+		std::string		_tokensToStr(t_tokens tk) const;
 
 
 	public:
 		Parser (void);
 		~Parser (void);
 
-		int 	exec(Abstract & abstract);
-		void 	feed(t_tokens tk);
+		int			exec(Abstract & abstract);
+		void		feed(t_tokens tk);
 
-		void 	push(Abstract & abstract, IOperand const * op);
-		void 	pop(Abstract & abstract, IOperand const * op);
-		void 	dump(Abstract & abstract, IOperand const * op);
-		void 	assert(Abstract & abstract, IOperand const * op);
-		void 	add(Abstract & abstract, IOperand const * op);
-		void 	sub(Abstract & abstract, IOperand const * op);
-		void 	div(Abstract & abstract, IOperand const * op);
-		void 	mod(Abstract & abstract, IOperand const * op);
-		void 	mul(Abstract & abstract, IOperand const * op);
-		void 	print(Abstract & abstract, IOperand const * op);
-		void 	exit(Abstract & abstract, IOperand const * op);
-		void 	comment(Abstract & abstract, IOperand const * op);
-		void 	verbose(Abstract & abstract, IOperand const * op);
-		void 	min(Abstract & abstract, IOperand const * op);
-		void 	max(Abstract & abstract, IOperand const * op);
+		void		push(Abstract & abstract, IOperand const * op);
+		void		pop(Abstract & abstract, IOperand const * op);
+		void		dump(Abstract & abstract, IOperand const * op);
+		void		assert(Abstract & abstract, IOperand const * op);
+		void		add(Abstract & abstract, IOperand const * op);
+		void		sub(Abstract & abstract, IOperand const * op);
+		void		div(Abstract & abstract, IOperand const * op);
+		void		mod(Abstract & abstract, IOperand const * op);
+		void		mul(Abstract & abstract, IOperand const * op);
+		void		print(Abstract & abstract, IOperand const * op);
+		void		exit(Abstract & abstract, IOperand const * op);
+		void		comment(Abstract & abstract, IOperand const * op);
+		void		verbose(Abstract & abstract, IOperand const * op);
+		void		min(Abstract & abstract, IOperand const * op);
+		void		max(Abstract & abstract, IOperand const * op);
+		void		swap(Abstract & abstract, IOperand const * op);
+		void		help(Abstract & abstract, IOperand const * op);
+		void		fuckedup(Abstract & abstract, IOperand const * op);
 
-		static	bool 	abortException;
+		static	bool		abortException;
 
 		class Command404Exception : public std::invalid_argument {
 

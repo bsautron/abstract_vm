@@ -1,0 +1,9 @@
+verbose
+push int8(1)
+push int8(2)
+swap
+push int8(3)
+push int8(4)
+swap
+dump
+exit

@@ -73,8 +73,9 @@ class Abstract : public std::deque<IOperand const *> {
 		void		print(void);
 		void		min(void);
 		void		max(void);
-		//		void	swap(void);
-		//		void	inverse(void);
+		void		swap(void);
+		void		help(void) const;
+		void		fuckedup(void);
 
 		void		enableVerbose(void);
 		void		disableVerbose(void);
