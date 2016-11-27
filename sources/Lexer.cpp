@@ -11,7 +11,6 @@ eTokenType Lexer::_enterScope(eScopeType scopeType) {
 eTokenType Lexer::_enterScope(eScopeType scopeType, bool skipSpace) {
 	eTokenType (Lexer::*scope[])(void) = {
 		&Lexer::scopeDefault,
-		&Lexer::scopeExit,
 		&Lexer::scopeComment,
 		&Lexer::scopeCommand,
 		&Lexer::scopeArgs,
@@ -32,10 +31,6 @@ eTokenType Lexer::scopeDefault(void) {
 	return this->_enterScope(LXS_COMMAND);
 }
 
-eTokenType Lexer::scopeExit(void) {
-	this->_createNewToken(TK_EXIT);
-	return TK_NONE;
-}
 eTokenType Lexer::scopeComment(void) {
 	this->_currentIt = this->_str.end();
 	this->_createNewToken(TK_COMMENT);

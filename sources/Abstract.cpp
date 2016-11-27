@@ -3,7 +3,7 @@
 #include <iostream>
 #include <Debug.hpp>
 
-Abstract::Abstract(void) { }
+Abstract::Abstract(void) {}
 Abstract::~Abstract(void) {}
 
 bool Abstract::isVerbose(void) const {
@@ -116,12 +116,10 @@ void Abstract::dump() {
 }
 
 void Abstract::enableVerbose() {
-	Debug::info("Enable verbse mode");
 	this->_verbose = true;
 }
 
 void Abstract::disableVerbose() {
-	Debug::info("Disable verbse mode");
 	this->_verbose = false;
 }
 
@@ -188,7 +186,27 @@ void Abstract::swap() {
 }
 
 void Abstract::help(void) const {
-	Debug::info("Helper");
+	Debug::info("The language of AbstractVM is composed of a series of instructions, with one instruction per line. AbstractVM’s assembly language has a limited type system, which is a major difference from other real world assembly languages.");
+	std::cout << std::endl;
+	std::cout << "Command available for the VM:" << std::endl;
+	std::cout << "\t" << "\033[0;1mpush\033[0m: " << "Push new operand." << std::endl;
+	std::cout << "\t" << "\033[0;1mpop\033[0m: " << "Pop the first operand." << std::endl;
+	std::cout << "\t" << "\033[0;1mdump\033[0m: " << "Print all operand." << std::endl;
+	std::cout << "\t" << "\033[0;1massert\033[0m: " << "Asserts that the value at the top of the stack is equal to the one passed as parameter for this instruction." << std::endl;
+	std::cout << "\t" << "\033[0;1madd\033[0m: " << "Add operator." << std::endl;
+	std::cout << "\t" << "\033[0;1msub\033[0m: " << "Sub operator." << std::endl;
+	std::cout << "\t" << "\033[0;1mdiv\033[0m: " << "Division operator." << std::endl;
+	std::cout << "\t" << "\033[0;1mmul\033[0m: " << "Multiplication operator." << std::endl;
+	std::cout << "\t" << "\033[0;1mmod\033[0m: " << "Modulo operator." << std::endl;
+	std::cout << "\t" << "\033[0;1mprint\033[0m: " << "Print the char associate to the top operand on the stack." << std::endl;
+	std::cout << "\t" << "\033[0;1mexit\033[0m: " << "Kill the VM." << std::endl;
+	std::cout << "\t" << "\033[0;1mcomment\033[0m: " << "Insert a ';' in the line to write a comment." << std::endl;
+	std::cout << "\t" << "\033[0;1mverbose\033[0m: " << "Enable/Disable the verbose mode." << std::endl;
+	std::cout << "\t" << "\033[0;1mmin\033[0m: " << "Print the minimum value from the stack." << std::endl;
+	std::cout << "\t" << "\033[0;1mmax\033[0m: " << "Print the maximum value from the stack." << std::endl;
+	std::cout << "\t" << "\033[0;1mswap\033[0m: " << "Swap the the two top operands on the stack." << std::endl;
+	std::cout << "\t" << "\033[0;1mhelp\033[0m: " << "Print the helper." << std::endl;
+	std::cout << "\t" << "\033[0;1mfuckedup\033[0m: " << "Clear the stack" << std::endl;
 }
 
 void Abstract::fuckedup(void) {

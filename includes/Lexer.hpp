@@ -6,7 +6,6 @@
 
 enum eScopeType {
 	LXS_DEFAULT,
-	LXS_EXIT,
 	LXS_COMMENT,
 	LXS_COMMAND,
 	LXS_ARGS,
@@ -32,7 +31,6 @@ class Lexer {
 		t_tokens	getTokens(std::string const str);
 
 		eTokenType scopeDefault(void);
-		eTokenType scopeExit(void);
 		eTokenType scopeComment(void);
 		eTokenType scopeCommand(void);
 		eTokenType scopeArgs(void);
