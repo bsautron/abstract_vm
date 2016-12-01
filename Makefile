@@ -1,3 +1,14 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: bsautron <bsautron@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2016/12/01 21:18:47 by bsautron          #+#    #+#              #
+#    Updated: 2016/12/01 22:09:54 by bsautron         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
 CC = g++
 NAME = abstract_vm
@@ -9,30 +20,28 @@ endif
 
 CFLAGS := $(MAKE_CFLAGS) $(DEFAULT_CFLAGS)
 
-SOURCES = Operand.cpp \
-						Lexer.cpp \
-						Abstract.cpp \
-						Vm.cpp \
-						Parser.cpp \
-						Debug.cpp \
-						OperandBuilder.cpp \
+SOURCES = Lexer.cpp \
+		  Operand.cpp \
+		  Abstract.cpp \
+		  Vm.cpp \
+		  Parser.cpp \
+		  Debug.cpp \
+		  OperandBuilder.cpp \
 
 SOURCES_FOLDER = sources
 
-TEST_FORDER = test
 INCLUDES_FOLDER = includes
 OBJECTS_FOLDER = .objects
 MAIN = main.cpp
 MAIN_OBJECT = $(OBJECTS_FOLDER)/$(MAIN:.cpp=.o)
-INCLUDES = $(NAME).hpp \
-			IOperand.hpp \
-			Operand.hpp \
-			Lexer.hpp \
-			Parser.hpp \
-			Debug.hpp \
-			Abstract.hpp \
-			Vm.hpp \
-			OperandBuilder.hpp \
+INCLUDES = IOperand.hpp \
+		   Operand.hpp \
+		   Lexer.hpp \
+		   Parser.hpp \
+		   Debug.hpp \
+		   Abstract.hpp \
+		   Vm.hpp \
+		   OperandBuilder.hpp \
 
 SOURCES_DEPENDENCIES = $(foreach dep, $(DEPENDENCIES), libraries/$(dep)/$(dep).a)
 INCLUDES_LIBRARIES = $(foreach dep,$(DEPENDENCIES),-I libraries/$(dep)/includes)
@@ -52,11 +61,6 @@ makelib:
 rebuildlib:
 	$(REBUILD_LIBRARIES)
 
-test: re test.cpp $(addprefix $(OBJECTS_FOLDER)/$(SOURCES_FOLDER)/, $(OBJECTS))
-	$(CC) $(CFLAGS) -I $(INCLUDES_FOLDER) -o $(OBJECTS_FOLDER)/test.o -c test.cpp $(INCLUDES_LIBRARIES)
-	$(CC) $(CFLAGS) -o out_test $(OBJECTS_FOLDER)/test.o $(addprefix $(OBJECTS_FOLDER)/$(SOURCES_FOLDER)/, $(OBJECTS)) $(SOURCES_DEPENDENCIES)
-	@./out_test
-
 start: all
 	@./$(NAME)
 
@@ -68,6 +72,7 @@ $(NAME): $(MAIN_OBJECT) $(addprefix $(OBJECTS_FOLDER)/$(SOURCES_FOLDER)/, $(OBJE
 
 $(MAIN_OBJECT): $(MAIN)
 	$(CC) $(CFLAGS) -I $(INCLUDES_FOLDER) -o $(MAIN_OBJECT) -c $(MAIN) $(INCLUDES_LIBRARIES)
+
 
 $(addprefix $(OBJECTS_FOLDER)/$(SOURCES_FOLDER)/, %.o): $(SOURCES_FOLDER)/%.cpp $(addprefix $(INCLUDES_FOLDER)/, $(INCLUDES)) $(HEADERS_LIBRARIES)
 	$(CC) $(CFLAGS) -I $(INCLUDES_FOLDER) -o $@ -c $< $(INCLUDES_LIBRARIES)
