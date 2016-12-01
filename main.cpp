@@ -6,12 +6,17 @@
 /*   By: bsautron <bsautron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/08 14:35:07 by bsautron          #+#    #+#             */
-/*   Updated: 2016/11/19 22:04:19 by bsautron         ###   ########.fr       */
+/*   Updated: 2016/12/01 21:06:59 by bsautron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <abstract_vm.hpp>
 #include <fstream>
+#include <istream>
+#include <ostream>
+#include <Operand.hpp>
+#include <Vm.hpp>
+#include <Lexer.hpp>
+#include <Parser.hpp>
 #include <Debug.hpp>
 
 int main(int ac, char **av)
